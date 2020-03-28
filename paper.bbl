@@ -1,0 +1,56 @@
+\begin{thebibliography}{4}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\href}[2]{#2}
+\providecommand{\path}[1]{#1}
+\providecommand{\DOIprefix}{doi:}
+\providecommand{\ArXivprefix}{arXiv:}
+\providecommand{\URLprefix}{URL: }
+\providecommand{\Pubmedprefix}{pmid:}
+\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\path{#1}}}
+\providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Article
+\bibitem[{Mosetti et~al.(1994)Mosetti, Poloni, and Diviacco}]{MOSETTI1994105}
+\bibinfo{author}{G.~Mosetti}, \bibinfo{author}{C.~Poloni},
+  \bibinfo{author}{B.~Diviacco},
+\newblock \bibinfo{title}{Optimization of wind turbine positioning in large
+  windfarms by means of a genetic algorithm},
+\newblock \bibinfo{journal}{Journal of Wind Engineering and Industrial
+  Aerodynamics} \bibinfo{volume}{51} (\bibinfo{year}{1994}) \bibinfo{pages}{105
+  -- 116}. \URLprefix
+  \url{http://www.sciencedirect.com/science/article/pii/0167610594900809}.
+  \DOIprefix\doi{https://doi.org/10.1016/0167-6105(94)90080-9}.
+%Type = Article
+\bibitem[{Turner et~al.(2014)Turner, Romero, Zhang, Amon, and
+  Chan}]{turner2014new}
+\bibinfo{author}{S.~Turner}, \bibinfo{author}{D.~Romero},
+  \bibinfo{author}{P.~Zhang}, \bibinfo{author}{C.~Amon},
+  \bibinfo{author}{T.~Chan},
+\newblock \bibinfo{title}{A new mathematical programming approach to optimize
+  wind farm layouts},
+\newblock \bibinfo{journal}{Renewable Energy} \bibinfo{volume}{63}
+  (\bibinfo{year}{2014}) \bibinfo{pages}{674--680}.
+%Type = Article
+\bibitem[{Zhang et~al.(2014)Zhang, Romero, Beck, and Amon}]{Zhang2014}
+\bibinfo{author}{P.~Y. Zhang}, \bibinfo{author}{D.~A. Romero},
+  \bibinfo{author}{J.~C. Beck}, \bibinfo{author}{C.~H. Amon},
+\newblock \bibinfo{title}{Solving wind farm layout optimization with mixed
+  integer programs and constraint programs},
+\newblock \bibinfo{journal}{EURO Journal on Computational Optimization}
+  \bibinfo{volume}{2} (\bibinfo{year}{2014}) \bibinfo{pages}{195--219}.
+  \URLprefix \url{https://doi.org/10.1007/s13675-014-0024-5}.
+  \DOIprefix\doi{10.1007/s13675-014-0024-5}.
+%Type = Article
+\bibitem[{Aramon et~al.(2019)Aramon, Rosenberg, Valiante, Miyazawa, Tamura, and
+  Katzgrabeer}]{aramon2019physics}
+\bibinfo{author}{M.~Aramon}, \bibinfo{author}{G.~Rosenberg},
+  \bibinfo{author}{E.~Valiante}, \bibinfo{author}{T.~Miyazawa},
+  \bibinfo{author}{H.~Tamura}, \bibinfo{author}{H.~Katzgrabeer},
+\newblock \bibinfo{title}{Physics-inspired optimization for quadratic
+  unconstrained problems using a digital annealer},
+\newblock \bibinfo{journal}{Frontiers in Physics} \bibinfo{volume}{7}
+  (\bibinfo{year}{2019}) \bibinfo{pages}{48}.
+
+\end{thebibliography}
