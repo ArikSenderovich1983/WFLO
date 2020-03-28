@@ -1,0 +1,432 @@
+\documentclass[preprint,12pt]{elsarticle}
+\usepackage{etex}
+
+\makeatletter
+\providecommand{\doi}[1]{%
+	\begingroup
+	\let\bibinfo\@secondoftwo
+	\urlstyle{rm}%
+	\href{http://dx.doi.org/#1}{%
+		doi:\discretionary{}{}{}%
+		\nolinkurl{#1}%
+	}%
+	\endgroup
+}
+\makeatother
+%\usepackage{natbib}
+% encoding and languages
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[ngerman,english]{babel}
+\usepackage{wrapfig}
+\usepackage{times}
+\usepackage{paralist}
+\usepackage{graphicx, color}
+%\usepackage{subfigure}
+\usepackage{subfig}
+\usepackage{subfloat}
+\usepackage{booktabs}
+\usepackage{caption}
+%\usepackage{subcaption}
+\usepackage{paralist}
+\usepackage{amssymb, amsfonts}
+\usepackage{amsmath}
+%\usepackage{amsthm}
+\usepackage{amsopn}
+\newtheorem{myProb}{Problem}
+\newtheorem{mythm}{Theorem}
+\newtheorem{myproof}{Proof}
+\newtheorem{mysketch}{Proof Sketch}
+%\usepackage[ruled]{algorithm2e}
+%\usepackage[colorinlistoftodos]{todonotes}
+%\usepackage{qtree}
+\usepackage{tikz, tikz-qtree}
+\usepackage[ruled]{algorithm2e}
+%\usepackage{Algorithmic}
+\usepackage{times}
+\usepackage{microtype}
+\usepackage{url}
+\usepackage{balance}
+\let\proof\relax 
+\let\endproof\relax
+\usepackage{multirow}
+\usepackage{relsize}
+\usepackage{caption}
+\usepackage{color, colortbl}
+\usepackage{array, booktabs, ragged2e}
+\usepackage{makecell}
+\usepackage{tikz}
+\usepackage{textpos}
+
+\usepackage{pdflscape}
+\newcommand{\RNum}[1]{\uppercase\expandafter{\romannumeral #1\relax}}
+
+\graphicspath{{./Figures/}}
+
+\newcommand{\mypar}[1]{\smallskip\noindent\textbf{#1.}}
+
+\newtheorem{prob}{Problem}
+
+
+\newtheorem{mydef}{Definition}
+%\newtheorem{remark}{Remark}
+
+\newcommand{\todo}[1]{{\textcolor{red}{\bf {#1}}}}
+
+%\newcommand{\mytitle}{Exploiting Software and Hardware Advances  in Optimization Methods for Improved Wind Farm Design}
+\newcommand{\mytitle}{Exploiting Hardware and Software Advances 
+ for Quadratic Models of Wind Farm Layout Optimization}
+%\newcommand{\mytitlerunning}{\mytitle}
+%\newcommand{\myauthor}{Arik Senderovich, Eldan Cohen, and J. Christopher Beck}
+%\newcommand{\myauthorhyperref}{Arik Senderovich, Eldan Cohen, and J. Christopher Beck}
+
+
+%\hypersetup{
+%    bookmarks=true,        % show bookmarks bar?
+%    unicode=true,          % non-latin characters in bookmarks?
+%    pdffitwindow=false,    % window fit to page when opened
+%    pdfstartview={FitH},   % fits width of the page to the window
+%    pdftoolbar=true,       % show acrobat toolbar?
+%    pdfmenubar=true,       % show acrobat menu?
+%    colorlinks=true,      % false: boxed links; true: color links
+%    linkcolor={blue!80!black},       % color of internal links
+%    urlcolor={blue!30!black},        % color of external links
+%    citecolor={green!60!black},       % color of links to bibliography
+%    filecolor=black,       % color of file links
+%    pdftitle={\mytitle},           % title
+%    pdfauthor={\myauthorhyperref}, % author
+%    pdfcreator={\myauthorhyperref} % creator of pdf
+%}
+
+\begin{document}
+	
+
+\title{\mytitle}
+%\subtitle{Extended Abstract}
+%\author{}
+%\institute{}
+%\author{\myauthor}
+%\institute{Department of Mechanical and Industrial Engineering, University of Toronto\\
+%\email{sariks@mie.utoronto.ca, ecohen@mie.utoronto.ca, jcb@mie.utoronto.ca}}
+
+
+\author[add1]{Arik Senderovich}
+
+%\ead[url]{https://ischool.utoronto.ca/profile/arik-senderovich/}
+\ead{arik.senderovich@utoronto.ca}
+
+\author[add2]{Eldan Cohen}
+\ead{ecohen@mie.utoronto.ca}
+%\ead[url]{homepageldan}
+
+
+
+
+%\address[1]{}
+
+
+
+%\address[2]{40 St. George St., Toronto, Canada}
+\author[add2]{Jiachen Zhang}
+\ead{jasonzjc@mie.utoronto.ca}
+
+\author[add2]{J. Christopher Beck\corref{cor1}}
+\ead{jcb@mie.utoronto.ca}
+
+
+%\ead[url]{homepageldan}
+%\address[3]{}
+\address[add1]{Faculty of Information, University of Toronto, 140 St. George St., Toronto, Canada}
+\cortext[cor1]{Corresponding author}
+\address[add2]{Department of Mechanical and Industrial Engineering, University of Toronto, 40 St. George St., Toronto, Canada}
+
+\begin{abstract}
+%Wind farms play an increasingly important
+%role as a source of renewable energy and 
+The wind farm layout optimization (WFLO) problem concerns
+selecting turbine positions to maximize energy production. While a number of heuristic and exact techniques have been proposed in the literature to solve WFLO, it is natural to model the interaction between turbines as a quadratic constraint as, indeed, has been done in some existing optimization models. Recent advances in optimization hardware and software have both targeted quadratic constraints: commercial mixed integer linear solvers have been extended to quadratic problems and nascent specialized hardware, including quantum computing systems, have focused on solving Quadratic Unconstrained Binary Optimization (QUBO) problems. 
+%It is a key problem 
+%when designing a new wind farm, as it has a direct influence
+%on the amount of the total produced energy. 
+%In recent years there have been advances in both software technologies (e.g., the extension of commercial mixed integer linear programming solvers to handle quadratic problems) and nascent hardware development (e.g., quantum computing chips and specialized classical chips) that have relevance for the WFLO problem. In both cases, the advances have 
+%Recent years saw 
+%advances in software and hardware optimization technologies, such as Gurobi's quadratic solver 
+%and Fujitsu's digital annealer (DA), respectively. 
+%These technologies create an opportunity to improve 
+%over current wind farm optimization solutions
+%both in terms of solution quality and solve time. 
+%In order to exploit these technologies, 
+%we must represent the WFLO problem as 
+%a quadratic optimization model. Specifically, in order 
+%to apply a software-based optimization
+%solution (Gurobi), 
+In this paper, we 
+introduce two novel quadratic programming models for WFLO: a quadratic constrained optimization problem (QCOP) with binary decision variables and a QUBO.
+%Subsequently, we provide the unconstrained counterpart of the QCOP, 
+%namely the quadratic unconstrained binary optimization (QUBO), which  
+%is the underlying representation for quantum-inspired 
+%optimization hardware such as the DA. 
+A thorough empirical 
+evaluation using a commercial solver and a specialized classical chip for QUBO solving demonstrates the strengths of the two models. 
+Our results show that both approaches yield fast and high-quality solutions 
+and
+improve over existing WFLO solutions. In particular, the QUBO model excels at finding high quality solutions very quickly while the QCOP model is able to find better solutions and provide quality guarantees over a longer run-time.
+\end{abstract}
+\begin{keyword}
+	Wind Farm Layout Optimization (WFLO) \sep Quadratic Programming (QP) \sep Quadratic Unconstrained Binary Optimization (QUBO) \sep Digital Annealer
+\end{keyword}
+
+\maketitle 
+
+\section{Introduction}
+
+We revisit 
+the wind farm layout optimization (WFLO) problem 
+that was first considered 
+in~\citet{MOSETTI1994105}. 
+In WFLO, we aim to place wind turbines 
+in a predefined area to maximize 
+the total generated power. 
+Turbine location decisions    
+influence
+the
+total power production due to  
+interference effects, aka wakes, generated by upstream 
+turbines. Furthermore, 
+there are proximity constraints between turbines
+that prevent from turbines to be placed next to each other.
+These inter-turbine effects 
+are naturally captured using quadratic constraints and objective
+functions. Several exact and heuristic optimization approaches have 
+been proposed to solve
+the WFLO problem~\cite{turner2014new,Zhang2014}. However, these
+approaches represented the quadratic effects and constraints
+using linear models that approximate the real dependencies. 
+
+In this work, we introduce two 
+novel quadratic WFLO models. The first model 
+represents WFLO using a 
+quadratic constrained optimization problem (QCOP). 
+The QCOP can be solved using state-of-the-art solvers that
+specialize in such problems, e.g., Gurobi~\cite{guorbi}. 
+Our second model is based on a quadratic unconstrained binary optimization (QUBO) representation of the WFLO 
+problem.
+This enables the use of specialized optimization hardware tailored to solve
+QUBOs. In this paper, we use Fujitsu's digital annealer to demonstrate the strength
+of the approach. The main contributions of this paper are: 
+\begin{enumerate} 
+\item We propose two novel quadratic WFLO models that capture wake and proximity
+effects directly without going through a linear approximation, and, 
+\item We test the two formulations
+on a commerical software-based quadratic solver (Gurobi) and on Fujitsu's digital 
+annealer. 
+\end{enumerate} Our experiments are focused on the performance of the two approaches
+compared to 
+existing optimization methods. To this end,
+we solve 12 standard WFLO benchmark problems (c.f.~\cite{turner2014new}). 
+We show, empirically, that solving quadratic WFLO models
+using Gurobi and the DA
+achieves state-of-the-art performance, often outperforming
+existing solutions when provided sufficient run-time. Furthermore, we
+we observe that the digital 
+annealer often provides order of magnitude faster feasible solutions
+compared to our QCOP based approach.
+
+The remainder is structured as follows \todo{adjust structure}. 
+
+
+\section{Background}
+\label{sec:related}
+
+In this part, we first present the
+physical model of a wind farm that we use throughout the paper. 
+Subsequently, we first provide an overview of 
+existing mathematical
+optimization methods for WFLO, focusing
+on their similarities and differences
+compared to our approach.
+ 
+\subsection{Wind Farm Model}
+
+We consider a square shaped wind farm that we model 
+as an $N\times N$ grid
+with $N$ being the number of cells in each axis. 
+Each cell has the area of $c^2$ (in meters), i.e.,
+if $c=100$ meters and $N=20$, the farm area will be $2km\times 2km$.
+In this work, we assume that the terrain is flat and that 
+we have no constraints related to the terrain.
+Furthermore, we assume a sterile environment and do not consider the influence of noise
+on the wind farm's surroundings. The wind farm literature treats the more complex
+cases of non-flat terrain and environmental considerations in~\cite{} and~\cite{}, respectively.
+In our work, we introduce a novel optimization approach that can be extended,
+in the future, to include 
+such considerations. 
+ 
+In principle, a higher number of turbines placed in the wind farm produces more energy. However,
+we must consider two types of interference between the turbines. 
+
+First, 
+turbines cannot be placed at high proximity to each other. 
+Specifically, the turbines must be placed at least five rotor diameters apart from each other. Depending on the cell size, we shall formulate the corresponding constraints as part of the optimization model. 
+For example, assuming that a turbine is placed
+at the center of the cell (cell size of $100$ meters) and for rotor diameter of $40$ meters, 
+we must ensure that two turbines will not placed in adjacent cells. 
+
+Second, turbines influence each other through an effect called \emph{wake}. Wakes cause reduction of the effective power produced by a turbine due to upstream turbines changing airflow dynamics.
+
+\todo{Explain the wake model - single wake and linear superposition. Explain that it is less accurate but leads to a quadratic objective. We then assess it using sum of squares. Explain that there are $m$ turbines to be placed. use Zheng and use Mosetti.}
+
+\todo{Wind direction}
+
+ 
+\subsection{Optimization Methods for WFLO}
+
+The allocation of turbines in a wind farm was first considered 
+as an optimization problem in~\cite{MOSETTI1994105}. Since
+then, WFLO has caught the attention of optimization researchers. 
+The WFLO problem can either be solved \emph{exactly} using
+techniques from operations research (e.g., linear programming, 
+mixed-integer programming, stochastic programming, and constraint programming)\cite{Zhang2014,turner2014new}
+or solved \emph{approximately} using various meta-heuristics (e.g., genetic algorithms and local search) \cite{MOSETTI1994105}.
+The main advantage of the former techniques
+is that they provide guarantees on solution quality, 
+while the latter methods generate 
+quick and sufficiently accurate solutions. In this work, we compare 
+exact and approximate methods for WFLO. Both use 
+quadratic optimization models... \todo{add more variations and explain that we
+	focus on one to demonstrate the usefulness of quadratic models}
+
+
+\section{Quadratic Models for WFLO}
+\label{sec:QUBO4WFLO}
+
+In this part, 
+we formulate the WFLO problem
+as two quadratic optimization problems: a
+quadratic constrained optimization (QCOP) problem and 
+a quadratic unconstrained binary optimization (QUBO) problem. 
+To this end,
+we follow standard WFLO definitions
+and notation presented in~\cite{Zhang2014}. First, we present WFLO's inputs and decision variables.
+Subsequently, we present the mathematical formulation of the two problems. 
+
+\paragraph{WFLO Inputs and Decision Variables} Let $x_i$ be a binary decision variable that represents whether a 
+turbine is positioned at location $i \in \mathcal{N}$ with $\mathcal{N}$ being the set 
+of $n$ possible locations and 
+$m$ being the total number of required turbines. Note that we assume a discrete grid with 
+a finite number of possible positions. We 
+write $x$ as shorthand for $x = (x_1,\ldots, x_n)$. Furthermore,
+we denote by $\mathcal{E} \subseteq \mathcal{N}\times \mathcal{N}$
+the set of location pairs that cannot simultaneously host turbines 
+due to proximity constraints. 
+Let $u_{id}$ and $u_{id, \infty} $ 
+be the wind speeds at turbine location $i$ for wind regime $d \in \mathcal{D}$
+with and without interference from other turbines due to wake effects, respectively. A wind regime is a combination 
+of wind speed and direction. 
+The probability of wind regime 
+$d$ is given by $p_d$ with $\sum_{d \in \mathcal{D}}^{} p_d = 1$. For example, 
+regime $d=(10deg, 12km/h)$ corresponds to a north-eastern wind.
+
+ 
+Next, we denote by $\mathcal{U}_{id} \subseteq \mathcal{N}$ 
+the set of downstream 
+turbine locations 
+given that a turbine is placed at cell $i$ for wind regime $d$ (i.e., turbines placed in these locations 
+will be influenced by a turbine placed at $i$). Finally,
+we denote by $u_{ijd}$ the wind speed at turbine $j$ due to a single wake from upstream turbine $i$ with $j \in \mathcal{U}_{id}$. 
+The following objective function  
+represents the total expected energy of a wind farm given placement decisions 
+$x$: \begin{equation}
+f(x) = \sum_{i \in \mathcal{N}}^{} \sum_{d \in \mathcal{D}}^{} p_d ( \frac{1}{3} \ u_{id, \infty}^3 x_i  - \sum_{j \in \mathcal{U}_{id}}^{} \frac{1}{3}(u_{id, \infty} ^3 - u_{ijd}^3)x_i x_j)   \label{ObjFunc}\\
+%&s.t.:& \nonumber\\
+%&\mbox{       }& \sum_{i \in \mathcal{N}}^{} x_i = m,\label{Cardinality}\\
+%&\mbox{       }& x_i + x_j \leq 1,   \forall (i,j) \in \mathcal{E}, \label{Grid}\\
+%&\mbox{       }& x_i \in \{0,1\},     \forall i \in \mathcal{N}.
+\end{equation} 
+
+\subsection{WFLO as QCOP}
+
+To 
+maximize $f(x)$ and satisfy the number of turbines and proximity 
+constraints we can 
+the following quadratic optimization problem (QCOP):
+\begin{eqnarray} \label{QCOP}
+&\max_{x_i}^{}& \sum_{i \in \mathcal{N}}^{} \sum_{d \in \mathcal{D}}^{} p_d ( \frac{1}{3} \ u_{id, \infty}^3 x_i  - \sum_{j \in \mathcal{U}_{id}}^{} \frac{1}{3}(u_{id, \infty} ^3 - u_{ijd}^3)x_i x_j)   \\
+&s.t.:& \nonumber\\
+&\mbox{       }& \sum_{i \in \mathcal{N}}^{} x_i = m,\label{Cardinality}\\
+&\mbox{       }& x_i + x_j \leq 1,   \forall (i,j) \in \mathcal{E}, \label{Grid}\\
+&\mbox{       }& x_i \in \{0,1\},     \forall i \in \mathcal{N}.
+\end{eqnarray} 
+
+Solving QCOP with Gurobi. Explain.
+
+
+
+\subsection{WFLO as QUBO}
+
+The equivalent QUBO formulation is given by,
+\begin{equation}\max_{x}^{} f(x) - \lambda_1 (\sum_{i \in \mathcal{N}}^{} x_i -m) ^2 - \lambda_2 \sum_{(i,j) \in \mathcal{E}}^{} x_i x_j , \label{QUBO}\end{equation}
+with the term multiplied by $\lambda_1$ 
+ensures that exactly $m$ turbines are placed, while the term multiplied by $\lambda_2$ penalizes
+solutions that place turbines in adjacent locations. The two penalty terms $\lambda_1$ and $\lambda_2$ set large enough to ensure constraint satisfaction (see Section~\ref{sec:theory}). The QUBO in Eq. (\ref{QUBO}) allows us
+to solve the WFLO problem using quantum-inspired hardware.  
+
+
+
+\section{Evaluation}
+\label{sec:eval}
+
+
+\subsection{Experimental Design}
+
+
+
+\paragraph{WFLO Instances}
+
+\paragraph{Optimization Benchmarks}
+
+\paragraph{Experimental Setting and Implementation Details}
+
+\subsection{Main Results}
+
+
+
+\subsection{Discussion \& Limitations}
+
+
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+\bibliographystyle{elsarticle-num-names}
+%\bibliographystyle{plainnat}
+\bibliography{Biblio}
+
+\end{document}
+
+
+
+%
+%\begin{table}[t]
+%	
+%
+%	\label{tab:results1}
+%	\vspace{-0.5em}
+%	\scriptsize
+%	\centering
+%	\begin{tabular}{ c @{\hspace{1em}} c @{\hspace{1em}} c @{\hspace{1em}} c}
+%		\toprule
+%		Paper & Exact Optimization & Discrete Grid & Flat Terrain  \\
+%		\midrule
+%		\citet{Zhang2014,turner2014new} & + & + & +  \\
+%		\citet{kuo2016wind} & + & + & -  \\
+%		 \citet{} & + & - & + \\
+%		
+%		\bottomrule
+%	\end{tabular}
+%	\vspace{-1em}
+%	\caption{Literature review of Wind Farm Optimization Layout solutions.}
+%		
+%\end{table}
+
