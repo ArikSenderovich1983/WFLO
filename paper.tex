@@ -211,46 +211,48 @@ novel quadratic WFLO models. The first model
 represents WFLO using a 
 quadratic constrained optimization problem (QCOP). 
 The QCOP can be solved using state-of-the-art solvers that
-specialize in such problems, e.g., Gurobi~\cite{guorbi}. 
+specialize in such problems, e.g., Gurobi~\cite{gurobi}. 
 Our second model is based on a quadratic unconstrained binary optimization (QUBO) representation of the WFLO 
 problem.
 This enables the use of specialized optimization hardware tailored to solve
-QUBOs. In this paper, we use Fujitsu's digital annealer to demonstrate the strength
-of the approach. The main contributions of this paper are: 
+QUBOs. In this paper, we use Fujitsu's digital annealer, a simulated annealing based QUBO solver, to demonstrate the strength
+of our approach. The main contributions of this paper are: 
 \begin{enumerate} 
-\item We propose two novel quadratic WFLO models that capture wake and proximity
-effects directly without going through a linear approximation, and, 
-\item We test the two formulations
+\item We propose a novel quadratic modeling framework for WFLO that captures wake 
+effects directly through their linear superposition 
+without the need for approximations and ad-hoc solutions,
+\item We provide the computational complexity of WFLO and show that it is $\mathcal{NP}$-hard, and, 
+\item We test our quadratic formulations
 on a commerical software-based quadratic solver (Gurobi) and on Fujitsu's digital 
 annealer. 
 \end{enumerate} Our experiments are focused on the performance of the two approaches
 compared to 
 existing optimization methods. To this end,
-we solve 12 standard WFLO benchmark problems (c.f.~\cite{turner2014new}). 
-We show, empirically, that solving quadratic WFLO models
+we experiment with 12 standard WFLO benchmark problems (c.f.~\cite{turner2014new})
+and show that solving quadratic WFLO models
 using Gurobi and the DA
 achieves state-of-the-art performance, often outperforming
 existing solutions when provided sufficient run-time. Furthermore, we
 we observe that the digital 
-annealer often provides order of magnitude faster feasible solutions
-compared to our QCOP based approach.
+annealer often provides order of magnitude faster solutions
+compared to software-based approaches.
 
-The remainder is structured as follows \todo{adjust structure}. 
+The remainder is structured as follows \todo{adjust structure according to final structure of paper}. 
 
 
 \section{Background}
 \label{sec:related}
 
-In this part, we start
+We start this section
 by presenting the
 physical model 
-of a wind farm that we use throughout the paper.
+of a wind farm, which we use throughout the paper.
 Our wind farm model is based on
-the notation and physical description 
-from~\cite{Zhang2014}.  
+the common notation and description 
+presented in~\cite{Zhang2014}.  
 Subsequently, we provide a literature review of 
 existing mathematical
-optimization methods for WFLO, focusing
+optimization methods for solving WFLO, focusing
 on their similarities and differences
 compared to our approach.
  
@@ -279,44 +281,46 @@ consider the most abstract wind farm model. Yet, our model can be extended,
 in the future, to include 
 additional wind farm settings. \todo{perhaps discuss in future work} 
  
-Returning to the grid model, we assume that the number of homogeneous turbines is known 
+Returning to the grid model, we assume that the number of homogeneous turbines to be placed is known 
 in advance; we denote the number of turbines by $m$. To place these $m$ turbines, 
 we must consider two types of interference effects, namely \emph{proximity constraints} and \emph{wakes}.
 In what follows, we explain the two effects using a toy example of placing a single turbine on an 
 $8\times8$ grid (see Figure~\ref{fig:field_model}).
 
 \paragraph{Proximity Constraints} Turbines must be placed at least \emph{five rotor diameters} apart. Depending on the cell size, 
-	we shall formulate the corresponding constraint as part of the optimization model. For example, assuming that a turbine is placed
-	at the center of the cell (cell size of $100$ meters) and given that the rotor diameter is $40$ meters, 
-	we must ensure that two turbines will not placed in adjacent cells. In Figure~\ref{fig:field_model}, 
-	the red area around the turbine represents the cells in which we cannot place an additional turbine.
+	we shall formulate the corresponding constraint as part of the optimization model. For example, assume that a turbine is placed
+	in the center of a cell. Then, given a cell size of $c = 100$ meters and a rotor diameter of $40$ meters, 
+	we must ensure that two turbines will not placed inside two adjacent cells. In Figure~\ref{fig:field_model}, 
+	the red area around the turbine represents the forbidden cells.
 	 
 \paragraph{Wakes} Turbines influence each other through interference effects that are referred to as \emph{wakes}~\cite{jensen1983note,shakoor2016wake}. 
 	 Wakes cause reduction of the effective power produced by a turbine due to upstream turbines that change
 	 its airflow dynamics. In Figure~\ref{fig:field_model}, the wind is assumed to be horizontal. Therefore, the wake effect due
 	 to placing the turbine expands as shown in the diagram: it will influence only turbines that will be placed in the orange cells.
 	 In other words, if a turbine is placed in the orange area, its effective
-	 power is reduced due to the upstream turbine. Moreover, wakes can occur between multiple turbines, and hence
-	 multiple wakes must be taken into account for each location when modeling the farm. 
-	 The reduction in power due to the wake effect is determined by three parameters: (1) the distance between the upstream
+	 power is reduced due to the upstream turbine that we placed in the $8\times8$ farm. 
+	 Moreover, wakes can occur between multiple turbines, and hence
+	 multiple wakes must be taken into account for each location. 
+	 The reduction of power due to the wake effect is determined by three parameters: (1) the distance between the upstream
 	 turbine and the cell for which we want to compute the effect (denoted by $x$ in Figure~\ref{fig:field_model}), (2) the radius of the cone's opening 
 	 (denoted by $r$ in Figure~\ref{fig:field_model}), and (3) 
-	 the superposition of the wind regimes that correspond to the farm's location.
-	 This reduction effect can be pre-computed for each pair of cells using known
-	 turbine specification and terrain conditions together with probabilistic assumptions on wind regimes~\cite{Zhang2014}. Note that turbines can adjust their direction according to the current wind direction. 
+	 the superposition of several wind regimes (a wind regime is a combination of free speed and directions).
+	 The wake effect can be pre-computed for each pair of cells 
+	 since we know: the distance ($x$), the turbine specifications and terrain conditions (that jointly dictate $r$), and  
+	 probabilistic behavior of wind regimes~\cite{Zhang2014}. 
 	 
 \paragraph{Effective Power Calculations in the Presence of Wakes} 
-Let $\mathcal{D}$ be the set of wind regimes. Every regime $d$ is a combination of wind direction and free speed. 
+Let $\mathcal{D}$ be the set of wind regimes. Every regime $d\in \mathcal{D}$ is a unique combination of wind direction and free speed. 
 The probability of wind regime 
-$d$ is given by $p_d$ with $\sum_{d \in \mathcal{D}}^{} p_d = 1$. In the experimental section (Section~\ref{sec:eval}),
+$d \in \mathcal{D}$ is given by $p_d$ with $\sum_{d \in \mathcal{D}}^{} p_d = 1$. In the experimental section (Section~\ref{sec:eval}),
 we provide one example of a probability distribution 
 function over $36$ wind regimes (Figure~\ref{fig:prob_wind}). In that example, 
-a regime $d=(10deg, 12km/h)$ corresponds to a north-eastern wind blowing at the velocity $12km/h$ and the
-probability of this regime is given by $0.008$. Let $u_{id}$ be the wind velocity at turbine $i = 1,\ldots, m$ for wind regime $d\in\mathcal{D}$. Turbines can turn in alignment with the direction of the current wind regime. 
+a regime $d=(10deg, 12km/h)$ corresponds to a north-eastern wind blowing at a free velocity of $12km/h$. The
+probability of this regime is $0.008$. Let $u_{id}$ be the wind velocity at turbine $i = 1,\ldots, m$ for wind regime $d\in\mathcal{D}$. 
+Note that turbines can adjust their direction according to the current wind 
+regime. 
 
-Next, we write 
-the expected power of a wind farm with $m$ turbines~(\cite{Zhang2014}): \begin{equation} E_{SS} = \sum_{i=1}^m \sum_{d\in\mathcal{D}} \frac{1}{3} u_{id}^3p_d. \end{equation}
-Given that we must consider wakes, the velocity $u_{id}$ is not equivalent to the free wind speed of current wind regime.
+Given that we must consider wakes, the velocity $u_{id}$ is not equivalent to the free wind speed of $d$.
 The actual velocity at turbine $i$, $u_{id}$, can be computed using the following equation~(\cite{Zhang2014}):
 \begin{equation}
 u_{id} = u_{id\infty} \Bigg[1 - \sqrt{\sum_{j\in\mathcal{U}_{id}} \bigg( 1-\frac{u_{ijd}}{u_{id\infty}} \bigg)^2}  \Bigg], \label{eq:ss}
@@ -325,13 +329,14 @@ under wind regime $d$, and $u_{ijd}$ being the wake
 reduced speed at $i$ due to upstream turbine $j$. 
 The reduced speed, $u_{ijd}$, is computed using the distance $x$ between the two turbines ($i,j$)  and turbine and terrain specifications that yield the cone opening radius, $r$. Furthermore, the set of upstream turbines, $\mathcal{U}_{id}$ is computed  
 by rotating the grid w.r.t. to the current wind regime $d \in \mathcal{D}$ and computing which turbine $j$ is located upstream to turbine $i$ given $d$. The expression in Eq. (\ref{eq:ss}) is referred to as the \emph{sum-of-squares} (SS) model for 
-the total expected power in presence of wakes~\cite{Zhang2014}. This is also known to be the most accurate analytical expression account for multiple wakes.  
+the total expected power in presence of wakes~\cite{Zhang2014}.  We can now write 
+the sum-of-squares (SS) expected power of a wind farm with $m$ turbines~(\cite{Zhang2014}): \begin{equation} E_{SS} = \sum_{i=1}^m \sum_{d\in\mathcal{D}} \frac{1}{3} u_{id}^3p_d. \end{equation} This is also known to be the most accurate analytical total power expression that accounts for multiple wakes. However, the expression is not amenable for optimization, and hence, a simplified representation for the total expected energy that considers wakes is required. 
 
 An alternative 
-form for the expected power in the presence of multiple wakes is the linear superposition (LS) model: \begin{equation} \label{eq:ls}
+form of the total expected power in the presence of multiple wakes is the linear superposition (LS) expression: \begin{equation} \label{eq:ls}
 E_{LS} = \sum_{i=1}^m \sum_{d\in\mathcal{D}} \Bigg(\frac{1}{3}u_{id\infty}^3 -\sum_{j\in\mathcal{U}_{id}} \frac{1}{3}(u_{id\infty}^3 - u_{ijd}^3)\Bigg).
 \end{equation} Note that $E_{LS}$ has the same parameters as $E_{SS}$; the difference is in the function that ties these parameters together. 
-The LS model is known to be less accurate compared to SS, yet as we will show in Section it 
+The LS model is known to be less accurate compared to SS, yet as we will show in Section~\ref{sec:QUBO4WFLO} it 
 results in a quadratic objective function in our WFLO formulations, which is a desired property from an optimization standpoint.
  
 
@@ -342,102 +347,130 @@ as an optimization problem in~\cite{MOSETTI1994105}. The proposed method in~\cit
 searches for improved solutions using a 
 genetic approach~\cite{davis1991handbook},
 which is an approximate technique 
-that does not aim to provide an optimal solutions,
-but rather attempts to find a quick solution to WFLO. 
-In follow-up papers, 
+that does not aim to provide an optimal solutions;
+instead, it attempts to find a quick turbine placement.
+
+
+In follow-up works, 
 the WFLO problem was solved using \emph{exact}  
 optimization methodologies~\cite{turner2014new,Zhang2014}. 
 These methods guarantee that the returned solution is optimal with respect
 to the specified objective (i.e., maximize total expected power). 
 Indeed, the exact methods were shown to yield higher energy values, yet they often suffer from 
-high computational cost and long runtimes. Therefore, one must strike a balance between optimality and computational requirements of the solution.  
-Below, we provide an overview of the literature of the two approaches (exact vs. approximate) and relate our 
-work to both through quadratic optimization models\footnote{We shall review 
-only literature that considers the same wind farm model as the one presented earlier in this section}. 
+high computational cost and long runtimes. Therefore, one must strike a balance between optimality and computational requirements of the solution. 
+Fast solutions are useful when solving the wind farm design problem numerous times (e.g., when considering different numbers of turbines and various locations),
+while optimal solutions yield better placements in terms of the total expected energy.
+
+In what follows, we provide a literature review that covers both approaches, namely exact vs. approximate WFLO.
+We subsequently relate our 
+work to both exact and approximate methods via our proposed quadratic optimization paradigm for WFLO\footnote{We shall review 
+only literature that considers the same wind farm model as the one presented at the beginning of this section}. 
  
 \paragraph{Exact Optimization Methods} 
 \todo{Rephrase and add citations to exact methods}
-The WFLO problem can be solved to optimality 
+The WFLO problem can be solved  
 to optimality, using
-techniques from operations research (e.g., mixed-integer linear programming (MILP), quadratic programming (QP), and constraint programming).
+techniques from operations research (e.g., mixed-integer linear programming (MILP), quadratic programming (QP), and constraint programming (CP))~\cite{}.
 These methods are \emph{exact}, in the sense that they guarantee that the returned solution is indeed
-the best solution one can obtain for the given problem. For the wind farm model
-presented in the beginning of this section,
-the two dominant works that apply exact optimization 
-are~\cite{Zhang2014}, and~\cite{turner2014new}. 
-The former builds on~\cite{donovan2005wind} and solves a MILP model for the linear superposition (LS) objective
-and use constrained programming to find a solution for the sum of squares (SS) objective. The latter, uses a quadratic and linear approximations to the SS objective. Since the SS objective is considered to be more accurate, solutions that come from LS-based optimization 
-are plugged into the SS objective.
+the best solution one can obtain for the given problem. Donovan was the first to solve WFLO using a
+MILP approach based on the LS energy expression~\cite{donovan2005wind}. In~\cite{turner2014new}, the authors
+approximated the SS energy expression using a quadratic and a linear approximation. The two resulting methods performed well
+compared to existing approximate and exact methods~\cite{turner2014new}. 
 
-The main advantage of exact techniques
+The most recent attempt to solve the wind farm variation that we presented 
+in this section is given in~\cite{Zhang2014}. The authors compared
+previously existing MILP and QP models to their approach for directly optimizing the SS objective. To this end, they used constraint programming (CP), which 
+is an optimization technique that does not make assumptions on the functional form of the objective.
+This turned out to be computationally intractable for the larger standard WFLO benchmarks. 
+
+In our work, we build upon the approach in~\cite{donovan2005wind}, yet instead of using a linear version of the LS objective, we 
+model WFLO using a more natural quadratic representation. The difference between our approach and the quadratic model
+proposed in~\cite{turner2014new} is that our model is not an approximation, but rather an exact representation of the LS objective.
+
+As we mentioned before, the main advantage of exact techniques
 is that they provide guarantees on solution quality. However, their disadvantage is
 that they may take a very long time to execute before finding an optimal solution. 
-In fact, we shall show that the WFLO problem is computationally hard, a result
+In fact, Section~\ref{sec:QUBO4WFLO} shows that WFLO is computationally hard, a result
 that we have not yet encountered in the WFLO literature. Therefore,
-when multiple designs are considered and a fast solution is of essence,
-one may turn to approximate WFLO solutions.
+when one considers solving multiple wind farm design problems, a fast solution is of essence,
+and hence one may turn to approximate WFLO.
 
 \paragraph{Approximate Methods} \todo{tighten} In contrast to exact methods, approximation algorithms often provide   
 quick and sufficiently accurate solutions. Several works solved 
-WFLO using evolutionary (genetic) approaches~\cite{MOSETTI1994105,gonzalez2010optimization,grady2005placement}. These methods use two principles (cross-over and mutation)
-to change existing solutions and improve them over time. Evolutionary methods do not guarantee termination (i.e., they may run forever), and when they do terminate (in practical cases). Hence, one must often
-introduce stopping criteria and thus compromise on the quality of the attained solution~\cite{davis1991handbook}.
+WFLO using evolutionary (genetic) approaches~\cite{MOSETTI1994105,gonzalez2010optimization,grady2005placement}. 
+These methods use two principles (cross-over and mutation)
+to change existing solutions and improve them over time. Evolutionary methods do not guarantee termination 
+(i.e., they may run forever without achieving a quality criteria), and when they do terminate (in practical cases) they do
+not guarantee optimal solutions. Hence, one must often
+introduce non-quality related stopping criteria, 
+thus compromising on quality of the attained solution~\cite{davis1991handbook}.
 Furthermore, there is no natural way of introducing constraints into genetic methods, which
-leads to a feasibility check for every solution. 
+leads to a potentially costly feasibility check for every solution. 
 
 The first attempt to address these limitations 
-was made in a local search approach~\cite{ozturk2004heuristic}. 
-The solution still does not guarantee optimality, 
+was made in a local search approach for WFLO~\cite{ozturk2004heuristic}. 
+The solution does not guarantee optimality, 
 yet it circumvents the termination and feasibility checking issues of the evolutionary
-solutions. The local search attempts to apply either move, remove or add actions given an incumbent 
+methods. The local search approach attempts to apply either move, remove or add actions given an incumbent 
 feasible solution. When a turbine is moved, removed or added, the new solution is evaluated. The procedure terminates 
 when a stopping criteria is reached.
 The main limitation of~\cite{ozturk2004heuristic} is that it cannot perform an action 
-that leads to an infeasible state. Therefore, it quickly converges to a sub-optimal solution far
-from the optimal one. This was experimentally shown in~\cite{rivas2009solving}. To overcome this limitation, the authors of~\cite{rivas2009solving} use simulated annealing (SA), which is a neighborhood search method that allows visits to infeasible solutions. This creates a well-connected solution space that allows an escape for local optima, and was shown to be superior to~\cite{ozturk2004heuristic} and to the genetic method proposed in~\cite{grady2005placement}. A drawback of the SA approach in~\cite{rivas2009solving} is its ad-hoc nature. The various model components must be tailored and geared towards WFLO. This means that small adjustments to our WFLO setting
+that leads to an infeasible state. Therefore, it quickly converges to a sub-optimal solution (local optimum) 
+that can potentially by far
+from the globally optimal solution. This problem was experimentally demonstrated in~\cite{rivas2009solving}. 
+
+To overcome this limitation, the authors of~\cite{rivas2009solving} used simulated annealing (SA), 
+a neighborhood search method that allows visits to infeasible solutions. 
+This creates a well-connected solution space that leads the algorithm to escape 
+local optima. The SA method was shown to be superior to~\cite{ozturk2004heuristic} 
+and to the genetic method proposed in~\cite{grady2005placement}. A drawback of the SA approach 
+is its ad-hoc nature. The various components of the algorithm
+ must be tailored and geared towards WFLO. This means that small adjustments to our WFLO setting
  (e.g., adding noise considerations), would require major changes to the SA solution. 
 Additional methods and experimental comparisons between various approximate algorithms are available in~\cite{samorani2013wind}.
 
 In our work, we also use an SA approach (similarly to~\cite{rivas2009solving}). However,
-our methodology is generic since it is based on quadratic programming models.
-These models can be easily adjusted to additional constraints and components of the objective function. In addition, formulating the problem using quadratic programming  enables us to solve WFLO using advanced software exact optimization solvers (e.g., Gurobi optimizer) and approximate hardware solutions (e.g., Fujitsu's digital annealer for solving quadratic problems using SA). 
+our methodology is generic since it is based on our quadratic paradigm and
+on the ability of specialized hardware to solve quadratic (non-ad-hoc) models.
+Quadratic WFLO models can be easily adjusted to include additional problem features, e.g., wind farm characteristics. 
 
-
-
-
-\paragraph{Quadratic Models for Exact and Approximate WFLO}
+\paragraph{Quadratic Programming as a Unified Framework for Exact and Approximate WFLO}
 \todo{send a clear message here. Perhaps move to next section}.
 
+In this work, we argue that 
+formulating WFLO using quadratic programming enables us to employ 
+advanced software solutions (e.g., Gurobi optimizer) and approximate hardware developments 
+(e.g., Fujitsu's digital annealer that solves quadratic problems using principles from simulated annealing). 
 A benchmark study compared state of the art exact approaches from~\cite{Zhang2014} to 
 approximate methods and found that the two perform in a comparable fashion, without large differences between
-the attained energy~\cite{yang2019simulated}. Exact methods tend to perform better
-in smaller WFLO benchmarks, while simulated annealing methods had slightly dominating results
-for larger benchmarks. This leads to the conclusion that the two types of methods should be considered. 
+the attained energy~\cite{yang2019simulated}. Exact methods tend to perform slightly better
+in smaller WFLO benchmarks, while simulated annealing methods dominated for larger standard WFLO benchmarks. 
+This leads to the conclusion that both types of methods (exact and approximate) should be considered. 
+Therefore, in this work, we use a unified paradigm that would enable both exact and approximate solutions to WFLO. Thus, 
+our approach `enjoys' the best of both worlds. 
 
-
-In this work, we use a common optimization model to solve WFLO both exactly and approximately, thus enjoying the  best of both worlds. 
-The common optimization model is a quadratic programming representation of WFLO, 
-which attempts to minimize a quadratic energy function with or without considering additional constraints.
-Specifically, we consider two variations of the quadratic model. 
-The first one is referred to as quadratic constrained optimization problems (QCOP). 
-It enables maximizing a quadratic (LS-based) energy expression, while 
-ensuring that WFLO constraints are maintained (turbine proximity and total number of turbines is $m$). 
-The second model is a quadratic unconstrained binary optimization (QUBO), 
-which 
-
-
-On the one hand, exact solvers for quadratic programs (QCOP and QUBO) such as Gurobi~\cite{}, 
-use cutting edge
-operations research methods to enhance performance.
-On the other hand, simulated annealing methods have been recently embedded onto 
-designated processing units. These units use quantum-inspired technology to solve
-complex problems quickly and with minimal degradation in terms of the resulting solution~\cite{}.
-Specifically, in this work, we shall use Fujitsu's digital annealer (DA) to solve WFLO. The DA
-also requires a quadratic representation of the WFLO problem. 
-
-Both of these methods use 
-quadratic optimization models, which we shall present in the next section (Section~\ref{sec:QUBO4WFLO}).
-
+%
+%
+%Specifically, we consider two variations of the quadratic programming paradigm.  
+%The first one is referred to as quadratic constrained optimization problems (QCOP). 
+%It enables maximizing a quadratic (LS-based) energy expression, while 
+%ensuring that WFLO constraints are maintained (turbine proximity and total number of turbines is $m$). 
+%The second model is a quadratic unconstrained binary optimization (QUBO), 
+%which 
+%
+%
+%On the one hand, exact solvers for quadratic programs (QCOP and QUBO) such as Gurobi~\cite{}, 
+%use cutting edge
+%operations research methods to enhance performance.
+%On the other hand, simulated annealing methods have been recently embedded onto 
+%designated processing units. These units use quantum-inspired technology to solve
+%complex problems quickly and with minimal degradation in terms of the resulting solution~\cite{}.
+%Specifically, in this work, we shall use Fujitsu's digital annealer (DA) to solve WFLO. The DA
+%also requires a quadratic representation of the WFLO problem. 
+%
+%Both of these methods use 
+%quadratic optimization models, which we shall present in the next section (Section~\ref{sec:QUBO4WFLO}).
+%
 
 
 \section{Quadratic Models for WFLO}
@@ -452,12 +485,13 @@ a quadratic unconstrained binary optimization (QUBO) problem.
 The former represents WFLO characteristics (proximity and number of turbines)
 as hard constraints, while the latter considers these characteristics as soft constraints that are added to its objective function.
 
-First, we present WFLO's inputs and decision variables.
-Subsequently, we present the two quadratic formulations of WFLO
-and discuss the usefulness of each formulation in the context
-of advanced optimization software and hardware. 
+We start by presenting the inputs and decision variables into our optimization approaches.
+Subsequently, we introduce the two quadratic formulations of WFLO and 
+prove its computational complexity. Lastly, we discuss the details of existing
+software and hardware solutions that can be used to solve the two formulations. 
 
-\subsection{WFLO Inputs and Decision Variables} We consider the wind farm model that we presented in Section~\ref{sec:related}) and follow the notation from~\cite{Zhang2014}. Let $x_i$ be a binary decision variable that represents whether a 
+\subsection{WFLO Inputs and Decision Variables} We consider the wind farm model that we presented in Section~\ref{sec:related}. 
+Let $x_i$ be a binary decision variable that represents whether a 
 turbine is positioned at location 
 $i \in \mathcal{N}$ with $\mathcal{N}$ being the set 
 of $k = n^2$ possible turbine locations (cells in the grid). We 
@@ -472,9 +506,8 @@ Let $u_{id}$ and $u_{id\infty}$
 be the wind speeds at turbine location $i \in \mathcal{N}$ for wind regime $d \in \mathcal{D}$
 with and without interference from other turbines due to wake effects, respectively. 
 Note that here we refer to $i$ as a potential turbine location and not the $i$th turbine as we did in Section~\ref{sec:related}.
- 
-Next, we denote by $\mathcal{U}_{id} \subseteq \mathcal{N}$ 
-the set of downstream 
+Further, we denote by $\mathcal{U}_{id} \subseteq \mathcal{N}$ 
+the set of upstream 
 turbine locations for wind regime $d$
 given that a turbine is placed at cell $i$ (i.e., turbines placed in these locations 
 will be influenced by a turbine placed in $i$). Finally,
@@ -502,35 +535,44 @@ the following quadratic optimization problem (QCOP):
 &\mbox{       }& \sum_{i \in \mathcal{N}}^{} x_i = m,\label{Cardinality}\\
 &\mbox{       }& x_i + x_j \leq 1,   \forall (i,j) \in \mathcal{E}, \label{Grid}\\
 &\mbox{       }& x_i \in \{0,1\},     \forall i \in \mathcal{N}.
-\end{eqnarray} The QCOP can be solved using an exact optimization solver, e.g., Gurobi~\cite{}. 
+\end{eqnarray} Constraints~\ref{Cardinality} ensure that exactly $m$ turbines are placed on the grid, while~\ref{Grid}
+enforce proximity constraints between the turbines. 
+
+The QCOP presented as Problem~\ref{QCOP} can be solved using an exact optimization solver, e.g., Gurobi~\cite{gurobi}. 
 So far, in~\cite{Zhang2014} and~\cite{donovan2005wind}, equivalent (linear) problems were formulated and solved using 
 exact solvers. However, these solvers should only be used if the problem is computationally hard.
-Prior to this work, we are unaware of a complexity result that analyzes LS-based WFLO. In what follows, we provide
-a theorem that proves the computational complexity of the QCOP. 
+We are unaware of an existing complexity result for the LS variation in Eq.~\ref{QCOP}. In what follows, we provide
+a theorem that proves the computational complexity of WFLO. 
 \begin{mythm}
-	The computational complexity of LS-based WFLO is $\mathcal{NP}$-hard. 
+	The computational complexity of WFLO is $\mathcal{NP}$-hard. 
 \end{mythm}
 \begin{myproof}
 We prove by showing that a special case of the WFLO problem (Eq.~(\ref{QCOP}) is
 $\mathcal{NP}$-hard. Suppose that $\mathcal{E} = \emptyset$, i.e., the grid is coarse grained enough to ignore proximity constraints. Then, the constraints in Eq.~(\ref{Grid})
-are dropped and we get the HSP, which was proven to be $\mathcal{NP}$-hard in~\cite{billionnet2005different}.
-	\end{myproof} To overcome this limitation associated with the computational hardness of WFLO,
-we reformulate the QCOP into a QUBO problem. This allows us to use a specialized optimization hardware that uses
-simulated annealing in order to solve QUBO problems quickly. 
+are dropped and we get the heaviest k-subgraph problem (HSP), which was proven to be $\mathcal{NP}$-hard in~\cite{billionnet2005different}.
+Since a special case of WFLO is  $\mathcal{NP}$-hard it implies that WFLO is at least $\mathcal{NP}$-hard. On the other hand,
+WFLO is formulated using integer programming (Problem \ref{QCOP}), which means that it is at most $\mathcal{NP}$-hard. Therefore, we get that WFLO is $\mathcal{NP}$-hard.
+	\end{myproof} To overcome the challenge associated with the computational hardness of WFLO,
+we reformulate the QCOP into a QUBO problem.  
 
 
 \subsection{WFLO as QUBO}
 
-Quadratic unconstrained binary optimization formulations, as their name implies, contain only an objective function that 
-one wishes to maximize (or minimize). Furthermore, the decision variables must be binary. Let $\lambda = (\lambda_1,\lambda_2)$ 
-be a vector of constraints parameters with $\lambda_i >0$. The equivalent QUBO formulation of QCOP is given by,
+Quadratic unconstrained binary optimization problems, as their name implies, cannot have constraints. Alternatively, they only 
+have an objective function that 
+one can to maximize (or minimize). Furthermore, the decision variables must be binary. Let $\lambda = (\lambda_1,\lambda_2)$ 
+be a vector of constraint parameters with $\lambda_i >0$. The equivalent QUBO formulation of the QCOP in Eq.(\ref{QCOP}) is given by,
 \begin{equation}\max_{x}^{} f(x) - \lambda_1 (\sum_{i \in \mathcal{N}}^{} x_i -m) ^2 - \lambda_2 \sum_{(i,j) \in \mathcal{E}}^{} x_i x_j , \label{QUBO}\end{equation}
 with the term $ \lambda_1 (\sum_{i \in \mathcal{N}}^{} x_i -m) ^2$ 
-penalizing solutions with more or less than $m$ turbines, while the term $\lambda_2 \sum_{(i,j) \in \mathcal{E}}^{} x_i x_j$ penalizes
+penalizing solutions that violate the exactly $m$ turbines constraint, while the term $\lambda_2 \sum_{(i,j) \in \mathcal{E}}^{} x_i x_j$ penalizes
 solutions that place turbines in high proximity. The two penalty terms $\lambda_1$ and $\lambda_2$ 
 must be large enough to ensure that the solutions are indeed feasible. These types of constraints
 are referred to as \emph{soft constraints} as they do not guarantee a feasible solution 
 for an arbitrary selection of $\lambda$.   
+
+
+\subsection{Solving QCOP and QUBO using Advanced Optimization Methods}
+
 
 \section{Evaluation}
 \label{sec:eval}

@@ -1,4 +1,4 @@
-\begin{thebibliography}{20}
+\begin{thebibliography}{21}
 \expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
 \providecommand{\url}[1]{\texttt{#1}}
 \providecommand{\href}[2]{#2}
@@ -42,6 +42,11 @@
   \bibinfo{volume}{2} (\bibinfo{year}{2014}) \bibinfo{pages}{195--219}.
   \URLprefix \url{https://doi.org/10.1007/s13675-014-0024-5}.
   \DOIprefix\doi{10.1007/s13675-014-0024-5}.
+%Type = Misc
+\bibitem[{Gurobi~Optimization(2020)}]{gurobi}
+\bibinfo{author}{L.~Gurobi~Optimization}, \bibinfo{title}{Gurobi optimizer
+  reference manual}, \bibinfo{year}{2020}. \URLprefix
+  \url{http://www.gurobi.com}.
 %Type = Article
 \bibitem[{Song et~al.(2015)Song, Chen, Zhang, and Wang}]{song2015lazy}
 \bibinfo{author}{M.~Song}, \bibinfo{author}{K.~Chen},
@@ -112,6 +117,13 @@
 \bibinfo{author}{L.~Davis},
 \newblock \bibinfo{title}{Handbook of genetic algorithms}
   (\bibinfo{year}{1991}).
+%Type = Inproceedings
+\bibitem[{Donovan(2005)}]{donovan2005wind}
+\bibinfo{author}{S.~Donovan},
+\newblock \bibinfo{title}{Wind farm optimization},
+\newblock in: \bibinfo{booktitle}{Proceedings of the 40th annual ORSNZ
+  conference}, \bibinfo{organization}{Citeseer}, \bibinfo{year}{2005}, pp.
+  \bibinfo{pages}{196--205}.
 %Type = Article
 \bibitem[{Gonz{\'a}lez et~al.(2010)Gonz{\'a}lez, Rodriguez, Mora, Santos, and
   Payan}]{gonzalez2010optimization}
@@ -159,13 +171,6 @@
   optimization: A benchmark study},
 \newblock \bibinfo{journal}{Energies} \bibinfo{volume}{12}
   (\bibinfo{year}{2019}) \bibinfo{pages}{4403}.
-%Type = Inproceedings
-\bibitem[{Donovan(2005)}]{donovan2005wind}
-\bibinfo{author}{S.~Donovan},
-\newblock \bibinfo{title}{Wind farm optimization},
-\newblock in: \bibinfo{booktitle}{Proceedings of the 40th annual ORSNZ
-  conference}, \bibinfo{organization}{Citeseer}, \bibinfo{year}{2005}, pp.
-  \bibinfo{pages}{196--205}.
 %Type = Article
 \bibitem[{Billionnet(2005)}]{billionnet2005different}
 \bibinfo{author}{A.~Billionnet},
