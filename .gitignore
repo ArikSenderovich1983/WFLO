@@ -1,3 +1,5 @@
 *.pdf
 /paper.out
 /elsarticle.dtx
+/paper.synctex.gz
+/paper.log

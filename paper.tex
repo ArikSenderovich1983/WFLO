@@ -535,8 +535,8 @@ the following quadratic optimization problem (QCOP):
 &\mbox{       }& \sum_{i \in \mathcal{N}}^{} x_i = m,\label{Cardinality}\\
 &\mbox{       }& x_i + x_j \leq 1,   \forall (i,j) \in \mathcal{E}, \label{Grid}\\
 &\mbox{       }& x_i \in \{0,1\},     \forall i \in \mathcal{N}.
-\end{eqnarray} Constraints~\ref{Cardinality} ensure that exactly $m$ turbines are placed on the grid, while~\ref{Grid}
-enforce proximity constraints between the turbines. 
+\end{eqnarray} Constraint~\ref{Cardinality} and \ref{Grid} ensure that exactly $m$ turbines are placed on the grid
+and enforce proximity constraints between the turbines, respectively. 
 
 The QCOP presented as Problem~\ref{QCOP} can be solved using an exact optimization solver, e.g., Gurobi~\cite{gurobi}. 
 So far, in~\cite{Zhang2014} and~\cite{donovan2005wind}, equivalent (linear) problems were formulated and solved using 
