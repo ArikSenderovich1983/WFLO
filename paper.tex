@@ -355,29 +355,24 @@ results in a quadratic objective function in our WFLO formulations, which is a d
 
 \subsection{Optimization Methods for WFLO}
 
-The allocation of turbines in a grid-like wind farm was first considered 
-as an optimization problem in~\cite{MOSETTI1994105}. The proposed method in~\cite{MOSETTI1994105}
-searches for improved solutions using a 
-genetic approach~\cite{davis1991handbook},
-which is an approximate technique 
-that does not aim to provide an optimal solutions;
-instead, it attempts to find a quick turbine placement.
+The allocation of turbines in a grid-like wind farm was first
+considered as an optimization problem by~\citet{MOSETTI1994105}. Their
+method employs a genetic
+algorithm~\cite{davis1991handbook}, an approximate technique
+with no guarantees of solution quality but with the goal of quickly finding a high-quality turbine placement.
 
 
-In follow-up works, 
+In subsequent work~\cite{turner2014new,Zhang2014}, 
 the WFLO problem was solved using \emph{exact}  
-optimization methodologies~\cite{turner2014new,Zhang2014}. 
-These methods guarantee that the returned solution is optimal with respect
-to the specified objective (i.e., maximize total expected power). 
-Indeed, the exact methods were shown to yield higher energy values, yet they often suffer from 
-high computational cost and long runtimes. Therefore, one must strike a balance between optimality and computational requirements of the solution. 
-Fast solutions are useful when solving the wind farm design problem numerous times (e.g., when considering different numbers of turbines and various locations),
-while optimal solutions yield better placements in terms of the total expected energy.
+optimization methodologies that guarantee that the returned solution is optimal with respect
+to the specified objective or is provably within a given bound of optimal.
+%(i.e., maximize total expected power). 
+The exact methods were shown to yield higher energy values, yet they often suffered from 
+high computational cost and long runtimes. In practice, it is often desireable to strike a balance between optimality and computational requirements: fast sub-optimal solutions are useful when solving the wind farm design problem numerous times (e.g., when considering different numbers of turbines and various allowed locations), while optimal solutions yield the best possible placements (admitted by the mathematical model) when longer run-times are available.
 
-In what follows, we provide a literature review that covers both approaches, namely exact vs. approximate WFLO.
-We subsequently relate our 
-work to both exact and approximate methods via our proposed quadratic optimization paradigm for WFLO\footnote{We shall review 
-only literature that considers the same wind farm model as the one presented at the beginning of this section}. 
+In what follows, we provide a literature review that covers both exact and approximate methods for WFLO. We subsequently relate our 
+work to both approaches via our proposed quadratic optimization framework for WFLO.\footnote{We review 
+only literature that considers the same wind farm model as the one presented at the beginning of this section. For a broader literature review see \todo{[REF]}.} 
  
 \paragraph{Exact Optimization Methods} 
 \todo{Rephrase and add citations to exact methods}
