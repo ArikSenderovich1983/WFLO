@@ -611,11 +611,12 @@ for an arbitrary selection of $\lambda$.
 \label{sec:eval}
 
 In this section, we 
-present an empirical evaluation of our quadratic models based on 
+present an empirical evaluation of the two quadratic models based on 
 standard WFLO instances.
 Our main results are: \begin{itemize}
-	\item QUBO based WFLO using the digital annealer provides state-of-the-art results in seconds.
-	\item Given enough time LS quadratic models are superior to both linear models and to an SS approximations. 
+	\item QUBO based WFLO using the digital annealer is competitive with exact methods. 
+	\item Given sufficient runtime the QCOP model provides superior results compared to state-of-the-art methods.
+	\item The runtime for solving the QUBO model is two orders of magnitude lower than QCOP. 
 \end{itemize}
 We start by outlining the experimental design of our evaluation, followed by a presentation of our main results
 and a discussion of the results together with the limitations of the approach.
@@ -624,7 +625,23 @@ and a discussion of the results together with the limitations of the approach.
 
 
 
-\paragraph{WFLO Instances}
+\paragraph{WFLO Setting and Measurements}
+
+To test and benchmark our models, we used 12 standard benchmark WFLO instances
+from the literature~\cite{MOSETTI1994105,Zhang2014,grady2005placement}. 
+The 12 benchmarks result from varying 2 wind settings (1 and 36 wind directions),
+2 grid sizes ($10\times10$ with cell size $200$ meters and $20\times20$ with cell size $100$ meters),
+and 3 variations for number of turbines ($m \in \{20, 30 or 40\}$).
+The wind regime distribution presented in Figure~\ref{fig:prob_wind} was 
+elicited from~\cite{Zhang2014}.
+Additional parameters that were used to calculate 
+the velocities ($u_{id\infty}, u_{ijd}$) include: turbine height ($60$ meters),
+ground roughness ($0.3$ meters), turbine rotor radius ($20$ meters), and a wind farm of size $2km \times 2km$.
+We have measured solutions using the SS energy expression.
+To to this end, we converted solutions that came from LS based methods into the corresponding SS expression.
+Lastly, the total mean energy is presented in $kW/year$. 
+
+ 
 \begin{figure}[t]
 	\centering
 	\includegraphics[scale = 0.3]{prob_wind_pdf.pdf}
@@ -634,7 +651,19 @@ and a discussion of the results together with the limitations of the approach.
 
 \paragraph{Optimization Benchmarks}
 
-\paragraph{Experimental Setting}
+We compared our two models, namely QCOP and QUBO, against two state of the art exact optimization methods:
+the integer linear programming (ILP-LS) approach from~\cite{donovan2005wind}, and the 
+model that uses a quadratic approximation (QP-SS)~\cite{turner2014new}. The CP approach presented in~\cite{Zhang2014} was
+reported to perform worse than the rest and was left out of the experiments.
+We used state of the art software, namely Gurobi~\cite{gurobi}, to solve QCOP, ILP-SS and QP-SS, and 
+applied both Fujitsu's digital annealer and GUrobi to solve QUBO.
+
+
+\paragraph{Experimental Procedure}
+
+\todo{Explain how we solved WFLO using the various instances}
+
+
 
 \paragraph{Implementation Details}
 
