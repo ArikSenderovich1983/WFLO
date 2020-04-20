@@ -612,20 +612,20 @@ for an arbitrary selection of $\lambda$.
 
 In this section, we 
 present an empirical evaluation of the two quadratic models based on 
-standard WFLO instances.
+12 standard WFLO instances.
 Our main results are: \begin{itemize}
-	\item QUBO based WFLO using the digital annealer is competitive with exact methods. 
-	\item Given sufficient runtime the QCOP model provides superior results compared to state-of-the-art methods.
-	\item The runtime for solving the QUBO model is two orders of magnitude lower than QCOP. 
+	\item QUBO based WFLO using the digital annealer (DA) achieves a similar performance to state-of-the-art exact methods.
+		\item The runtime for solving the QUBO model on the DA is two orders of magnitude lower than QCOP.  
+	\item Given sufficient runtime, solving the QCOP model yields superior results on the larger instances.
 \end{itemize}
-We start by outlining the experimental design of our evaluation, followed by a presentation of our main results
-and a discussion of the results together with the limitations of the approach.
+We start by outlining the experimental design of our evaluation, followed by an overview of our main results,
+and conclude the section with a discussion of the results together with the limitations of our approach.
 
 \subsection{Experimental Design}
 
 
 
-\paragraph{WFLO Setting and Measurements}
+\paragraph{WFLO Instances and Energy Measurement}
 
 To test and benchmark our models, we used 12 standard benchmark WFLO instances
 from the literature~\cite{MOSETTI1994105,Zhang2014,grady2005placement}. 
@@ -638,8 +638,8 @@ Additional parameters that were used to calculate
 the velocities ($u_{id\infty}, u_{ijd}$) include: turbine height ($60$ meters),
 ground roughness ($0.3$ meters), turbine rotor radius ($20$ meters), and a wind farm of size $2km \times 2km$.
 We have measured solutions using the SS energy expression.
-To to this end, we converted solutions that came from LS based methods into the corresponding SS expression.
-Lastly, the total mean energy is presented in $kW/year$. 
+To to this end, we converted solutions that came from LS based methods into the corresponding SS expression; 
+the total mean energy is calculated in $kW/year$. 
 
  
 \begin{figure}[t]
@@ -655,17 +655,23 @@ We compared our two models, namely QCOP and QUBO, against two state of the art e
 the integer linear programming (ILP-LS) approach from~\cite{donovan2005wind}, and the 
 model that uses a quadratic approximation (QP-SS)~\cite{turner2014new}. The CP approach presented in~\cite{Zhang2014} was
 reported to perform worse than the rest and was left out of the experiments.
-We used state of the art software, namely Gurobi~\cite{gurobi}, to solve QCOP, ILP-SS and QP-SS, and 
-applied both Fujitsu's digital annealer and GUrobi to solve QUBO.
+We used state of the art software, namely Gurobi~\cite{gurobi}, to solve QCOP, ILP-SS and QP-SS. 
+We shall refer to the QCOP problem as QP-LS as it is a quadratic program that uses the LS objective.
+In addition, we 
+applied both Fujitsu's digital annealer and Gurobi to solve the QUBO variant of WFLO. We shall refer to the former as DA-LS, and to the latter
+as QUBO-LS.
 
 
 \paragraph{Experimental Procedure}
 
-\todo{Explain how we solved WFLO using the various instances}
+For exact methods (QP-SS, ILP-LS, QP-lS and QUBO-LS),
+we ran Gurobi with a time limit of 3600 seconds. We collected all feasible solutions
+until that point in time. The best solution in terms of energy is the solution that attained the highest objective
+values (SS in QP-SS and LS in the rest of the methods).
+For the digital annealer, we used a single configuration that was found to work best across the different instances \todo{Jason, please insert details about the DA config. here} The DA ran until convergence of the underlying simulated annealing algorithm and the runtime 
+of the procedure was recorded. \todo{@Chris: do we want to share the code that ran the experiments in batches? perhaps it should be separated from the problem construction and the two need to be shared separately} 
 
-
-
-\paragraph{Implementation Details}
+The exact methods were all solved using Gurobi's quadratic programming solver on \todo{Jason, please add machine details here}. Furthermore, QUBO-LS was solved on DA version 1 \todo{Eldan: any additional info that we need to add here?}.
 
 
 \subsection{Main Results}
@@ -677,11 +683,11 @@ applied both Fujitsu's digital annealer and GUrobi to solve QUBO.
 		\toprule
 		Wind Directions  & n  & m  & DA-LS  & QUBO-LS  & QP-LS  & QP-SS  & ILP-LS  \\
 		\toprule
-		\multirow{6}{*}{WR1}  & \multirow{3}{*}{10}       & 20       & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} \\
+		\multirow{6}{*}{WR1}  & \multirow{3}{*}{10}       & 20       & \textbf{11185.41} & \textbf{11185.41}* & \textbf{11185.41}* & \textbf{11185.41}* & \textbf{11185.41}* \\
 		& & 30   & 15740.69 & \textbf{15742.93}  & 15738.45  & 15735.1  & 15739.57     \\
 		& & 40 & \textbf{19265.21} & 18952.97 & \textbf{19265.21}  & \textbf{19265.21} & \textbf{19265.21}                \\
 		\cline{2-8}
-		&\multirow{3}{*}{20}   & 20       & \textbf{11404.8}  & \textbf{11404.8}  & \textbf{11404.8}  & \textbf{11404.8}  & \textbf{11404.8}           \\
+		&\multirow{3}{*}{20}   & 20       & \textbf{11404.8}  & \textbf{11404.8}*  & \textbf{11404.8}*  & \textbf{11404.8}*  & \textbf{11404.8}           \\
 		&&30   & 16570.96 & 16715.19  & \textbf{16758.45}  & 16755.75 & 16695.05                  \\
 		&&40   & 21874.04 & 21643.56  & 21905.5 & \textbf{21977.17} & \textbf{21977.17}        \\
 		\hline
@@ -696,7 +702,7 @@ applied both Fujitsu's digital annealer and GUrobi to solve QUBO.
 	\end{tabular}
 	
 	\vspace{0.5em}
-	\caption{Total Expected Power (kW/year) after 100 seconds as function of benchmark and method \todo{Change to 100 seconds and re-arrange our benchmarks first.} }\label{tab:results1}
+	\caption{Total Expected Power (kW/year) after 100 seconds as function of benchmark and method. * stands for optimal solution. \todo{@Jason: could you please check if my marking of * for optimal solutions is correct? I think that optimality was proven only for $m=20$ and single wind direction, right?} }\label{tab:results1}
 \end{table}
 
 
@@ -714,11 +720,11 @@ applied both Fujitsu's digital annealer and GUrobi to solve QUBO.
 		\toprule
 		Wind Directions  & n  & m  & DA-LS  & QUBO-LS  & QP-LS  & QP-SS  & ILP-LS  \\
 		\toprule
-		\multirow{6}{*}{WR1}  & \multirow{3}{*}{10}       & 20       & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} \\
+		\multirow{6}{*}{WR1}  & \multirow{3}{*}{10}       & 20       & \textbf{11185.41} & \textbf{11185.41}* & \textbf{11185.41}* & \textbf{11185.41}* & \textbf{11185.41}* \\
 		& & 30   & 15740.69 & \textbf{15742.93}  & 15738.45  & 15735.1  & 15739.57     \\
 		& & 40 & \textbf{19265.21} & 18952.97 & \textbf{19265.21}  & \textbf{19265.21} & \textbf{19265.21}                \\
 		\cline{2-8}
-		&\multirow{3}{*}{20}   & 20       & \textbf{11404.8}  & \textbf{11404.8}  & \textbf{11404.8}  & \textbf{11404.8}  & \textbf{11404.8}           \\
+		&\multirow{3}{*}{20}   & 20       & \textbf{11404.8}  & \textbf{11404.8}*  & \textbf{11404.8}*  & \textbf{11404.8}*  & \textbf{11404.8} *          \\
 		&&30   & 16570.96 & 16742.66  & 16758.45  & 16755.75 & \textbf{16770.2 }                 \\
 		&&40   & 21874.04 & 21832.5  & 21963.81 & \textbf{21977.17} & \textbf{21977.17}        \\
 		\hline
@@ -733,7 +739,7 @@ applied both Fujitsu's digital annealer and GUrobi to solve QUBO.
 	\end{tabular}
 	
 \vspace{0.5em}
-\caption{Total Expected Power (kW/year) after 3600 seconds as function of benchmark and method}\label{tab:results2}
+\caption{Total Expected Power (kW/year) after 3600 seconds as function of benchmark and method. * stands for optimal solution.}\label{tab:results2}
 \end{table}
 
 
