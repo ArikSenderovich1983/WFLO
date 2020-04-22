@@ -679,16 +679,13 @@ Then, the SS based energy expression can be written as,
 $$\sum_{i\in \mathcal{N}}\sum_{d \in \mathcal{D}} \frac{1}{3} x_i \Bigg(u_{id,\infty} \Bigg[1-\sqrt{\sum_{j\in \mathcal{U}_{id}}x_j\bigg( 1-\frac{u_{ijd}}{u_{id,\infty}} \bigg) } \Bigg]    \Bigg)^3.$$ 
 
 Next, we tested the performance of our approach as function of solution time. To this end, we 
-compared the average performance of all LS-based methods on all 12 WFLO instances \footnote{The QP-SS method was not considered for performance over time, since it optimizes a different objective function.}. Since energy levels are not directly comparable between the different instances (due to varying number of turbines and wind farm specs) we used the \emph{mean relative error} (MRE) measure.
-
-The MRE is defined with respect to the best solution obtained per instance and can be computed over time. Then, the
-time-varying MRE can be averaged across the different scenarios and the average MRE (aMRE) can be used
-for the desired comparison. We shall demonstrate the construction below.
+compared the average performance of all WFLO methods on all 12 WFLO instances. Since energy levels are not directly comparable between the different instances (due to varying number of turbines and wind farm specs) we used the \emph{mean relative error} (MRE) measure. The MRE is defined with respect to the best solution obtained per instance and can be computed over time. Then, the
+time-varying MRE can be averaged across the 12 scenarios and presented over time. In what follows, we demonstrate the construction of the MRE measure.
 
 Recall that $\mathcal{W}$ is the set of our 12 standard WFLO instances. 
 Moreover, we let $b_w$ be the best energy solution (in terms of SS) obtained for an instance $w \in \mathcal{W}$ 
-across the different LS-based methods. For example, the best solution (within 3600 seconds) for the second instance $w_2$ that aims at placing $30$ turbines on a $10\times10$ grid with a single wind regime is attained by QUBO-LS and the SS energy expression is $15742$ (kW); thus, we set $b_w = 15742$. Then, for every point in time $t \in \{0,\ldots, 3600\}$ (measured in seconds), we can compute the relative error of a given approach per instance $w$. Let $\mathcal{A}$ be the set of solution approaches, $\mathcal{A}= \{QUBO-LS, QP-LS, DA-LS, ILP-LS\}$. Further, denote by $b_{w,t,a}$ denote the best solution attained before time $t$ of approach $a$ for instance $w$. Then, the mean relative error at time $t$ for approach $a$ on instance $w$ is given by \begin{equation}MRE(w,t,a) = \frac{b_{w,t,a}}{b_w}.\end{equation} We can now average over the different instances at time $t$. The average performance of approach $a$ at time $t$, $aMRE(t,a)$ can be computed as, \begin{equation}aMRE(t,a) = \frac{1}{|\mathcal{W}|}\sum_{ w\in\mathcal{W}} MRE(w,t,a).\end{equation}
-We shall present $aMRE(t,a)$ for each of the approaches to demonstrate the speed of convergence of the proposed LS-based methods. \todo{Jason: please check that this is consistent with how you calculated MRE in the experiment.} 
+across the different methods. For example, the best solution (within 3600 seconds) for the second instance $w_2$ that aims at placing $30$ turbines on a $10\times10$ grid with a single wind regime is attained by QUBO-LS and the SS energy expression is $15742$ (kW); thus, we set $b_w = 15742$. Then, for every point in time $t \in \{0,\ldots, 3600\}$ (measured in seconds), we can compute the relative error of a given approach per instance $w$. Let $\mathcal{A}$ be the set of solution approaches, $\mathcal{A}= \{QUBO-LS, QP-LS, DA-LS, ILP-LS, QP-SS\}$. Further, denote by $b_{w,t,a}$ denote the best solution attained before time $t$ of approach $a$ for instance $w$. Then, the mean relative error at time $t$ for approach $a$ on instance $w$ is given by \begin{equation}MRE(w,t,a) = \frac{b_{w,t,a}}{b_w}.\end{equation} We can now average over the different instances at time $t$. The average performance of approach $a$ at time $t$, $MRE(t,a)$ can be computed as, \begin{equation} MRE(t,a) = \frac{1}{|\mathcal{W}|}\sum_{ w\in\mathcal{W}} MRE(w,t,a).\end{equation}
+We shall present $MRE(t,a)$ for each of the approaches to demonstrate the speed of convergence of the proposed LS-based methods. \todo{Jason: please check that this is consistent with how you calculated MRE in the experiment.} 
 
 
 \subsection{Main Results}
@@ -725,7 +722,7 @@ The runtime for DA-LS was always less than $10$ seconds.
 	\end{tabular}
 	
 	\vspace{0.5em}
-	\caption{Total Expected Power (kW) after 100 seconds as function of benchmark and method. * stands for optimal solution. \todo{@Jason: could you please check if my marking of * for optimal solutions is correct? I think that optimality was proven only for $m=20$ and single wind direction, right?} }\label{tab:results1}
+	\caption{Total Expected Power (kW) after 100 seconds as function of benchmark and method. * denotes optimal solution. \todo{@Jason: could you please check if my marking of * for optimal solutions is correct? I think that optimality was proven only for $m=20$ and single wind direction, right?} }\label{tab:results1}
 \end{table}
 
 
@@ -754,7 +751,7 @@ The runtime for DA-LS was always less than $10$ seconds.
 	\end{tabular}
 	
 	\vspace{0.5em}
-	\caption{Total Expected Power (kW) after 3600 seconds as function of benchmark and method. * stands for optimal solution.}\label{tab:results2}
+	\caption{Total Expected Power (kW) after 3600 seconds as function of benchmark and method. * denotes optimal solution.}\label{tab:results2}
 \end{table}
 
 
@@ -763,51 +760,86 @@ comparable results to state-of-the-art exact methods. For the harder instances (
 the three quadratic LS-based approaches (DA-LS, QUBO-LS, and QP-LS) dominate the others by finding the best (or equal) solutions in 11 out of 12 instances. For easier instances, 
 the linear approach (ILP-LS) finds better solutions \todo{@Chris, Jason: do we have a good explanation for this?}. Table~\ref{tab:results2} shows the same type of results as in Table~\ref{tab:results1}, but now after $3600$ seconds. We see that the DA is still competitive with the other approaches (recall, its solution was found after $10$ seconds),
 while QP-LS finds the best solutions in 10 out of the 12 scenarios. For the 6 hard scenarios (12 wind directions), our quadratic solutions
-dominate all 6.
+dominate all 6. \todo{@Chris: I am not sure that the first table contributes anything beyond the second table}
+
+We now turn to present the mean relative error over time per approach, i.e., we are presenting $MRE(a,t)$). Note that lower values indicate better performance.  Figure~\ref{fig:results1} 
+presents the MRE after $50$ seconds of running the solutions focusing runtime performance, while Figure~\ref{fig:results2} corresponds
+to the full run (after $3600$ seconds). The latter provides insights into best performance in terms of energy. The 5 different lines (and their colors) 
+correspond to the 5 WFLO solutions. The horizontal axis represents time in seconds.
 
 
+The results show that on average (across the 12 instances),
+the ILP-LS method starts with poor solutions, yet ends up improving over QP-SS and QUBO-LS (after around 1250 seconds).
 
-
-
-
-
-
-
-We now turn to present the $aMRE(a,t)$ over time: lower values indicate better performance. The different lines 
-correspond to the 5 approaches. The horizontal axis represents time in seconds. Figure~\ref{fig:results1} 
-presents the first $50$ seconds focusing on speed of performance, while Figure~\ref{fig:results2} corresponds
-to the full run ($3600$ seconds).   
+The two methods that are based on advanced software (QP-LS) and hardware (DA-LS) solutions
+outperform the rest both in terms of runtime (best results in short time), and in terms of overall performance.
+Specifically, for most instances, QP-LS gives the best solution at 3600 seconds, while the DA-based approach
+yields competitive solutions after less than 10 seconds. Furthermore, QP-LS converges to the best solution faster than all other exact methods. In fact, it is inferior only to the approximate DA-LS method, which is geared mainly toward runtime. This is an encouraging result, especially due to the pessimistic computational complexity of WFLO.
 
 \begin{figure}[t]%
 	
 	\includegraphics[width=\textwidth]{energy_50.png}  
-	\caption{Mean Relative Energy (w.r.t. best feasible solution) vs. Runtime (first 50 seconds).}%
+	\caption{Mean Relative Energy (w.r.t. best feasible solution) vs. Runtime (after 50 seconds).}%
 	
 	\label{fig:results1}%
 \end{figure}
 
-
-
-\begin{figure}[t]%
+uwo\begin{figure}[t]%
 	
 	\includegraphics[width=\textwidth]{energy_3600.png}   \\%\\
-	\caption{Mean Relative Energy (w.r.t. best feasible solution) vs. Runtime (3600 seconds).}%
+	\caption{Mean Relative Energy (w.r.t. best feasible solution) vs. Runtime (after 3600 seconds).}%
 	
 	\label{fig:results2}%
 \end{figure}
 
 
 
-\subsection{Discussion \& Limitations}
+\subsection{Discussion}
+
+Our result show empirically that the quadratic programming models that we
+introduced in Section~\ref{sec:QUBO4WFLO} (QCOP and QUBO) are useful in two ways.
+First, QCOP and QUBO are the basis for the QP-LS and QUBO-LS methods that couple
+quadratic formulations of WFLO with Gurobi optimizer. This turns out
+to be a powerful method as it gives the best performance after 3600 seconds for most instances (7 out of 12),
+and especially,
+for the hard instances with 36 wind directions. In addition, the runtime performance of QP-LS is second
+only to the digital annealer.  
+Second, the QUBO model can be mounted onto a quantum-inspired optimization hardware (e.g., Fujitsu's digital annealer) demonstrated by the DA-LS approach in our evaluation. DA-LS yields the best results in 7 out of 12 
+instances, shows competitive performance on the other instances, and outperforms all methods in terms of runtime.
+
+ 
+The ability of DA-LS to quickly obtain competitive solutions on large WFLO instances 
+can be employed to solve
+multiple wind farm design problems. This allows the flexibility to tune the various WFLO parameters (including turbine specs, number of turbines, and farm sizes) without incurring a steep computational cost that came
+(so far) with re-solving the problem. In addition, the performance loss due to the use of an approximate method 
+that uses advanced technology is negligible. This balance (instead of trade-off) between
+runtime and total energy, points at the usefulness of the proposed quadratic formulations of WFLO.  \todo{maybe we should say some of these things in the intro and bring citations to the fact that demand for wind farms increases. I found some papers about surge in China and the UK.}
+ 
 
 
-
+  
 \section{Conclusion}
 \label{sec:conclusion}
 
+In this work, we presented a novel quadratic programming framework
+for solving 
+wind farm layout optimization. 
+The framework is based on two models: a constrained model (QCOP) and an unconstrained binary
+model (QUBO). The former can be used to solve WFLO with advanced optimization software,
+while the latter can be mounted onto quantum-inspired dedicated hardware that can quickly (yet approximately) solve WFLO. We used the constrained quadratic formulation to prove 
+that the computational complexity of WFLO is $\mathcal{NP}$-hard, a pessimistic result that 
+was also noticed experimentally in~\cite{Zhang2014}. However,
+our empirical evaluation shows that when advanced exact solvers like Gurobi~\cite{gurobi} are
+coupled with our QCOP and QUBO models they can solve small WFLO instances to optimality in less than 3600 seconds.
+We also show that when an advanced hardware is used with the QUBO representation of WFLO, even large instances can be solved quickly with no significant decrease in the total energy compared to state-of-the-art exact methods.
+This runtime improvement and state-of-the-art performance in terms of the total energy of the resulting solutions makes our proposed quadratic framework useful for designing new wind farms, while multiple input parameters. 
 
-Future work: additional wind farm settings (noise, terrain...). Convert into qubo.
 
+In future work, we aim at extending our quadratic models to include additional 
+WFLO aspects, such as noise, non-flat terrain and multiple objectives. 
+Moreover, we wish to explore real-world wind farm design problems 
+that may be larger and more complex than the 12 standard instances, and solve them 
+using our quadratic programming approach. 
 
 \bibliographystyle{elsarticle-num-names}
 %\bibliographystyle{plainnat}
