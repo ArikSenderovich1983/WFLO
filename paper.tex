@@ -571,12 +571,12 @@ the following quadratic optimization problem (QCOP):
 &s.t.:& \nonumber\\
 &\mbox{       }& \sum_{i \in \mathcal{N}}^{} x_i = m,\label{Cardinality}\\
 &\mbox{       }& x_i + x_j \leq 1,   \forall (i,j) \in \mathcal{E}, \label{Grid}\\
-&\mbox{       }& x_i \in \{0,1\},     \forall i \in \mathcal{N}.
+&\mbox{       }& x_i \in \{0,1\},     \forall i \in \mathcal{N}. \label{Vars}
 \end{eqnarray} Constraints~\ref{Cardinality}~and~\ref{Grid} ensure that exactly $m$ turbines are placed on the grid
 and enforce proximity constraints between the turbines, respectively. 
 
 The QCOP presented as Problem~\ref{QCOP} can be solved using an exact optimization solver, e.g., Gurobi~\cite{gurobi}. 
-Similar, linear formulations have been previously proposed and solved using exaxt solvers~\cite{Zhang2014,donovan2005wind}. \todo{Are these linear formulations ``equivalent'' as you claimed or approximations? If they are mathematically equivalent, why do we think a quadratuc model will be any better computationally?}
+Similar, linear formulations have been previously proposed and solved using exact solvers~\cite{Zhang2014,donovan2005wind}. \todo{Are these linear formulations ``equivalent'' as you claimed or approximations? If they are mathematically equivalent, why do we think a quadratic model will be any better computationally?}
 
 
 
@@ -603,22 +603,26 @@ must be large enough to ensure that the solutions are indeed feasible wrt the pr
 \subsection{The Computational Complexity of WFLO}
 
 %(linear) problems were formulated and solved using  exact solvers.
-Despite the existence of
+Despite the existence of mathematical models for WFLO in the literature~\cite{Zhang2014,donovan2005wind} that are expressive enough to represent $\mathcal{NP}$-hard problems, we are unaware of an explicit treatment of the computational complexity of WFLO.
+%However, these solvers should only be used if the problem is computationally hard.
+%We are unaware of an existing complexity result for the LS variation of WFLO (our QCOP).
+We therefore provide a straightforward proof of the computational complexity of the QCOP defined above. 
 
-However, these solvers should only be used if the problem is computationally hard.
-We are unaware of an existing complexity result for the LS variation of WFLO (our QCOP). In what follows, we provide
-a theorem that proves the computational complexity of the LS-based WFLO QCOP. 
 \begin{mythm}
-	The computational complexity of QCOP is $\mathcal{NP}$-hard. 
+	The computational complexity of the QCOP defined in \eqref{QCOP}-\eqref{Vars} is $\mathcal{NP}$-hard. 
 \end{mythm}
 \begin{myproof}
-We prove by showing that a special case of the WFLO problem (Eq.~(\ref{QCOP}) is
+We prove by showing that a special case of the QCOP \eqref{QCOP}-\eqref{Vars}  is
 $\mathcal{NP}$-hard. Suppose that $\mathcal{E} = \emptyset$, i.e., the grid is coarse grained enough to ignore proximity constraints. Then, the constraints in Eq.~(\ref{Grid})
-are dropped and we get the heaviest k-subgraph problem (HSP), which was proven to be $\mathcal{NP}$-hard in~\cite{billionnet2005different}.
+are dropped and we get the heaviest k-subgraph problem, which was proven to be $\mathcal{NP}$-hard~\cite{billionnet2005different}.
 Since a special case of WFLO is  $\mathcal{NP}$-hard it implies that WFLO is at least $\mathcal{NP}$-hard. On the other hand,
 WFLO is formulated using integer programming (Problem \ref{QCOP}), which means that it is at most $\mathcal{NP}$-hard. Therefore, we get that WFLO is $\mathcal{NP}$-hard.
-	\end{myproof} To overcome the challenge associated with the computational hardness of WFLO,
-we reformulate the QCOP into a QUBO problem, which allows us to solve WFLO using specialized optimization hardware.  
+\end{myproof}
+
+\todo{The proof is a bit awkward as it goes back-and-forth between QCOP and WFLO. Technically, the problem as defined in \eqref{QCOP}-\eqref{Vars} but, given the different (not mathematically equivalent) models of WFLO, this is different from claiming that WFLO is NPC. On the other hand, we so not want to prove that QCOP in general is NPC. So we need to get the language precise.}
+
+%To overcome the challenge associated with the computational hardness of WFLO,
+%we reformulate the QCOP into a QUBO problem, which allows us to solve WFLO using specialized optimization hardware.  
 
 \subsection{Solving QCOP and QUBO using Advanced Optimization Methods}
 
