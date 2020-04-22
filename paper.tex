@@ -389,11 +389,11 @@ optimization methodologies that guarantee that the returned solution is optimal 
 to the specified objective or is provably within a given bound of optimal.
 %(i.e., maximize total expected power). 
 The exact methods were shown to yield higher energy values, yet they often suffered from 
-high computational cost and long runtimes. In practice, it is often desireable to strike a balance between optimality and computational requirements: fast sub-optimal solutions are useful when solving the wind farm design problem numerous times (e.g., when considering different numbers of turbines and various allowed locations), while optimal solutions yield the best possible placements (admitted by the mathematical model) when longer run-times are available.
+high computational cost and long run-times. In practice, it is often desirable to strike a balance between optimality and computational requirements: fast sub-optimal solutions are useful when solving the wind farm design problem numerous times (e.g., when considering different numbers of turbines and various allowed locations), while optimal solutions yield the best possible placements (admitted by the mathematical model) when longer run-times are available.
 
 In what follows, we provide a literature review that covers both exact and approximate methods for WFLO. We subsequently relate our 
 work to both approaches via our proposed quadratic optimization framework for WFLO.\footnote{We review 
-only literature that considers the same wind farm model as the one presented at the beginning of this section. For a broader literature review see~\cite{Zhang2014}.} 
+only literature that considers the same wind farm model as the one presented at the beginning of this section. For a broader literature review see Zhang et al.\ \cite{Zhang2014}.} 
  
 \paragraph{Exact Optimization Methods} 
 The WFLO problem can be solved  
@@ -401,36 +401,35 @@ to optimality, using
 techniques from operations research (e.g., mixed-integer linear programming (MILP), quadratic programming (QP), and constraint programming (CP))~\cite{Zhang2014,turner2014new,donovan2005wind}.
 These methods are \emph{exact}, in the sense that they guarantee that the returned solution is indeed
 the best solution one can obtain for the given problem. Donovan was the first to solve WFLO using a
-MILP approach based on the LS energy expression~\cite{donovan2005wind}. In~\cite{turner2014new}, the authors
-approximated the SS energy expression using a quadratic and a linear approximation. The two resulting methods performed well
-compared to existing approximate and earlier exact solutions.
+MILP approach based on the LS energy expression~\cite{donovan2005wind}. Turner et al.\ \cite{turner2014new} approximated the SS energy expression using a quadratic and a linear approximation. The two resulting methods performed well
+compared to existing approximate and exact techniques.
 \todo{Add the NLM approach - explain how it becomes a different problem \cite{ulku2019new}} 
 
 The most recent attempt to solve the wind farm variation that we presented 
-in this section is given in~\cite{Zhang2014}. The authors compared
+in this section is given in Zhang et al.\ \cite{Zhang2014}. The authors compared
 previously existing MILP and QP models to their approach for directly optimizing the SS objective. To this end, they used constraint programming (CP), which 
 is an optimization technique that does not make assumptions on the functional form of the objective.
 However, applying CP turned out to be computationally intractable for the larger standard WFLO benchmarks. 
 
-In our work, we build upon the approach in~\cite{donovan2005wind}, yet instead of using a linear version of the LS objective, we 
-model WFLO using a quadratic representation. The difference between our approach and the quadratic model
-proposed in~\cite{turner2014new} is that our model is not an approximation of the SS objective, 
+In our work, we build upon the approach in Donovan~\cite{donovan2005wind}, yet instead of using a linear version of the LS objective, we 
+model WFLO using a quadratic representation. %The difference between our approach and the quadratic model
+%proposed in
+Unlike Turner et al.\ \cite{turner2014new} our model is not an approximation of the SS objective, 
 but an exact representation of the LS objective.
 
-As we mentioned before, the main advantage of exact techniques
-is that they provide guarantees on solution quality. However, their disadvantage is
-that they may take a very long time to execute before finding an optimal solution. 
+While the main advantage of exact techniques
+is that they provide guarantees on solution quality, they may take a very long time to  find an optimal solution. 
 In fact, Section~\ref{sec:QUBO4WFLO} shows that WFLO is computationally hard, a result
 that we have not yet encountered in the WFLO literature. Therefore,
 when one considers solving multiple wind farm design problems, a fast solution is of essence,
 and hence one may turn to approximate WFLO.
 
 \paragraph{Approximate Methods} In contrast to exact methods, approximation algorithms often provide   
-quick and sufficiently accurate solutions. Several works solved 
+quick and, hopefully, sufficiently accurate solutions. Several works solved 
 WFLO using evolutionary (genetic) approaches~\cite{MOSETTI1994105,gonzalez2010optimization,grady2005placement}. 
 These methods use two principles (cross-over and mutation)
 to change existing solutions and improve them over time. Evolutionary methods do not guarantee termination 
-(i.e., they may run forever without achieving a quality criteria), and when they do terminate (in practical cases) they do
+(i.e., they may run forever without achieving a quality criteria), and even when they do terminate (in practical cases) they do
 not guarantee optimal solutions. Hence, one must often
 introduce non-quality related stopping criteria, 
 thus compromising on the quality of the obtained solution~\cite{davis1991handbook}.
@@ -444,23 +443,24 @@ yet it circumvents the termination and feasibility checking issues of the evolut
 methods. The local search approach attempts to apply either move, remove or add actions given an incumbent 
 feasible solution. When a turbine is moved, removed or added, the new solution is evaluated. The procedure terminates 
 when a stopping criteria is reached.
-The main limitation of~\cite{ozturk2004heuristic} is that it cannot perform an action 
-that leads to an infeasible state. Therefore, it quickly converges to a sub-optimal solution (local optimum) 
-that can potentially be far
-from the globally optimal solution. This problem was experimentally demonstrated in~\cite{rivas2009solving}. 
+The main limitation of this approach 
+%~\cite{ozturk2004heuristic}
+is that it cannot perform an action 
+that leads to an infeasible state and, therefore, quickly converges to a sub-optimal solution (local optimum) 
+that can potentially be much lower quality than the globally optimal solution~\cite{rivas2009solving}. 
 
-To overcome this limitation, the authors of~\cite{rivas2009solving} used simulated annealing (SA), 
+To overcome this limitation, Rivas et al.\ \cite{rivas2009solving} used simulated annealing (SA), 
 a neighborhood search method that allows visits to infeasible solutions. 
 This creates a well-connected solution space that leads the algorithm to escape 
-local optima. The SA method was shown to be superior to~\cite{ozturk2004heuristic} 
-and to the genetic method proposed in~\cite{grady2005placement}. A drawback of the SA approach 
+local optima. The SA method was shown to be superior to Ozturk \& Norman~\cite{ozturk2004heuristic} 
+and to the genetic method proposed in Grady et al.\ \cite{grady2005placement}. A drawback of the SA approach 
 is its ad-hoc nature. The various components of the algorithm
- must be tailored and geared towards WFLO. This means that small adjustments of the WFLO setting
- (e.g., adding noise considerations), would require major changes to the SA solution. 
-Additional methods and experimental comparisons between various approximate algorithms are available in~\cite{samorani2013wind}.
+ must be tailored to the problem at hand and, as a result, small adjustments of the WFLO setting
+ (e.g., adding noise considerations), would require major changes to the SA implementation. 
+Additional methods and experimental comparisons between various approximate algorithms are available in Samorani~\cite{samorani2013wind}.
 
-In our work, we also use an SA approach (similarly to~\cite{rivas2009solving}). However,
-our methodology is generic since it is based on a model and
+In our work, we also use an SA approach (similarly to Rivas et al.\ \cite{rivas2009solving}). However,
+our methodology is generic since it is based on a declarative problem model and
 on the ability of specialized hardware to solve (non-ad-hoc) quadratic problems.
 
 %\paragraph{Quadratic Programming as a Unified Framework for Exact and Approximate WFLO}
