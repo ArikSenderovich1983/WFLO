@@ -148,7 +148,7 @@
 \begin{abstract} 
 %Wind farms play an increasingly important
 %role as a source of renewable energy and 
-  A key aspect of the design of a wind farm is the wind farm layout optimization (WFLO) problem: given a wind farm site, decide the location of individual wind turbines to maximize energy production subject to proximity restrictions and wake-based interference among turbines. Given the pairwise wake interactions, it is natural
+  A key aspect of the design of a wind farm is the wind farm layout optimization (WFLO) problem: given a wind farm site and a model of the wind patterns, decide the location of individual wind turbines to maximize energy production subject to proximity restrictions and wake-based interference among turbines. Given the pairwise wake interactions, it is natural
 %While a number of heuristic and exact techniques have been proposed to solve WFLO, it is common
 to model the energy objective as a quadratic function as, indeed, has been done in some existing optimization models. Recent advances in both optimization hardware and software have targeted quadratic constraints: commercial mixed integer linear solvers have been extended to address some quadratic problems and nascent specialized hardware, including quantum computing systems, have focused on solving quadratic unconstrained binary optimization (QUBO) problems. 
 %It is a key problem 
@@ -206,12 +206,12 @@ constraints and objective functions. However, exact optimization
 approaches that have been proposed for the alternative WFLO formulation~\cite{Zhang2014,kuo2016wind,donovan2005wind,fagerfjall2010optimizing,archer2011wind,sorkhabi2018constrained}
 represent the quadratic relations using approximate linear models,
 %that approximate wake dependencies,
-as, until recent years, solving quadratic programming problems
-was computationally challenging compared to linear models.
+as solving quadratic programming problems
+is computationally challenging compared to linear models.
 
 In this work, we introduce two novel quadratic WFLO models. The first
 model represents WFLO as a quadratic constrained optimization
-problem (QCOP).  The QCOP can be solved quickly using state-of-the-art mathematical solvers
+problem (QCOP).  The QCOP can be solved using state-of-the-art mathematical solvers
 that have been recently extended for such problems, e.g., Gurobi~\cite{gurobi}.  Our
 second model is a quadratic unconstrained binary optimization
 (QUBO) representation of the WFLO problem.  Such a formulation enables the use of
@@ -238,11 +238,12 @@ and show that solving quadratic WFLO models
 using Gurobi and the DA
 achieves state-of-the-art performance.
 %, often outperforming existing solutions when provided sufficient run-time.
-Furthermore, we observe that the DA 
-often provides solutions of similar quality two orders of magnitude faster
-than software-based approaches. The ability to quickly obtain competitive solutions on large WFLO instances 
-can be employed to solve
-multiple wind farm design problems. 
+Furthermore, we observe that the DA often provides solutions of
+similar quality to software-based approaches but with two orders of
+magnitude lower run-time.
+%The ability to quickly obtain competitive
+%solutions on large WFLO instances can be employed to solve multiple
+%wind farm design problems.
 
 The remainder of this paper is structured as follows. Section~\ref{sec:related} presents our wind farm model and a literature review of exact and approximate
 optimization solutions to the layout problem. The main contribution, namely the two quadratic models, is introduced in Section~\ref{sec:QUBO4WFLO} and Section~\ref{sec:eval} demonstrates the value of our approach via a thorough empirical evaluation.
