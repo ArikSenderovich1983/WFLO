@@ -508,7 +508,7 @@ A benchmark study comparing state-of-the-art exact approaches \cite{Zhang2014} t
 approximate methods and found that the two perform in a comparable fashion, without large differences between
 the attained energy~\cite{yang2019simulated}. Exact methods tend to perform slightly better
 in smaller WFLO benchmarks, while simulated annealing methods dominated for larger standard WFLO benchmarks. 
-These results lead to the conclusion that both types of methods (exact and approximate) should be considered and, therefore, we introduce a unified paradigm, namely quadratic programming, that enables
+These results lead to the conclusion that both types of methods (exact and approximate) should be considered. Therefore, we introduce a unified paradigm, namely quadratic programming, that enables
 both exact and approximate solutions to WFLO. Further, formulating WFLO using quadratic programming enables us to employ 
 recent advanced exact software solutions (e.g., Gurobi optimizer) and approximate hardware developments 
 (e.g., Fujitsu's Digital Annealer).
@@ -551,7 +551,7 @@ based on problem specifications.
 Let $u_{id}$ and $u_{id\infty}$ 
 be the wind speeds at turbine location $i \in \mathcal{N}$ for wind regime $d \in \mathcal{D}$
 with and without interference from other turbines due to wake effects, respectively. 
-Note that here we refer to $i$ as a potential turbine location and not the $i$th turbine as we did in Section~\ref{sec:related}.
+Note that here we refer to $i$ as a potential turbine location and not the $i$th turbine as we did in Section~\ref{sec:related}.\todo{JCB: This is an unnecessary change. Go back and reformulate Section~\ref{sec:related} to refer to the potential position $i$ rather than turbine $i$ so that we do not have this inconsistency.}
 Further, we denote by $\mathcal{U}_{id} \subseteq \mathcal{N}$ 
 the set of upstream 
 turbine locations for wind regime $d$
@@ -586,7 +586,9 @@ and enforce proximity constraints between the turbines, respectively. We shall r
 formulation of WFLO as WFL-QCOP. 
 
 WFL-QCOP can be solved using an exact optimization solver, e.g., Gurobi~\cite{gurobi}. 
-Similar, linear formulations have been previously proposed and solved using exact solvers~\cite{Zhang2014,donovan2005wind}. \todo{Are these linear formulations ``equivalent'' as you claimed or approximations? If they are mathematically equivalent, why do we think a quadratic model will be any better computationally? Arik: The two formulations are equivalent to WFL-QCOP. However, we compare against the ILP model experimentally and it does worse than WFL-QCOP. Hopefully, Jason's part in Section 3.5.1. based on Wen-Yang's thesis will explain why it does better. Originally, I used the quadratic formulation because it seemed more natural. Semantically, the linear model and the quadratic model are the equivalent imho.}
+Similar, linear formulations have been previously proposed and solved using exact solvers~\cite{Zhang2014,donovan2005wind}.
+\todo{JCB: We need to formally present the ILP model in the experiment section. We can then discuss the fact that the model is identical - because the linearization gives and exact representation.}
+%\todo{Are these linear formulations ``equivalent'' as you claimed or approximations? If they are mathematically equivalent, why do we think a quadratic model will be any better computationally? Arik: The two formulations are equivalent to WFL-QCOP. However, we compare against the ILP model experimentally and it does worse than WFL-QCOP. Hopefully, Jason's part in Section 3.5.1. based on Wen-Yang's thesis will explain why it does better. Originally, I used the quadratic formulation because it seemed more natural. Semantically, the linear model and the quadratic model are the equivalent imho.}
 
 
 
