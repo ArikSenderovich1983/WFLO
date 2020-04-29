@@ -608,7 +608,7 @@ must be large enough to ensure that the solutions are indeed feasible wrt the pr
 %for an arbitrary selection of $\lambda$.   
 
 \subsection{The Computational Complexity of WFL-QCOP}
-
+\label{sec:computational}
 %(linear) problems were formulated and solved using  exact solvers.
 Despite the existence of mathematical models for WFLO in the literature~\cite{Zhang2014,donovan2005wind} that are expressive enough to represent $\mathcal{NP}$-hard problems, we are unaware of an explicit treatment of the computational complexity of WFLO.
 %However, these solvers should only be used if the problem is computationally hard.
@@ -634,7 +634,9 @@ WFL-QCOP is formulated using integer programming (Problem \ref{QCOP}), which mea
 \subsection{Solving QCOP and QUBO using Advanced Optimization Methods}
 
 \subsubsection{QCOP solving methods}
-WFLO is a type of strictly convex integer quadratically constrained optimization problem (IQCOP), which is known to be NP-hard \cite{van1981another}. The common exact methods for solving
+WFL-QCOP is a type of strictly convex integer 
+quadratically constrained optimization problem (IQCOP), which is notorious for its computational complexity~\cite{van1981another}. In fact,
+we proved in Section~\ref{sec:computational} that WFL-QCOP is $\mathcal{NP}$-hard. The common exact methods for solving
 IQCOPs are tree search \cite{land2010automatic} type algorithms with a variety of techniques to prune sub-trees that definitely do not contain the optimal solution.
 
 In operations research, the generic exact approach for solving IQCOPs are the branch-and-cut based mixed integer programming (MIP) solvers \cite{bonami2008algorithmic}. By solving a relaxed problem to bound the objective value at each node and strengthening the relaxed problem with cutting planes to restrict the feasible region further, MIP solvers has been proved effective for attacking IQCOPs \cite{junger200950}.
@@ -647,7 +649,7 @@ In the community of communications, IQCOPs are commonly solved via discrete elli
 
 
 
-\todo{@Arik and Chris: please correct Jason's writing errors}
+\todo{@Chris and Jason: I still feel that we need to say how Gurobi do it (or at least how we think Gurobi does that)}
 
 \subsubsection{Specialized Hardware for QUBO}
 
@@ -771,7 +773,7 @@ The runtime for DA-LS was always less than $10$ seconds.
 	\end{tabular}
 	
 	\vspace{0.5em}
-	\caption{Total Expected Power (kW) after 100 seconds as function of benchmark and method. \todo{@Arik: could you please why we do not mention any optimality here?} }\label{tab:results1}
+	\caption{Total Expected Power (kW) after 100 seconds as function of benchmark and method.}\label{tab:results1}
 \end{table}
 
 
