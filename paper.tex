@@ -266,7 +266,7 @@ differences with our approach.
 \subsection{The Wind Farm Model}
 
 %\paragraph{Wind Farm as a Grid}
-We consider a square-shaped wind farm that we model as an $n\times n$
+We consider a square wind farm that we model as an $n\times n$
 grid with $n$ being the number of cells on each axis.  The cells have
 an area of $c^2$ (in square meters), i.e., if $c=100$ meters and
 $n=20$, the farm area will be $2km\times 2km$.  We
@@ -284,7 +284,7 @@ abstract wind farm model. Our model can be extended, in the
 future, to include additional problem characteristics.
  
 We assume that the number of identical turbines to be placed is known 
-in advance and denote the number of turbines by $m$. To place these $m$ turbines, 
+in advance and denoted by $m$. To place these $m$ turbines, 
 we must consider two types of interference effects, namely \emph{proximity constraints} and \emph{wakes}.
 In what follows, we explain the two effects using a toy example of placing a single turbine on an 
 $8\times8$ grid (see Figure~\ref{fig:field_model}).
@@ -361,7 +361,7 @@ the sum-of-squares (SS) expected power of a wind farm with $m$ turbines:
 \end{equation}
 
   Eq. (\ref{eq:ess}) is considered the most accurate analytical total power expression that accounts for multiple wakes~\cite{jensen1983note}. 
-  However, the expression is challenging to exact mathematical optimization techniques due to its complexity (i.e., the cube of a square root).
+  However, the expression is challenging for exact mathematical optimization techniques due to its complexity (i.e., the cube of a square root).
   %since it is a squared root function of a cubic expression. 
   %Hence, a simplified representation for the total expected energy that considers wakes is required. 
 
@@ -373,8 +373,8 @@ E_{LS} = \sum_{i=1}^m \sum_{d\in\mathcal{D}} \Bigg(\frac{1}{3}u_{id\infty}^3 -\s
 \end{equation}
 
 Note that $E_{LS}$ has the same parameters as $E_{SS}$ but differs in their relationship.
-The LS model is less accurate compared to SS~\cite{Zhang2014}, yet as we will show in Section~\ref{sec:QUBO4WFLO} it 
-naturally results in a quadratic objective function in our WFLO formulations. Such functions have been the subject of recent research advances~\cite{ku2017hybrid,bian2010ising}, motivating the contributions here.
+The LS model is less accurate compared to SS~\cite{Zhang2014}, yet as we will show in Section~\ref{sec:QUBO4WFLO}, it 
+ results in a quadratic objective function in our WFLO formulations. Such functions have been the subject of recent research advances~\cite{ku2017hybrid,bian2010ising}, motivating the contributions here.
 %, which is a desired property from an optimization standpoint. \todo{[JCB: A bit strange to claim that a quadratic model is ``natural'' in the abstract but then argue that the model we adopt is an approximation but it is good because it is quadratic. Sounds like it is not natural and we choose it due to its optimization properties. Arik: I changed the arguments - please see the abstract and the beginning of the introduction.]}
  
 
@@ -407,22 +407,23 @@ These methods are \emph{exact}, in the sense that they guarantee that the return
 the best solution one can obtain for the given problem. Donovan was the first to solve WFLO using a
 MILP approach based on the LS energy expression~\cite{donovan2005wind}. Turner et al.\ \cite{turner2014new} approximated the SS energy expression using a quadratic and a linear approximation. The two resulting methods performed well when
 compared to existing approximate and exact techniques.
-Another non-linear optimization approach was proposed in Ulku and Alabas-Uslu\ \cite{ulku2019new}.
-Ulku and Alabas-Uslu\ \cite{ulku2019new}, replaced integer placement variables with continuous variables between $0$ and $1$,
+Another non-linear optimization approach \cite{ulku2019new}, relaxed the binary placement variables to continuous values in $[0,1]$, 
 and approximated the constraints such that the resulting variables yield an integer placement.
-Their approach provides yet another approximation to the WFLO problem considered in~\cite{turner2014new}.
+Their approach provides another approximation to the WFLO problem considered by Turner et al.\ \cite{turner2014new}.
 
-The most recent attempt to solve the wind farm variation that we presented 
-in this section is given in Zhang et al.\ \cite{Zhang2014}. The authors compared
-previously existing MILP and QP models to their approach for directly optimizing the SS objective. To this end, they used constraint programming (CP), which 
-is an optimization technique that does not make assumptions on the functional form of the objective.
-However, applying CP turned out to be computationally intractable for the larger standard WFLO benchmarks. 
+Zhang et al.\ \cite{Zhang2014} developed a constraint programming (CP) approach to the problem variation presented above. CP is an optimization technique that has grown from the AI literature that does not make the assumptions on the functional form of the constraints or objective \cite{rossi2006handbook}. The authors compared existing MILP and QP models to their approach for directly optimizing the SS objective and showed that, while promising for smaller problems, applying CP turned out to be computationally intractable for the larger standard WFLO benchmarks. 
+
+%% The most recent attempt to solve the wind farm variation that we presented 
+%% in this section is given in Zhang et al.\ \cite{Zhang2014}. The authors compared
+%% previously existing MILP and QP models to their approach for directly optimizing the SS objective. To this end, they used constraint programming (CP), which 
+%% is an optimization technique that does not make assumptions on the functional form of the objective.
+%% However, applying CP turned out to be computationally intractable for the larger standard WFLO benchmarks. 
 
 In our work, we build upon the approach in Donovan~\cite{donovan2005wind}, yet instead of using a linear version of the LS objective, we 
 model WFLO using a quadratic representation. %The difference between our approach and the quadratic model
 %proposed in
-Unlike Turner et al.\ \cite{turner2014new} nor Ulku and Alabas-Uslu\ \cite{ulku2019new}, our model is not an approximation of the SS objective, 
-but an exact representation of the LS objective.
+Unlike Turner et al.\ \cite{turner2014new} and Ulku and Alabas-Uslu\ \cite{ulku2019new}, our model is not an approximation of the SS objective, 
+but an rather an exact representation of the LS objective. 
 
 While the main advantage of exact techniques
 is that they provide guarantees on solution quality, they may take a very long time to  find an optimal solution. 
