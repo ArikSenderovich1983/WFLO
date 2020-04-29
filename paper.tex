@@ -352,7 +352,7 @@ u_{id} = u_{id\infty} \Bigg[1 - \sqrt{\sum_{j\in\mathcal{U}_{id}} \bigg( 1-\frac
 \end{equation} with $u_{id\infty}$ being the free wind speed (the second component of regime $d$), $\mathcal{U}_{id}$ corresponding to the set of turbines  that are upstream to $i$ 
 under wind regime $d$, and $u_{ijd}$ being the wake-reduced speed at $i$ due to upstream turbine $j$. 
 The reduced speed, $u_{ijd}$, is computed using the distance $x$ between the two turbines ($i,j$)  and turbine and terrain specifications that yield the cone opening radius, $r$. The set of upstream turbines, $\mathcal{U}_{id}$ is computed  
-by rotating the grid w.r.t.\ to the current wind regime $d \in \mathcal{D}$ and identifying the turbines, $j$, located upstream of turbine $i$ given $d$. The expression in Eq. (\ref{eq:ss}) is referred to as the \emph{sum-of-squares} (SS) model for 
+by rotating the grid wrt to the current wind regime $d \in \mathcal{D}$ and identifying the turbines, $j$, located upstream of turbine $i$ given $d$. The expression in Eq. (\ref{eq:ss}) is referred to as the \emph{sum-of-squares} (SS) model for 
 the total expected power in presence of wakes~\cite{Zhang2014}.  We can now write 
 the sum-of-squares (SS) expected power of a wind farm with $m$ turbines:
 %~(\cite{Zhang2014}):
@@ -551,7 +551,7 @@ based on problem specifications.
 Let $u_{id}$ and $u_{id\infty}$ 
 be the wind speeds at turbine location $i \in \mathcal{N}$ for wind regime $d \in \mathcal{D}$
 with and without interference from other turbines due to wake effects, respectively. 
-Note that here we refer to $i$ as a potential turbine location and not the $i$th turbine as we did in Section~\ref{sec:related}.\todo{JCB: This is an unnecessary change. Go back and reformulate Section~\ref{sec:related} to refer to the potential position $i$ rather than turbine $i$ so that we do not have this inconsistency.}
+Note that here we refer to $i$ as a potential turbine location and not the $i$th turbine as we did in Section~\ref{sec:related}.
 Further, we denote by $\mathcal{U}_{id} \subseteq \mathcal{N}$ 
 the set of upstream 
 turbine locations for wind regime $d$
@@ -587,14 +587,14 @@ formulation of WFLO as WFL-QCOP.
 
 WFL-QCOP can be solved using an exact optimization solver, e.g., Gurobi~\cite{gurobi}. 
 Similar, linear formulations have been previously proposed and solved using exact solvers~\cite{Zhang2014,donovan2005wind}.
-\todo{JCB: We need to formally present the ILP model in the experiment section. We can then discuss the fact that the model is identical - because the linearization gives and exact representation.}
+\todo{JCB: We need to formally present the ILP model in the experiment section. We can then discuss the fact that the model is identical - because the linearization gives and exact representation. Should put a forward reference to that model here.}
 %\todo{Are these linear formulations ``equivalent'' as you claimed or approximations? If they are mathematically equivalent, why do we think a quadratic model will be any better computationally? Arik: The two formulations are equivalent to WFL-QCOP. However, we compare against the ILP model experimentally and it does worse than WFL-QCOP. Hopefully, Jason's part in Section 3.5.1. based on Wen-Yang's thesis will explain why it does better. Originally, I used the quadratic formulation because it seemed more natural. Semantically, the linear model and the quadratic model are the equivalent imho.}
 
 
 
 \subsection{WFLO as a Quadratic Unconstrained Binary Optimization Problem}
 
-Quadratic unconstrained binary optimization problems, as their name implies, do not allow the direct representation of hard constraints. Instead, 
+Quadratic unconstrained binary optimization problems (QUBOs), as their name implies, do not allow the direct representation of hard constraints. Instead, 
 %they only 
 %have an objective function that 
 %one can to maximize (or minimize) and
@@ -605,7 +605,7 @@ Let $\lambda = (\lambda_1,\lambda_2)$
 be a vector of constraint parameters with $\lambda_i >0$. The equivalent QUBO formulation of the QCOP in Eq. (\ref{QCOP}) is given by,
 \begin{equation}\max_{x}^{} f(x) - \lambda_1 (\sum_{i \in \mathcal{N}}^{} x_i -m) ^2 - \lambda_2 \sum_{(i,j) \in \mathcal{E}}^{} x_i x_j , \label{QUBO}\end{equation}
 with the term $ \lambda_1 (\sum_{i \in \mathcal{N}}^{} x_i -m) ^2$ 
-penalizing solutions that violate the exactly $m$ turbines constrain and the term $\lambda_2 \sum_{(i,j) \in \mathcal{E}}^{} x_i x_j$ penalizing
+penalizing solutions that violate the exactly $m$ turbines constraint and the term $\lambda_2 \sum_{(i,j) \in \mathcal{E}}^{} x_i x_j$ penalizing
 solutions that place turbines too close together. The two penalty terms $\lambda_1$ and $\lambda_2$ 
 must be large enough to ensure that the solutions are indeed feasible wrt the problem constraints. We shall refer to the QUBO representation of WFLO as WFL-QUBO.
 %These types of constraints
@@ -631,7 +631,7 @@ Since a special case of WFL-QCOP is  $\mathcal{NP}$-hard it implies that WFL-QCO
 WFL-QCOP is formulated using integer programming (Problem \ref{QCOP}), which means that it is at most $\mathcal{NP}$-hard. Therefore, we get that WFL-QCOP is $\mathcal{NP}$-hard.
 \end{myproof}
 
-\todo{The proof is a bit awkward as it goes back-and-forth between QCOP and WFLO. Technically, the problem as defined in \eqref{QCOP}-\eqref{Vars} but, given the different (not mathematically equivalent) models of WFLO, this is different from claiming that WFLO is NPC. On the other hand, we so not want to prove that QCOP in general is NPC. So we need to get the language precise. Arik: I fixed it by referring to the problem as WFL-QCOP (and WFL-QUBO for the other one.)}
+%\todo{The proof is a bit awkward as it goes back-and-forth between QCOP and WFLO. Technically, the problem as defined in \eqref{QCOP}-\eqref{Vars} but, given the different (not mathematically equivalent) models of WFLO, this is different from claiming that WFLO is NPC. On the other hand, we so not want to prove that QCOP in general is NPC. So we need to get the language precise. Arik: I fixed it by referring to the problem as WFL-QCOP (and WFL-QUBO for the other one.)}
 
 %To overcome the challenge associated with the computational hardness of WFLO,
 %we reformulate the QCOP into a QUBO problem, which allows us to solve WFLO using specialized optimization hardware.  
@@ -639,22 +639,25 @@ WFL-QCOP is formulated using integer programming (Problem \ref{QCOP}), which mea
 \subsection{Solving QCOP and QUBO using Advanced Optimization Methods}
 
 \subsubsection{QCOP solving methods}
-WFL-QCOP is a type of strictly convex integer 
-quadratically constrained optimization problem (IQCOP), which is notorious for its computational complexity~\cite{van1981another}. In fact,
-we proved in Section~\ref{sec:computational} that WFL-QCOP is $\mathcal{NP}$-hard. The common exact methods for solving
-IQCOPs are tree search \cite{land2010automatic} type algorithms with a variety of techniques to prune sub-trees that definitely do not contain the optimal solution.
 
-In operations research, the generic exact approach for solving IQCOPs are the branch-and-cut based mixed integer programming (MIP) solvers \cite{bonami2008algorithmic}. By solving a relaxed problem to bound the objective value at each node and strengthening the relaxed problem with cutting planes to restrict the feasible region further, MIP solvers has been proved effective for attacking IQCOPs \cite{junger200950}.
+WFL-QCOP is a strictly convex integer 
+quadratically constrained optimization problem (IQCOP), which is notorious for its computational complexity~\cite{van1981another}.
+%In fact, we proved in Section~\ref{sec:computational} that WFL-QCOP is $\mathcal{NP}$-hard.
+The common exact methods for solving
+IQCOPs are tree search \cite{land2010automatic} algorithms with a variety of sophisticated techniques to limit the search necessary to find and prove optimality.  In operations research, the generic exact approach for solving IQCOPs is the branch-and-cut based mixed integer programming (MIP) \cite{bonami2008algorithmic}. A MIP solver, such as the one we use (Gurobi), uses a linear or quadratic continuous relaxation to efficiently compute a bound on the objective function. This relaxation is used to generate cuts, implied constraints that tighten the relaxation, to identify sub-trees that can be discarded without search because they are guaranteed not to contain a solution better than the current incumbent, and to drive the heuristic branching that systematically searches for a solution. Typically, this process of cut generation, reasoning about sub-trees, and branching is performed at each node in the search tree.
 
-Constraint programming (CP) \cite{rossi2006handbook} is another tree search framework that can be applied to solve IQCOPs. At each node in the search tree, inference algorithms that are often encapsulated in the global constraints \cite{katriel20066}, conduct domain filtering on each constraint. Domain filtering removes possible values from variable domains by proving that a value cannot satisfy the constraint and hence cannot appear in a global solution, hence pruning sub-trees with variable assignments that are not part of any feasible solution.
+Commercial MIP solvers have seen extensive development over the past 20 years and hardware-independent algorithmic improvements delivering orders of magnitude improved performance \cite{Bixby07a}. More recently the development of such solvers has focused on improved performance for quadratic problems such as WFLO-QCOP \cite{Furini19a}.
+%By solving a relaxed problem to bound the objective value at each node and strengthening the relaxed problem with cutting planes to restrict the feasible region further, MIP solvers has been proved effective for attacking IQCOPs \cite{junger200950}.
 
-In the community of communications, IQCOPs are commonly solved via discrete ellipsoid-based search (DEBS), which is built on enumeration of integer points in the hyper-ellipsoid defining the feasible region \cite{agrell2002closest}. DEBS can be interpreted as a form of CP, where the ellipsoid geometry induces for each variable an interval domain, producing an inference algorithm removing values that do not belong to the ellipsoid. However, DEBS cannot be applied to general IQCOPs due to its special nature. This drawback has been partially overcome by Wen-Yang \cite{ku2017hybrid}, who has proposed a competitive hybrid algorithm that combines DEBS and MIP to solve IQCOPs.
+%Constraint programming (CP) \cite{rossi2006handbook} is another tree search framework that can be applied to solve IQCOPs. At each node in the search tree, inference algorithms that are often encapsulated in the global constraints \cite{katriel20066}, conduct domain filtering on each constraint. Domain filtering removes possible values from variable domains by proving that a value cannot satisfy the constraint and hence cannot appear in a global solution, hence pruning sub-trees with variable assignments that are not part of any feasible solution.
+
+%In the community of communications, IQCOPs are commonly solved via discrete ellipsoid-based search (DEBS), which is built on enumeration of integer points in the hyper-ellipsoid defining the feasible region \cite{agrell2002closest}. DEBS can be interpreted as a form of CP, where the ellipsoid geometry induces for each variable an interval domain, producing an inference algorithm removing values that do not belong to the ellipsoid. However, DEBS cannot be applied to general IQCOPs due to its special nature. This drawback has been partially overcome by Wen-Yang \cite{ku2017hybrid}, who has proposed a competitive hybrid algorithm that combines DEBS and MIP to solve IQCOPs.
 
 % In addition to exact methods, heuristics that are designed to find good but not provably optimal solutions fast can also be used to solve IQCOPs. 
 
 
 
-\todo{@Chris and Jason: I still feel that we need to say how Gurobi do it (or at least how we think Gurobi does that)}
+%\todo{@Chris and Jason: I still feel that we need to say how Gurobi do it (or at least how we think Gurobi does that)}
 
 \subsubsection{Specialized Hardware for QUBO}
 
@@ -835,7 +838,7 @@ yields competitive solutions after less than 10 seconds. Furthermore, QP-LS conv
 \begin{figure}[t]%
 	
 	\includegraphics[width=\textwidth]{energy_50.png}  
-	\caption{Mean Relative Energy (w.r.t. best feasible solution) vs. Runtime (after 50 seconds).}%
+	\caption{Mean Relative Energy (wrt best feasible solution) vs. Runtime (after 50 seconds).}%
 	
 	\label{fig:results1}%
 \end{figure}
@@ -843,7 +846,7 @@ yields competitive solutions after less than 10 seconds. Furthermore, QP-LS conv
 \begin{figure}[t]%
 	
 	\includegraphics[width=\textwidth]{energy_3600.png}   \\%\\
-	\caption{Mean Relative Energy (w.r.t. best feasible solution) vs. Runtime (after 3600 seconds).}%
+	\caption{Mean Relative Energy (wrt best feasible solution) vs. Runtime (after 3600 seconds).}%
 	
 	\label{fig:results2}%
 \end{figure}
