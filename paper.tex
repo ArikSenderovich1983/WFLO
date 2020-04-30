@@ -885,19 +885,18 @@ yields competitive solutions after less than 10 seconds. Furthermore, QP-LS conv
 
 Our result show empirically that the quadratic programming models that we
 introduced in Section~\ref{sec:QUBO4WFLO} (WFL-QCOP and WFL-QUBO) are useful in two ways.
-First, the two problems are the basis for the QP-LS and QUBO-LS methods that couple the two
-quadratic formulations of WFLO with Gurobi optimizer. This turns out
+First, the two problems are the basis for the QP-LS and QUBO-LS methods that solved with Gurobi. This turns out
 to be a powerful method as it gives the best performance after 3600 seconds for most instances (7 out of 12),
 and especially,
-for the hard instances with 36 wind directions. In addition, the runtime performance of QP-LS is second
-only to the digital annealer.  Second, the QUBO model can be mounted onto a quantum-inspired optimization hardware (e.g., Fujitsu's digital annealer) demonstrated by the DA-LS approach in our evaluation. DA-LS yields the best results in 7 out of 12 
-instances, shows competitive performance on the other instances, and outperforms all methods in terms of runtime.
+for the hard instances with 36 wind directions. \todo{Avoid ``this'' as a pronoun. The previous sentence is a good example. I do not know what ``this'' refers to, especially as two models are referred to. Also how do you get 7/12?} In addition, the runtime performance of QP-LS is second
+only to the Digital Annealer.  Second, the QUBO model can be solved with recent specialized hardware, Fujitsu's DA, as demonstrated by the DA-LS approach. DA-LS yields the best results in 7 out of 12 
+instances, shows competitive performance on the other instances, and outperforms all methods in terms of runtime by two orders of magnitude.\todo{JCB: Is ``two orders of magnitude'' accurate? If you compare to 100, it is only 1 order of magnitude to achieve the ``same'' performance.}
  
 The ability of DA-LS to quickly obtain competitive solutions on large WFLO instances 
 is crucial when solving
-multiple wind farm layout problems. Moreover, it allows the flexibility to tune the various WFLO parameters (including turbine specs, number of turbines, and farm sizes) without incurring a steep computational cost that came
-with (re-)solving the problem using exact methods. In addition, the performance loss due to the use of an approximate method 
-that exploits advanced technology is negligible. This balance (instead of trade-off) between
+multiple wind farm layout problems. Moreover, it allows the flexibility to tune the various WFLO parameters (including turbine specs, number of turbines, and farm sizes) without incurring a steep computational cost that come
+with (re-)solving the problem using exact methods. The quality loss due to the use of an approximate method 
+that exploits advanced technology is negligible. This balance between
 runtime and total energy, points at the potential contribution of the proposed quadratic framework for solving WFLO. 
 
 
@@ -908,19 +907,18 @@ runtime and total energy, points at the potential contribution of the proposed q
 In this work, we presented a novel quadratic programming framework
 for solving 
 wind farm layout optimization. 
-The framework is based on two models: a constrained model (WFL-QCOP) and an unconstrained binary
-model (WFL-QUBO). The former can be used to solve WFLO using advanced optimization software,
+The framework is embodied in two models: constrained (WFL-QCOP) and unconstrained binary
+models (WFL-QUBO). The former can be used to solve WFLO using advanced optimization software,
 while the latter can be mounted onto quantum-inspired machines that can quickly (approximately) solve WFLO. We used the constrained quadratic formulation to prove 
-that the computational complexity of WFLO is $\mathcal{NP}$-hard, a pessimistic result that 
-was also noticed experimentally in~\cite{Zhang2014}. However,
+that the computational complexity of WFLO is $\mathcal{NP}$-hard. However,
 our empirical evaluation shows that when exact solvers like Gurobi~\cite{gurobi} are
 coupled with our WFL-QCOP and WFL-QUBO models they are able to solve small WFLO instances to optimality in less than 3600 seconds.
-We also show that when an advanced hardware is used with the QUBO representation, large instances WFLO can be solved quickly with no significant degradation in the total energy compared to exact methods.
+We also show that when an advanced hardware is used with the QUBO representation, large WFLO instances can be solved quickly with no significant degradation in the total energy compared to exact methods.
 This runtime improvement and state-of-the-art performance in terms of the total energy of the resulting solutions makes our quadratic framework useful for designing new wind farms, while varying multiple input parameters. 
 
 
 In future work, we aim at extending our quadratic models to include additional 
-WFLO aspects, such as noise, non-flat terrain and multiple objectives. 
+WFLO aspects, such as noise, non-flat terrain, and multiple objectives. 
 Moreover, we wish to explore real-world wind farm design problems 
 that may be larger and more complex than the 12 standard instances 
 and solve them 
