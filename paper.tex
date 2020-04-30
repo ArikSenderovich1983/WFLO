@@ -745,7 +745,7 @@ found until that point in time.
 %The best solution in terms of energy is the solution that attained the highest objective
 %values (SS in QP-SS and LS in the rest of the methods).
 For the DA, we used a single configuration that was found to work best across the different instances. The initial temperature is 500000, the temperature mode is 0, the  interval for updating is 1, the offset increase rate is 10, the number of runs is 20, and the temperature decay rate is computed dynamically. \todo{Eldan and Arik: Do I need to write the formula for computing temperature decay rate? -- Jason} \todo{JCB: Yes, if it is not too complicated. You should mention if this is the standard thing that DA does or something you came up with.} The DA ran until convergence of the underlying simulated annealing algorithm and the runtime 
-of the procedure was recorded. \todo{@Chris: do we want to share the code that ran the experiments in batches? perhaps it should be separated from the problem construction and the two need to be shared separately.} \todo{JCB: As I requested last fall, we should have separate problem instance files from the code and make at least the problem instances available.} 
+of the procedure was recorded. \todo{@Chris: do we want to share the code that ran the experiments in batches? perhaps it should be separated from the problem construction and the two need to be shared separately.} \todo{JCB: As I requested last fall, we should have separate problem instance files from the code and make at least the problem instances available. Arik: OK, we will upload the experiment to the github and share the link.} 
 
 The exact methods were all solved using Gurobi's quadratic programming solver on a Ubuntu PC with Inte(R) Core(TM) i7-9700 8 core CPU @3.00 GHz with 12 MB cache and 8 GB RAM. Furthermore, QUBO-LS was solved on DA version 1. \todo{Eldan: any additional info that we need to add here?}
 
@@ -885,12 +885,12 @@ yields competitive solutions after less than 10 seconds. Furthermore, QP-LS conv
 
 Our result show empirically that the quadratic programming models that we
 introduced in Section~\ref{sec:QUBO4WFLO} (WFL-QCOP and WFL-QUBO) are useful in two ways.
-First, the two problems are the basis for the QP-LS and QUBO-LS methods that solved with Gurobi. This turns out
-to be a powerful method as it gives the best performance after 3600 seconds for most instances (7 out of 12),
+First, the two problems are the basis for the QP-LS and QUBO-LS methods that solved with Gurobi. These methods turn out
+to be a powerful approach to solving WFLO as it gives the best performance after 3600 seconds for most instances (7 out of 12), \todo{@Chris: I counted the number of instances for which the two methods show best results after 3600. is that ok?}
 and especially,
-for the hard instances with 36 wind directions. \todo{Avoid ``this'' as a pronoun. The previous sentence is a good example. I do not know what ``this'' refers to, especially as two models are referred to. Also how do you get 7/12?} In addition, the runtime performance of QP-LS is second
+for the hard instances with 36 wind directions. In addition, the runtime performance of QP-LS is second
 only to the Digital Annealer.  Second, the QUBO model can be solved with recent specialized hardware, Fujitsu's DA, as demonstrated by the DA-LS approach. DA-LS yields the best results in 7 out of 12 
-instances, shows competitive performance on the other instances, and outperforms all methods in terms of runtime by two orders of magnitude.\todo{JCB: Is ``two orders of magnitude'' accurate? If you compare to 100, it is only 1 order of magnitude to achieve the ``same'' performance.}
+instances, shows competitive performance on the other instances, and outperforms all methods in terms of runtime by two orders of magnitude.\todo{JCB: Is ``two orders of magnitude'' accurate? If you compare to 100, it is only 1 order of magnitude to achieve the ``same'' performance. Arik: I refer to 10 seconds for the DA, hence 2 orders.}
  
 The ability of DA-LS to quickly obtain competitive solutions on large WFLO instances 
 is crucial when solving
