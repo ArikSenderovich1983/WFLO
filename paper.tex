@@ -751,7 +751,8 @@ The exact methods were all solved using Gurobi's quadratic programming solver on
 
 \paragraph{Performance Measurement} 
 
-We measured the total expected energy of a solution using the SS expression (see Eq.~(\ref{eq:ss}))\footnote{The total mean energy is presented in kW.}.
+We measured the total expected energy of a solution using the SS expression (see Eq.~(\ref{eq:ss})).
+%\footnote{The total mean energy is presented in kW.}.
 The only method that directly optimizes SS is QP-SS. Hence, for the other methods, we converted solutions
 LS-based solution into the SS expression using Eq.~(\ref{eq:ss}) as proposed in Zhang et al.\ \cite{Zhang2014}. Specifically, let $x = (x_1, \ldots, x_k), k=n^2$ be a turbine placement solution obtained by an LS-based method.
 Then, the SS based energy expression can be written as, 
@@ -773,15 +774,15 @@ We present $MRE(t,a)$ for each of the approaches to demonstrate the speed of con
 
 \subsection{Main Results}
 
-In this part, we present the main findings of our empirical evaluation. 
-We shall start by showing the best attained solutions by all methods.
+%% In this part, we present the main findings of our empirical evaluation. 
+%% We shall start by showing the best attained solutions by all methods.
 Table~\ref{tab:results1} contains the best energy (in kW) attained by the methods
 for the 12 WFLO instances after $100$ seconds of runtime for the exact methods. 
 The runtime for DA-LS was always less than $10$ seconds.
 
 
 \begin{table}[t!]
-	
+	\small
 	\begin{tabular}{| c | c | c | c | c | c | c | c |}
 		\toprule
 		Wind Directions  & n  & m  & DA-LS  & QUBO-LS  & QP-LS  & QP-SS  & ILP-LS  \\
@@ -805,12 +806,12 @@ The runtime for DA-LS was always less than $10$ seconds.
 	\end{tabular}
 	
 	\vspace{0.5em}
-	\caption{Total Expected Power (kW) after 100 seconds as function of benchmark and method.}\label{tab:results1}
+	\caption{Total Expected Power (kW) after 100 seconds for the exact techniques and by 10 seconds for DA-LS.}\label{tab:results1}
 \end{table}
 
 
 \begin{table}[t!]
-	
+	\small
 	\begin{tabular}{| c | c | c | c | c | c | c | c |}
 		\toprule
 		Wind Directions  & n  & m  & DA-LS  & QUBO-LS  & QP-LS  & QP-SS  & ILP-LS  \\
@@ -834,30 +835,33 @@ The runtime for DA-LS was always less than $10$ seconds.
 	\end{tabular}
 	
 	\vspace{0.5em}
-	\caption{Total Expected Power (kW) after 3600 seconds as function of benchmark and method.}\label{tab:results2}
+	\caption{Total Expected Power (kW) after 3600 seconds and by 10 seconds for DA-LS.}\label{tab:results2}
 \end{table}
 
 
 We observe that the DA-based solution provides
 comparable results to state-of-the-art exact methods. For the harder instances (of $36$ wind directions),
 the three quadratic LS-based approaches (DA-LS, QUBO-LS, and QP-LS) dominate the others by finding the best (or equal) solutions in 11 out of 12 instances. For easier instances, 
-the linear approach (ILP-LS) finds better solutions \todo{@Chris, Jason: do we have a good explanation for this?}. Table~\ref{tab:results2} shows the same type of results as in Table~\ref{tab:results1}, but now after $3600$ seconds. We see that the DA is still competitive with the other approaches (recall, its solution was found after $10$ seconds),
-while QP-LS finds the best solutions in 10 out of the 12 scenarios. For the 6 hard scenarios (12 wind directions), our quadratic solutions
-dominate all 6. \todo{@Chris: I am not sure that the first table contributes anything beyond the second table}
+the linear approach (ILP-LS) finds better solutions.
+%\todo{@Chris, Jason: do we have a good explanation for this?}. NO
+Table~\ref{tab:results2} shows the same type of results as in Table~\ref{tab:results1}, but now after $3600$ seconds. For the exact technique, we can see that the improvement between 100 and 3600 seconds of run-time is marginal. We also observe that the DA is, therefore, still competitive with the other approaches (recall, its solution was found after $10$ seconds),
+while QP-LS finds the best solutions in 10 out of the 12 scenarios. Our quadratic approaches dominate all six hard scenarios (12 wind directions). %\todo{@Chris: I am not sure that the first table contributes anything beyond the second table. JCB: ``We include the second table to demonstrate that only minor improvements are achieved by the exact techniques between 100 seconds of run-time.''}
 
-We now turn to present the mean relative error over time per approach, i.e., we are presenting $MRE(a,t)$). Note that lower values indicate better performance.  Figure~\ref{fig:results1} 
-presents the MRE after $50$ seconds of running the solutions focusing runtime performance, while Figure~\ref{fig:results2} corresponds
-to the full run (after $3600$ seconds). The latter provides insights into best performance in terms of energy. The 5 different lines (and their colors) 
-correspond to the 5 WFLO solutions. The horizontal axis represents time in seconds.
+We now turn to present the mean relative error over time per approach. Note that lower values indicate better performance.  Figure~\ref{fig:results1} 
+presents the MRE after $50$ seconds, while Figure~\ref{fig:results2} corresponds
+to the full run (after $3600$ seconds).
+%The latter provides insights into best performance in terms of energy. The 5 different lines (and their colors) 
+%correspond to the 5 WFLO solutions. The horizontal axis represents time in seconds.
 
 
 The results show that on average (across the 12 instances),
-the ILP-LS method starts with poor solutions, yet ends up improving over QP-SS and QUBO-LS (after around 1250 seconds).
+the ILP-LS method starts with poor solutions, yet ends up improving over QP-SS and QUBO-LS after around 1250 seconds.
 
-The two methods that are based on advanced software (QP-LS) and hardware (DA-LS) solutions
-outperform the rest both in terms of runtime (best results in short time), and in terms of overall performance.
+Our proposed quadratic models, QP-LS and DA-LS,
+outperform the rest of the techniques both in terms of runtime (best results in short time), and in terms of overall performance.
 Specifically, for most instances, QP-LS gives the best solution at 3600 seconds, while the DA-based approach
-yields competitive solutions after less than 10 seconds. Furthermore, QP-LS converges to the best solution faster than all other exact methods. In fact, it is inferior only to the approximate DA-LS method, which is geared mainly toward runtime. This is an encouraging result, especially due to the pessimistic computational complexity of WFLO.
+yields competitive solutions after less than 10 seconds. Furthermore, QP-LS converges to the best solution faster than all other exact methods. In fact, it is inferior only to the approximate DA-LS method.
+%This is an encouraging result, especially due to the pessimistic computational complexity of WFLO.
 
 \begin{figure}[t]%
 	
