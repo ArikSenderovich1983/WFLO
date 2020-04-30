@@ -639,7 +639,7 @@ WFL-QCOP is formulated using integer programming (Problem \ref{QCOP}), which mea
 \subsection{Solving QCOP and QUBO using Advanced Optimization Methods}
 
 \subsubsection{QCOP solving methods}
-
+\label{quadratic}
 WFL-QCOP is a strictly convex integer 
 quadratically constrained optimization problem (IQCOP), which is notorious for its computational complexity~\cite{van1981another}.
 %In fact, we proved in Section~\ref{sec:computational} that WFL-QCOP is $\mathcal{NP}$-hard.
@@ -688,7 +688,7 @@ To test and benchmark our models, we used 12 standard benchmark WFLO instances
 from the literature~\cite{MOSETTI1994105,Zhang2014,grady2005placement}. 
 The 12 benchmarks result from varying 2 wind settings (1 and 36 wind directions),
 2 grid sizes ($10\times10$ with cell size $200$ meters and $20\times20$ with cell size $100$ meters),
-and 3 variations for number of turbines ($m \in \{20, 30 or 40\}$). 
+and 3 variations for number of turbines ($m \in \{20, 30, 40\}$). 
 For the $36$ wind directions setting, the velocities came from the probability distribution presented in Figure~\ref{fig:prob_wind}. We denote $\mathcal{W}$ the set of 12 instances. Note that instances with $36$ wind regimes are considered computationally harder~\cite{Zhang2014}.
 
 Additional parameters that were used to calculate 
@@ -706,8 +706,26 @@ ground roughness ($0.3$ meters), turbine rotor radius ($20$ meters), and a wind 
 \paragraph{Optimization Benchmarks}
 
 We compared our two models, namely WFL-QCOP and WFL-QUBO, against two state of the art exact optimization methods:
-the integer linear programming (ILP-LS) approach from~\cite{donovan2005wind}, and the 
-model that uses a quadratic approximation (QP-SS)~\cite{turner2014new}. The CP approach presented in~\cite{Zhang2014} was
+the integer linear programming (ILP-LS) approach from~\cite{donovan2005wind,Zhang2014}, and the 
+model that uses a quadratic approximation (QP-SS)~\cite{turner2014new}. 
+The ILP model is given in the following set of equations, which we denote WFL-ILP, \begin{eqnarray} \label{ILP}
+&\max_{x_i}^{}& \sum_{i \in \mathcal{N}}^{} \sum_{d \in \mathcal{D}}^{} p_d ( \frac{1}{3} \ u_{id, \infty}^3 x_i  - \sum_{j \in \mathcal{U}_{id}}^{} \frac{1}{3}(u_{id, \infty} ^3 - u_{ijd}^3)y_{i,j})   \\
+&s.t.:& \nonumber\\
+&\mbox{       }& \sum_{i \in \mathcal{N}}^{} x_i = m,\label{Cardinality2}\\
+&\mbox{       }& x_i + x_j \leq 1,   \forall (i,j) \in \mathcal{E}, \label{Grid2}\\
+&\mbox{       }& x_i + x_j -1 \leq y_{i,j},  \forall i,j \in \mathcal{N}, \label{Linearization}\\
+&\mbox{       }& y_{i,j} \geq 0,     \forall i,j \in \mathcal{N}, \label{Yij}\\ 
+&\mbox{       }& x_i \in \{0,1\},     \forall i \in \mathcal{N}. \label{Vars2} 
+\end{eqnarray} The variables $y_{i,j}$ are continuous and can take only non negative values (Eq.(\ref{Yij})). However, due to Eq.~(\ref{Yij}) their values must
+be either zero or one. If a turbine is placed in both $i$ and $j$ ($x_i = x_j = 1$), then $y_{i,j}$ will be $1$ and a wake reduction 
+will take place in the objective function. If a turbine is placed in either $x_i$ or $x_j$ (but not in both), $y_{i,j}$ will
+take the value of $0$ and no wake reduction will occur. The WFL-ILP is equivalent to WFL-QCOP: the interaction
+variables $y_{i,j}$ of the ILP model are replaced by multiplicative expressions $x_{i}x_{j}$, which makes Constraint (\ref{Yij}) redundant. 
+However, the ILP is solved using linear optimization approaches, while WFL-QCOP is solved using quadratic programming methods as mentioned in Section~\ref{quadratic}. Hence
+we can expect a difference in the performance of optimization software when solving the two problems. 
+
+
+The CP approach presented in~\cite{Zhang2014} was
 reported to perform worse than the rest and was left out of the experiments.
 We used state of the art software, namely Gurobi~\cite{gurobi}, to solve WFL-QCOP, ILP-SS and QP-SS. 
 For consistency, we shall refer to WFL-QCOP problem as QP-LS as it is a quadratic program that uses the LS objective.
@@ -929,15 +947,4 @@ using our quadratic programming approach.
 %		
 %\end{table}
 
-© 2020 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Help
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
+
