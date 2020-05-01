@@ -661,7 +661,13 @@ Commercial MIP solvers have seen extensive development over the past 20 years an
 
 \subsubsection{Specialized Hardware for QUBO}
 
-\todo{Eldan's part}
+Recent years have seen significant advancement in the use of specialized hardware platforms, such as adiabatic and gate-based quantum computers, Digital/CMOS annealers, and neuromorphic computers \cite{coffrin2019evaluating}, to solve hard combinatorial optimization problems. Interestingly, a large number of these platforms support the optimization ofquadratic functions over binary variables by using Ising models \cite{johnson2011quantum}, an equivalent representation to QUBO \cite{bian2010ising}, as their mathematical abstraction.
+
+In this work, we use the first generation of the Fujitsu Digital Annealer (DA) \cite{aramon2019physics}, a specialized CMOS hardware capable of solving QUBO problems with up to 1024 binary variables. The algorithm used by the DA is based on simulated annealing \cite{kirkpatrick1983optimization}, however it takes advantage of the massive parallelization provided by the custom CMOS hardware and uses a dynamic offset mechanism to escape local minima \cite{aramon2019physics}. The Fujitsu Digital Annealer has been previously applied to variety of problems in different research areas such as machine learning \cite{cohen2020ising,salehinejad2019ising}, communication \cite{naghsh2019digitally,rahman2019ising}, etc.
+
+
+	Unlike %exact techninques
+	standard exact optimization solvers that run until obtaining an optimal solution, the DA runs until reaching a time limit and returns the best found solution. {\color{purple} In our experiments, we analyze the quality of obtained solutions for different time limits.} \todo{EC: can be phrased instead as : In our experiments, we run the DA with increasingly large time limits until we observe no further improvement in objective. (see my point in Section 1.4)}
 
 
 \section{Evaluation}
@@ -745,7 +751,10 @@ found until that point in time.
 %The best solution in terms of energy is the solution that attained the highest objective
 %values (SS in QP-SS and LS in the rest of the methods).
 For the DA, we used a single configuration that was found to work best across the different instances. The initial temperature is 500000, the temperature mode is 0, the  interval for updating is 1, the offset increase rate is 10, the number of runs is 20, and the temperature decay rate is computed dynamically. \todo{Eldan and Arik: Do I need to write the formula for computing temperature decay rate? -- Jason} \todo{JCB: Yes, if it is not too complicated. You should mention if this is the standard thing that DA does or something you came up with.} The DA ran until convergence of the underlying simulated annealing algorithm and the runtime 
-of the procedure was recorded. \todo{@Chris: do we want to share the code that ran the experiments in batches? perhaps it should be separated from the problem construction and the two need to be shared separately.} \todo{JCB: As I requested last fall, we should have separate problem instance files from the code and make at least the problem instances available. Arik: OK, we will upload the experiment to the github and share the link.} 
+of the procedure was recorded. \todo{\\EC: I am not sure what does it mean for the DA to run until convergence. You may want to specify that the DA was run with increasingly large time limits until no further improvement in objective.\\}
+
+
+\todo{@Chris: do we want to share the code that ran the experiments in batches? perhaps it should be separated from the problem construction and the two need to be shared separately.} \todo{JCB: As I requested last fall, we should have separate problem instance files from the code and make at least the problem instances available. Arik: OK, we will upload the experiment to the github and share the link.} 
 
 The exact methods were all solved using Gurobi's quadratic programming solver on a Ubuntu PC with Inte(R) Core(TM) i7-9700 8 core CPU @3.00 GHz with 12 MB cache and 8 GB RAM. Furthermore, QUBO-LS was solved on DA version 1. \todo{Eldan: any additional info that we need to add here?}
 
