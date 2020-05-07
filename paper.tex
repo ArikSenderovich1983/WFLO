@@ -666,8 +666,8 @@ Recent years have seen significant advancement in the use of specialized hardwar
 In this work, we use the first generation of the Fujitsu Digital Annealer (DA) \cite{aramon2019physics}, a specialized CMOS hardware capable of solving QUBO problems with up to 1024 binary variables. The algorithm used by the DA is based on simulated annealing \cite{kirkpatrick1983optimization}, however it takes advantage of the massive parallelization provided by the custom CMOS hardware and uses a dynamic offset mechanism to escape local minima \cite{aramon2019physics}. The Fujitsu Digital Annealer has been previously applied to variety of problems in different research areas such as machine learning \cite{cohen2020ising,salehinejad2019ising}, communication \cite{naghsh2019digitally,rahman2019ising}, etc.
 
 
-	Unlike %exact techninques
-	standard exact optimization solvers that run until obtaining an optimal solution, the DA runs until reaching a time limit and returns the best found solution. {\color{purple} In our experiments, we analyze the quality of obtained solutions for different time limits.} \todo{EC: can be phrased instead as : In our experiments, we run the DA with increasingly large time limits until we observe no further improvement in objective. (see my point in Section 1.4)}
+Unlike %exact techninques
+standard exact optimization solvers that run until obtaining an optimal solution, the DA runs until reaching a time limit and returns the best found solution.  In our experiments, we analyze the quality of obtained solutions for different time limits.
 
 
 \section{Evaluation}
@@ -678,8 +678,8 @@ present an empirical evaluation of the two quadratic models based on
 12 standard WFLO instances.
 Our main results are: \begin{itemize}
 	\item WFL-QUBO when solved using the digital annealer (DA) achieves a similar performance to state-of-the-art exact methods.
-		\item The runtime for solving WFL-QUBO on the DA is two orders of magnitude lower than WFL-QCOP.  
-	\item Given sufficient runtime, solving the WFL-QCOP model yields superior results on the larger instances.
+		\item The runtime for solving WFL-QUBO on the DA is at least two orders of magnitude lower than WFL-QCOP for hard WFLO instances.  
+	\item Given sufficient runtime, solving the WFL-QCOP model yields superior results on most of the instances.
 \end{itemize}
 We start by outlining the experimental design of our evaluation, followed by an overview of our main results,
 and conclude the section with a discussion of the results and their practical implications.
@@ -694,14 +694,14 @@ To test and benchmark our models, we used 12 standard benchmark WFLO instances
 from the literature~\cite{MOSETTI1994105,Zhang2014,grady2005placement} that we denote with the set $\mathcal{W}$. 
 The 12 benchmarks result from varying 2 wind settings (1 and 36 wind directions),
 2 grid sizes ($10\times10$ with cell size $200$ meters and $20\times20$ with cell size $100$ meters),
-and 3 variations for number of turbines ($m \in \{20, 30 or 40\}$). 
+and 3 variations for number of turbines ($m \in \{20, 30, 40\}$). 
 For the $36$ wind directions setting, the velocities came from the probability distribution presented in Figure~\ref{fig:prob_wind}.
 %We denote $\mathcal{W}$ the set of 12 instances.
 Instances with $36$ wind regimes are considered computationally more challenging~\cite{Zhang2014}.
 
 Additional parameters that were used to calculate 
 the velocities ($u_{id\infty}, u_{ijd}$) include: turbine height ($60$ meters),
-ground roughness ($0.3$ meters), turbine rotor radius ($20$ meters), and a wind farm of size $2km \times 2km$.
+ground roughness ($0.3$ meters), turbine rotor radius ($20$ meters), and a wind farm of size $2km \times 2km$\footnote{The implementation of constructing the 12 standard WFLO instances can be found in~\url{https://bit.ly/2YIjTl1}.}.
 
 
 \begin{figure}[t]
@@ -747,16 +747,29 @@ as QUBO-LS.
 
 For exact methods (QP-SS, ILP-LS, QP-LS and QUBO-LS),
 we ran Gurobi with a time limit of 3600 seconds. We collected all feasible solutions
-found until that point in time.
+found until that point in time. The exact methods were all solved using Gurobi's quadratic programming solver on a 
+Ubuntu PC with Inte(R) Core(TM) i7-9700 8 core CPU @3.00 GHz with 12 MB cache and 8 GB RAM.
+
+For the DA, we used a single configuration that was found to work best across the different instances. 
+The DA was run for increasingly large time limits ranging from $0.7$ seconds to $65$ seconds where we no longer observe an improvement in 
+performance. The penalty terms $\lambda_1$ and $\lambda_2$ (see~Eq.~(\ref{QUBO}) are selected such that $\lambda_1= \lambda_2$ and sum of the two penalty terms, namely $\lambda_1+\lambda_2$, 
+is set to the highest value that the Digital Annealer allows\footnote{The DA has an upper limit on the size of objective function coefficients.}.  
+ 
+
+
 %The best solution in terms of energy is the solution that attained the highest objective
 %values (SS in QP-SS and LS in the rest of the methods).
-For the DA, we used a single configuration that was found to work best across the different instances. The initial temperature \text{tmp\_st} is 500000, the temperature mode is 0, the interval \text{tmp\_interval} for updating is 1, the offset increase rate is 10, the number of runs is 20, and the temperature decay rate is computed dynamically, i.e., $ \text{tmp\_decay} = (0.001 / \text{tmp\_st})^{(1.0 / (\text{num\_iterations} / \text{tmp\_interval}))} $. This formula of decay rate is for better convergence and is provided by DA developers. \todo{JCB: Yes, if it is not too complicated. You should mention if this is the standard thing that DA does or something you came up with.} The DA ran until convergence of the underlying simulated annealing algorithm and the runtime 
-of the procedure was recorded. \todo{\\EC: I am not sure what does it mean for the DA to run until convergence. You may want to specify that the DA was run with increasingly large time limits until no further improvement in objective.\\}
+ 
 
 
-\todo{@Chris: do we want to share the code that ran the experiments in batches? perhaps it should be separated from the problem construction and the two need to be shared separately.} \todo{JCB: As I requested last fall, we should have separate problem instance files from the code and make at least the problem instances available. Arik: OK, we will upload the experiment to the github and share the link.} 
+%
+%The initial temperature \text{tmp\_st} is 500000, the temperature mode is 0, the interval \text{tmp\_interval} for updating is 1, the offset increase rate is 10, the number of runs is 20, and the temperature decay rate is computed dynamically, i.e., $ \text{tmp\_decay} = (0.001 / \text{tmp\_st})^{(1.0 / (\text{num\_iterations} / \text{tmp\_interval}))} $. This formula of decay rate is for better convergence and is provided by DA developers. \todo{JCB: Yes, if it is not too complicated. You should mention if this is the standard thing that DA does or something you came up with.} The DA ran until convergence of the underlying simulated annealing algorithm and the runtime 
+%of the procedure was recorded. \todo{\\EC: I am not sure what does it mean for the DA to run until convergence. You may want to specify that the DA was run with increasingly large time limits until no further improvement in objective.\\}
+%
+%
+%\todo{@Chris: do we want to share the code that ran the experiments in batches? perhaps it should be separated from the problem construction and the two need to be shared separately.} \todo{JCB: As I requested last fall, we should have separate problem instance files from the code and make at least the problem instances available. Arik: OK, we will upload the experiment to the github and share the link.} 
 
-The exact methods were all solved using Gurobi's quadratic programming solver on a Ubuntu PC with Inte(R) Core(TM) i7-9700 8 core CPU @3.00 GHz with 12 MB cache and 8 GB RAM. Furthermore, QUBO-LS was solved on DA version 1. \todo{Eldan: any additional info that we need to add here?}
+
 
 \paragraph{Performance Measurement} 
 
@@ -854,7 +867,8 @@ the three quadratic LS-based approaches (DA-LS, QUBO-LS, and QP-LS) dominate the
 the linear approach (ILP-LS) finds better solutions.
 %\todo{@Chris, Jason: do we have a good explanation for this?}. NO
 Table~\ref{tab:results2} shows the same type of results as in Table~\ref{tab:results1}, but now after $3600$ seconds. For the exact technique, we can see that the improvement between 100 and 3600 seconds of run-time is marginal. We also observe that the DA is, therefore, still competitive with the other approaches (recall, its solution was found after $10$ seconds),
-while QP-LS finds the best solutions in 10 out of the 12 scenarios. Our quadratic approaches dominate all six hard scenarios (12 wind directions). %\todo{@Chris: I am not sure that the first table contributes anything beyond the second table. JCB: ``We include the second table to demonstrate that only minor improvements are achieved by the exact techniques between 100 seconds of run-time.''}
+while QP-LS finds the best solutions in 10 out of the 12 scenarios. 
+Our quadratic approaches dominate all six hard scenarios (12 wind directions). %\todo{@Chris: I am not sure that the first table contributes anything beyond the second table. JCB: ``We include the second table to demonstrate that only minor improvements are achieved by the exact techniques between 100 seconds of run-time.''}
 
 We now turn to present the mean relative error over time per approach. Note that lower values indicate better performance.  Figure~\ref{fig:results1} 
 presents the MRE after $50$ seconds, while Figure~\ref{fig:results2} corresponds
@@ -869,7 +883,14 @@ the ILP-LS method starts with poor solutions, yet ends up improving over QP-SS a
 Our proposed quadratic models, QP-LS and DA-LS,
 outperform the rest of the techniques both in terms of runtime (best results in short time), and in terms of overall performance.
 Specifically, for most instances, QP-LS gives the best solution at 3600 seconds, while the DA-based approach
-yields competitive solutions after less than 10 seconds. Furthermore, QP-LS converges to the best solution faster than all other exact methods. In fact, it is inferior only to the approximate DA-LS method.
+yields competitive solutions after less than 10 seconds. 
+Furthermore, 
+QP-LS converges to the best solution faster than all other exact methods. In fact, it is inferior only to the approximate DA-LS method.
+
+To demonstrate the speedup gained from using the DA, we compare the point in time when the DA reaches 
+a competitive solution (10 seconds) to the point in time when QP-LS reaches the same solution in terms of energy.
+Table~\ref{speedup} summarizes the performance of QP-LS when compared to that of the DA after 10 seconds.
+We see a speedup factor of X. \todo{discuss with Chris}
 %This is an encouraging result, especially due to the pessimistic computational complexity of WFLO.
 
 \begin{figure}[t]%
@@ -894,13 +915,13 @@ yields competitive solutions after less than 10 seconds. Furthermore, QP-LS conv
 
 Our result show empirically that the quadratic programming models that we
 introduced in Section~\ref{sec:QUBO4WFLO} (WFL-QCOP and WFL-QUBO) are useful in two ways.
-First, the two problems are the basis for the QP-LS and QUBO-LS methods that solved with Gurobi. These methods turn out
-to be a powerful approach to solving WFLO as it gives the best performance after 3600 seconds for most instances (7 out of 12), \todo{@Chris: I counted the number of instances for which the two methods show best results after 3600. is that ok?}
+First, the two problems are the basis for the QP-LS and QUBO-LS methods that solved with Gurobi. The two methods, namely QP-LS and QUBO-LS, turn out to be powerful approaches to solving WFLO. Specifically, QP-LS yields the best performance (after 3600 seconds) for most problem instances
 and especially,
 for the hard instances with 36 wind directions. In addition, the runtime performance of QP-LS is second
 only to the Digital Annealer.  Second, the QUBO model can be solved with recent specialized hardware, Fujitsu's DA, as demonstrated by the DA-LS approach. DA-LS yields the best results in 7 out of 12 
-instances, shows competitive performance on the other instances, and outperforms all methods in terms of runtime by two orders of magnitude.\todo{JCB: Is ``two orders of magnitude'' accurate? If you compare to 100, it is only 1 order of magnitude to achieve the ``same'' performance. Arik: I refer to 10 seconds for the DA, hence 2 orders.}
- 
+instances, shows competitive performance on the other instances, and outperforms all methods in terms of runtime (\todo{speed-up ratio of ...})
+
+
 The ability of DA-LS to quickly obtain competitive solutions on large WFLO instances 
 is crucial when solving
 multiple wind farm layout problems. Moreover, it allows the flexibility to tune the various WFLO parameters (including turbine specs, number of turbines, and farm sizes) without incurring a steep computational cost that come
