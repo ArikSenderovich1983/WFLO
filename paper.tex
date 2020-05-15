@@ -661,7 +661,7 @@ Commercial MIP solvers have seen extensive development over the past 20 years an
 
 \subsubsection{Specialized Hardware for QUBO}
 
-Recent years have seen significant advancement in the use of specialized hardware platforms, such as adiabatic and gate-based quantum computers, Digital/CMOS annealers, and neuromorphic computers \cite{coffrin2019evaluating}, to solve hard combinatorial optimization problems. Interestingly, a large number of these platforms support the optimization ofquadratic functions over binary variables by using Ising models \cite{johnson2011quantum}, an equivalent representation to QUBO \cite{bian2010ising}, as their mathematical abstraction.
+Recent years have seen significant advancement in the use of specialized hardware platforms, such as adiabatic and gate-based quantum computers, Digital/CMOS annealers, and neuromorphic computers \cite{coffrin2019evaluating}, to solve hard combinatorial optimization problems. Interestingly, a large number of these platforms support the optimization of quadratic functions over binary variables by using Ising models \cite{johnson2011quantum}, an equivalent representation to QUBO \cite{bian2010ising}, as their mathematical abstraction.
 
 In this work, we use the first generation of the Fujitsu Digital Annealer (DA) \cite{aramon2019physics}, a specialized CMOS hardware capable of solving QUBO problems with up to 1024 binary variables. The algorithm used by the DA is based on simulated annealing \cite{kirkpatrick1983optimization}, however it takes advantage of the massive parallelization provided by the custom CMOS hardware and uses a dynamic offset mechanism to escape local minima \cite{aramon2019physics}. The Fujitsu Digital Annealer has been previously applied to variety of problems in different research areas such as machine learning \cite{cohen2020ising,salehinejad2019ising}, communication \cite{naghsh2019digitally,rahman2019ising}, etc.
 
@@ -679,7 +679,7 @@ present an empirical evaluation of the two quadratic models based on
 Our main results are: \begin{itemize}
 	\item WFL-QUBO when solved using the digital annealer (DA) achieves a solution quality as good or better than the state-of-the-art exact methods on 10 of 12 instances.
 		\item To achieve such a solution quality, the runtime for solving WFL-QUBO on the DA is at least two orders of magnitude lower than WFL-QCOP for hard WFLO instances.  
-	\item Given sufficient runtime, solving the WFL-QCOP model yields competitive results on most of the instances. \todo{Arik: Is this correct? Table 2 shows DA@10seconds with the best solution found for 7/12 instances and QP-LS@3600 for 6/12. And 4/6 vs. 3/6 for the WR36). Are you comparing QP-LS with QP-SS and ILP-LS? We seem to be underplaying DA performance in this comment. Chris: I changed to competitive results. You're right, I'd say that the DA is not `losing' to QP-LS.}  
+	\item Given sufficient runtime, solving the WFL-QCOP model yields strong results on most of the instances. Compared to previous exact models (QP-SS and ILP-LS), WFL-QCOP is able to find equal or better solutions on 8 of 12 benchmark problems and for 5 of the 6 hard scenarios. %  \todo{Arik: Is this correct? Table 2 shows DA@10seconds with the best solution found for 7/12 instances and QP-LS@3600 for 6/12. And 4/6 vs. 3/6 for the WR36). Are you comparing QP-LS with QP-SS and ILP-LS? We seem to be underplaying DA performance in this comment. Chris: I changed to competitive results. You're right, I'd say that the DA is not `losing' to QP-LS.}  
 \end{itemize}
 
 We start by outlining the experimental design of our evaluation, followed by an overview of our main results,
@@ -741,7 +741,7 @@ We used state-of-the-art commercial software, Gurobi~\cite{gurobi}, to solve WFL
 For consistency, we shall refer to WFL-QCOP problem as QP-LS as it is a quadratic program that uses the LS objective.
 In addition, we 
 used both Fujitsu's Digital Annealer and Gurobi to solve WFL-QUBO: we shall refer to the former as DA-LS, and to the latter
-as QUBO-LS. \todo{Arik: Is it necessary to change the names WFL-QUBO -> QUBO-LS, WFL-QCOP -> QP-LS? This makes it confusing for someone who skims over this paragraph.Can't we use the same names (one or the other) through-out? Chris: The issue is that WFL-QUBO and WFL-QCOP are problem names without mentioning of the objective - I need to differentiate QP-SS from QP-LS. Should I change everything backwards to the XX-LS notation? I could do that.}
+as QUBO-LS. \todo{Arik: I think it is important to use consistent names through-out. The problem is that we do not have a unified naming format. The problems can be QC-LS, QU-LS (for Quadratic Constraint/Unconstrained Linear Superposition) instead of WFL-QCOP QFL-QUBO. Then the results need to include the solver and so we have QU-LS(DA), QU-LS(GRB), QC-LS(GRB), QC-SS(GRB), and LC-LS(GRB). (LC = Linear Constrained). I suggest you use Latex macros so that we can easily change then all again if necessary.}
 
 
 \paragraph{Experimental Procedure}
@@ -905,25 +905,23 @@ the ILP-LS method starts with poor solutions, yet ends up improving over QP-SS a
 
 
 To demonstrate the gain in runtime from using the DA, we compare the average speed-up factor between
-the QP-LS (the dominant exact method) to a DA-LS solutions after $1$ and $10$ seconds.
+ QP-LS and a DA-LS solutions after $1$ and $10$ seconds.
 For each $w \in \mathcal{W}$ we computed the mean $S(\mbox{\emph{QP-LS}}, \mbox{\emph{DA-LS}}, t, w)$ for $t \in \{1,10\}$. 
 %and $S(QP-LS, DA-LS, 10sec, w)$
 %for every $w$ 
 %and averaged the speed-up factors across the instances. 
 The average speed-up factors were found to be $666$ and $100$ for $1$ and $10$ seconds, respectively. 
-Per instance, the minimum speedup was $1$ for $1$ second and $0.1$ for $10$ seconds, meaning that for some of the instances DA-LS was actually
-slower than QP-LS. The maximum speedup was (at least) $3600$ for $1$ second and (at least) $360$ for $10$ seconds: for those instances
-QP-LS was not able to find a comparable solution to DA-LS within the $3600$ time limit. \todo{Arik: What about a table -- perhaps in an Appendix? If not, you should at least quote the min and max speed-up factors and comment on the speed-up comparing DA with the other techniques. Chris: I added min/max and comparison to the two other LS-based methods.}
+Per instance, the minimum speedup was $1$ for $1$ second and $0.1$ for $10$ seconds: for some instances QP-LS achieved the same quality as DA-LS in less time. The maximum speedup was (at least) $3600$ for $1$ second and (at least) $360$ for $10$ seconds: for those instances
+QP-LS was not able to find a comparable solution to DA-LS within the $3600$ time limit. As a consequence, 
+the DA-LS speed-up is actually even higher than computed above. \todo{Arik: I think a table of speed-ups per problem instance is still necessary in an Appendix.}
 %\footnote{The speed-up factors  were rounded to have 0 values after the floating point.}
 
-These results show that the DA achieves competitive solutions after running for $1$ second.
-Note that since for many of the instances QP-LS did not attain
-the energy level of DA-LS at time $t$ (1 or 10 seconds),
+%These results show that the DA achieves competitive solutions after running for $1$ second.
+%Many of the instances running QP-LS for 3600 seconds did not result in as good a solution as DA-LS at time $t$ (1 or 10 seconds).
 %we consider the speed-up factor to be a lower bound, meaning
-that
-the DA-LS speed-up is actually even higher. When compared
-to the other LS-based methods, the DA speeds up by a higher factor compared to its speedup w.r.t QP-LS. At $1$ ($10$) seconds, the speedup factor compared to ILP-LS 
-is $1385$ ($180$) and for the QUBO-LS it is $900$ ($152$). Here, we compare only LS based methods as they optimize on the same objective as the DA.  
+When compared
+to the other LS-based methods, the DA speed-up is even larger than when compared to QP-LS.  At $1$ ($10$) seconds, the speedup factor compared to ILP-LS 
+is $1385$ ($180$) and for the QUBO-LS it is $900$ ($152$). We compare against the LS based methods as they directly optimize on the same objective as the DA.  
 %speed-up factor, which we did not compute due to the time limit of $3600$. 
 %This is an encouraging result, especially due to the pessimistic computational complexity of WFLO.
 
@@ -945,9 +943,7 @@ is $1385$ ($180$) and for the QUBO-LS it is $900$ ($152$). Here, we compare only
 
 
 
-\subsection{Discussion and Practical Implications}
-
-\todo{Arik: Should this be Sectiobn 5 rather than 4.3? Chris: I am fine with both. I felt that it was strongly tied to 4.2, but I can see it becoming a short standalone section.}
+\section{Discussion and Practical Implications}
 
 Our result show empirically that the quadratic programming models that we
 introduced in Section~\ref{sec:QUBO4WFLO} (WFL-QCOP and WFL-QUBO) are useful in two ways.
