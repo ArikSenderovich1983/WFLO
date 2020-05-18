@@ -83,7 +83,16 @@
 %\newcommand{\mytitlerunning}{\mytitle}
 %\newcommand{\myauthor}{Arik Senderovich, Eldan Cohen, and J. Christopher Beck}
 %\newcommand{\myauthorhyperref}{Arik Senderovich, Eldan Cohen, and J. Christopher Beck}
+\newcommand{\qcls}{{\sf {\small QC-LS\xspace}}}
+\newcommand{\ilpls}{{\sf {\small ILP-LS\xspace}}}
+\newcommand{\quls}{{\sf {\small QU-LS\xspace}}}
+\newcommand{\qcss}{{\sf {\small QC-SS\xspace}}}
 
+\newcommand{\qclsgrb}{{\sf {\small QC-LS(GRB)\xspace}}}
+\newcommand{\ilplsgrb}{{\sf {\small ILP-LS(GRB)\xspace}}}
+\newcommand{\qulsgrb}{{\sf {\small QU-LS(GRB)\xspace}}}
+\newcommand{\qcssgrb}{{\sf {\small QC-SS(GRB)\xspace}}}
+\newcommand{\qulsda}{{\sf {\small QU-LS(DA)\xspace}}}
 
 %\hypersetup{
 %    bookmarks=true,        % show bookmarks bar?
@@ -583,9 +592,9 @@ the following quadratic optimization problem (QCOP):
 &\mbox{       }& x_i \in \{0,1\},     \forall i \in \mathcal{N}. \label{Vars}
 \end{eqnarray} Constraints~\ref{Cardinality}~and~\ref{Grid} ensure that exactly $m$ turbines are placed on the grid
 and enforce proximity constraints between the turbines, respectively. We shall refer to the QCOP
-formulation of WFLO as WFL-QCOP. 
+formulation of WFLO as \qcls{}. 
 
-WFL-QCOP can be solved using an exact optimization solver, e.g., Gurobi~\cite{gurobi}. 
+\qcls{} can be solved using an exact optimization solver, e.g., Gurobi~\cite{gurobi}. 
 Similar, linear formulations have been previously proposed and solved using exact solvers~\cite{Zhang2014,donovan2005wind}.
 %\todo{JCB: We need to formally present the ILP model in the experiment section. We can then discuss the fact that the model is identical - because the linearization gives and exact representation. Should put a forward reference to that model here.}
 %\todo{Are these linear formulations ``equivalent'' as you claimed or approximations? If they are mathematically equivalent, why do we think a quadratic model will be any better computationally? Arik: The two formulations are equivalent to WFL-QCOP. However, we compare against the ILP model experimentally and it does worse than WFL-QCOP. Hopefully, Jason's part in Section 3.5.1. based on Wen-Yang's thesis will explain why it does better. Originally, I used the quadratic formulation because it seemed more natural. Semantically, the linear model and the quadratic model are the equivalent imho.}
@@ -607,28 +616,28 @@ be a vector of constraint parameters with $\lambda_i >0$. The equivalent QUBO fo
 with the term $ \lambda_1 (\sum_{i \in \mathcal{N}}^{} x_i -m) ^2$ 
 penalizing solutions that violate the exactly $m$ turbines constraint and the term $\lambda_2 \sum_{(i,j) \in \mathcal{E}}^{} x_i x_j$ penalizing
 solutions that place turbines too close together. The two penalty terms $\lambda_1$ and $\lambda_2$ 
-must be large enough to ensure that the solutions are indeed feasible wrt the problem constraints. We shall refer to the QUBO representation of WFLO as WFL-QUBO.
+must be large enough to ensure that the solutions are indeed feasible wrt the problem constraints. We shall refer to the QUBO representation of WFLO as \quls.
 %These types of constraints
 %are referred to as \emph{soft constraints} as they do not guarantee a feasible solution 
 %for an arbitrary selection of $\lambda$.   
 
-\subsection{The Computational Complexity of WFL-QCOP}
+\subsection{The Computational Complexity of \qcls{}}
 \label{sec:computational}
 %(linear) problems were formulated and solved using  exact solvers.
 Despite the existence of mathematical models for WFLO in the literature~\cite{Zhang2014,donovan2005wind} that are expressive enough to represent $\mathcal{NP}$-hard problems, we are unaware of an explicit treatment of the computational complexity of WFLO.
 %However, these solvers should only be used if the problem is computationally hard.
 %We are unaware of an existing complexity result for the LS variation of WFLO (our QCOP).
-We therefore provide a straightforward proof of the computational complexity of WFL-QCOP. 
+We therefore provide a straightforward proof of the computational complexity of \qcls{}. 
 
 \begin{mythm}
-	The computational complexity of WFL-QCOP defined in \eqref{QCOP}-\eqref{Vars} is $\mathcal{NP}$-hard. 
+	The computational complexity of \qcls{} defined in \eqref{QCOP}-\eqref{Vars} is $\mathcal{NP}$-hard. 
 \end{mythm}
 \begin{myproof}
-We prove by showing that a special case of the WFL-QCOP \eqref{QCOP}-\eqref{Vars}  is
+We prove by showing that a special case of the \qcls{} \eqref{QCOP}-\eqref{Vars}  is
 $\mathcal{NP}$-hard. Suppose that $\mathcal{E} = \emptyset$, i.e., the grid is coarse grained enough to ignore proximity constraints. Then, the constraints in Eq.~(\ref{Grid})
 are dropped and we get the heaviest k-subgraph problem, which was proven to be $\mathcal{NP}$-hard~\cite{billionnet2005different}.
-Since a special case of WFL-QCOP is  $\mathcal{NP}$-hard it implies that WFL-QCOP is at least $\mathcal{NP}$-hard. On the other hand,
-WFL-QCOP is formulated using integer programming (Problem \ref{QCOP}), which means that it is at most $\mathcal{NP}$-hard. Therefore, we get that WFL-QCOP is $\mathcal{NP}$-hard.
+Since a special case of \qcls{} is  $\mathcal{NP}$-hard it implies that \qcls{} is at least $\mathcal{NP}$-hard. On the other hand,
+\qcls{} is formulated using integer programming (Problem \ref{QCOP}), which means that it is at most $\mathcal{NP}$-hard. Therefore, we get that \qcls{} is $\mathcal{NP}$-hard.
 \end{myproof}
 
 %\todo{The proof is a bit awkward as it goes back-and-forth between QCOP and WFLO. Technically, the problem as defined in \eqref{QCOP}-\eqref{Vars} but, given the different (not mathematically equivalent) models of WFLO, this is different from claiming that WFLO is NPC. On the other hand, we so not want to prove that QCOP in general is NPC. So we need to get the language precise. Arik: I fixed it by referring to the problem as WFL-QCOP (and WFL-QUBO for the other one.)}
@@ -640,13 +649,13 @@ WFL-QCOP is formulated using integer programming (Problem \ref{QCOP}), which mea
 
 \subsubsection{QCOP solving methods}
 \label{quadratic}
-WFL-QCOP is a strictly convex integer 
+\qcls{} is a strictly convex integer 
 quadratically constrained optimization problem (IQCOP), which is notorious for its computational complexity~\cite{van1981another}.
 %In fact, we proved in Section~\ref{sec:computational} that WFL-QCOP is $\mathcal{NP}$-hard.
 The common exact methods for solving
 IQCOPs are tree search \cite{land2010automatic} algorithms with a variety of sophisticated techniques to limit the search necessary to find and prove optimality.  In operations research, the generic exact approach for solving IQCOPs is the branch-and-cut based mixed integer programming (MIP) \cite{bonami2008algorithmic}. A MIP solver, such as the one we use (Gurobi), uses a linear or quadratic continuous relaxation to efficiently compute a bound on the objective function. This relaxation is used to generate cuts, implied constraints that tighten the relaxation, to identify sub-trees that can be discarded without search because they are guaranteed not to contain a solution better than the current incumbent, and to drive the heuristic branching that systematically searches for a solution. Typically, this process of cut generation, reasoning about sub-trees, and branching is performed at each node in the search tree.
 
-Commercial MIP solvers have seen extensive development over the past 20 years and hardware-independent algorithmic improvements delivering orders of magnitude improved performance \cite{Bixby07a}. More recently the development of such solvers has focused on improved performance for quadratic problems such as WFLO-QCOP \cite{Furini19a}.
+Commercial MIP solvers have seen extensive development over the past 20 years and hardware-independent algorithmic improvements delivering orders of magnitude improved performance \cite{Bixby07a}. More recently the development of such solvers has focused on improved performance for quadratic problems such as \qcls{} \cite{Furini19a}.
 %By solving a relaxed problem to bound the objective value at each node and strengthening the relaxed problem with cutting planes to restrict the feasible region further, MIP solvers has been proved effective for attacking IQCOPs \cite{junger200950}.
 
 %Constraint programming (CP) \cite{rossi2006handbook} is another tree search framework that can be applied to solve IQCOPs. At each node in the search tree, inference algorithms that are often encapsulated in the global constraints \cite{katriel20066}, conduct domain filtering on each constraint. Domain filtering removes possible values from variable domains by proving that a value cannot satisfy the constraint and hence cannot appear in a global solution, hence pruning sub-trees with variable assignments that are not part of any feasible solution.
@@ -665,7 +674,6 @@ Recent years have seen significant advancement in the use of specialized hardwar
 
 In this work, we use the first generation of the Fujitsu Digital Annealer (DA) \cite{aramon2019physics}, a specialized CMOS hardware capable of solving QUBO problems with up to 1024 binary variables. The algorithm used by the DA is based on simulated annealing \cite{kirkpatrick1983optimization}, however it takes advantage of the massive parallelization provided by the custom CMOS hardware and uses a dynamic offset mechanism to escape local minima \cite{aramon2019physics}. The Fujitsu Digital Annealer has been previously applied to variety of problems in different research areas such as machine learning \cite{cohen2020ising,salehinejad2019ising}, communication \cite{naghsh2019digitally,rahman2019ising}, etc.
 
-
 Unlike %exact techninques
 standard exact optimization solvers that run until obtaining an optimal solution, the DA runs until reaching a time limit and returns the best found solution.  In our experiments, we analyze the quality of obtained solutions for different time limits.
 
@@ -677,9 +685,9 @@ In this section, we
 present an empirical evaluation of the two quadratic models based on 
 12 standard WFLO instances.
 Our main results are: \begin{itemize}
-	\item WFL-QUBO when solved using the digital annealer (DA) achieves a solution quality as good or better than the state-of-the-art exact methods on 10 of 12 instances.
-		\item To achieve such a solution quality, the runtime for solving WFL-QUBO on the DA is at least two orders of magnitude lower than WFL-QCOP for hard WFLO instances.  
-	\item Given sufficient runtime, solving the WFL-QCOP model yields strong results on most of the instances. Compared to previous exact models (QP-SS and ILP-LS), WFL-QCOP is able to find equal or better solutions on 8 of 12 benchmark problems and for 5 of the 6 hard scenarios. %  \todo{Arik: Is this correct? Table 2 shows DA@10seconds with the best solution found for 7/12 instances and QP-LS@3600 for 6/12. And 4/6 vs. 3/6 for the WR36). Are you comparing QP-LS with QP-SS and ILP-LS? We seem to be underplaying DA performance in this comment. Chris: I changed to competitive results. You're right, I'd say that the DA is not `losing' to QP-LS.}  
+	\item \quls{} when solved using the digital annealer (DA) achieves a solution quality as good or better than the state-of-the-art exact methods on 10 of 12 instances.
+		\item To achieve such a solution quality, the runtime for solving \quls{} on the DA is at least two orders of magnitude lower than \qcls{} for hard WFLO instances.  
+	\item Given sufficient runtime, solving the \qcls{} model yields strong results on most of the instances. Compared to previous exact models (such as \qcss), \qcls{} is able to find equal or better solutions on 8 of 12 benchmark problems and for 5 of the 6 hard scenarios. %  \todo{Arik: Is this correct? Table 2 shows DA@10seconds with the best solution found for 7/12 instances and \qcls{}grb@3600 for 6/12. And 4/6 vs. 3/6 for the WR36). Are you comparing \qcls{}grb with \qcssgrb and ILP-LS? We seem to be underplaying DA performance in this comment. Chris: I changed to competitive results. You're right, I'd say that the DA is not `losing' to \qcls{}grb.}  
 \end{itemize}
 
 We start by outlining the experimental design of our evaluation, followed by an overview of our main results,
@@ -714,10 +722,10 @@ ground roughness ($0.3$ meters), turbine rotor radius ($20$ meters), and a wind 
 
 \paragraph{Optimization Benchmarks}
 
-We compared our two models, WFL-QCOP and WFL-QUBO, against two state-of-the-art exact optimization methods:
-the integer linear programming (ILP-LS) approach~\cite{donovan2005wind,Zhang2014} and the 
-model that uses a quadratic approximation (QP-SS)~\cite{turner2014new}. 
-The ILP model is a standard, exact linearization of the WFL-QCOP model.
+We compared our two models, \qcls{} and \quls{}, against two state-of-the-art exact optimization methods:
+the integer linear programming (denoted \ilpls) approach~\cite{donovan2005wind,Zhang2014} and the 
+model that uses a quadratic approximation (\qcss)~\cite{turner2014new}. 
+The ILP model is a standard, exact linearization of the \qcls{} model.
 %% given in the following set of equations, which we denote WFL-ILP, \begin{eqnarray} \label{ILP}
 %% &\max_{x_i}^{}& \sum_{i \in \mathcal{N}}^{} \sum_{d \in \mathcal{D}}^{} p_d ( \frac{1}{3} \ u_{id, \infty}^3 x_i  - \sum_{j \in \mathcal{U}_{id}}^{} \frac{1}{3}(u_{id, \infty} ^3 - u_{ijd}^3)y_{i,j})   \\
 %% &s.t.:& \nonumber\\
@@ -731,22 +739,22 @@ The ILP model is a standard, exact linearization of the WFL-QCOP model.
 %% will take place in the objective function. If a turbine is placed in either $x_i$ or $x_j$ (but not in both), $y_{i,j}$ will
 %% take the value of $0$ and no wake reduction will occur. The WFL-ILP is equivalent to WFL-QCOP: the interaction
 %% variables $y_{i,j}$ of the ILP model are replaced by multiplicative expressions $x_{i}x_{j}$, which makes Constraint (\ref{Yij}) redundant. 
-However, the ILP is solved using linear optimization approaches, while WFL-QCOP is solved using quadratic programming methods as mentioned in Section~\ref{quadratic}. Hence
+However, the ILP is solved using linear optimization approaches, while \qcls{} is solved using quadratic programming methods as mentioned in Section~\ref{quadratic}. Hence
 we can expect a difference in the performance of optimization software when solving the two problems. 
 
 
 The existing constraint programming approach was
 reported to perform worse than the ILP model~\cite{Zhang2014} and so was omitted from our the experiments.
-We used state-of-the-art commercial software, Gurobi~\cite{gurobi}, to solve WFL-QCOP, ILP-LS and QP-SS. 
-For consistency, we shall refer to WFL-QCOP problem as QP-LS as it is a quadratic program that uses the LS objective.
+We used state-of-the-art commercial software, Gurobi~\cite{gurobi}, to solve \qcls{}, \ilpls{} and \qcss. 
+We shall denote the problems using their names and the solvers used as follows: \qclsgrb{} (GRB stands for Gurobi), \ilplsgrb{}, and \qcssgrb{}.
 In addition, we 
-used both Fujitsu's Digital Annealer and Gurobi to solve WFL-QUBO: we shall refer to the former as DA-LS, and to the latter
-as QUBO-LS. \todo{Arik: I think it is important to use consistent names through-out. The problem is that we do not have a unified naming format. The problems can be QC-LS, QU-LS (for Quadratic Constraint/Unconstrained Linear Superposition) instead of WFL-QCOP QFL-QUBO. Then the results need to include the solver and so we have QU-LS(DA), QU-LS(GRB), QC-LS(GRB), QC-SS(GRB), and LC-LS(GRB). (LC = Linear Constrained). I suggest you use Latex macros so that we can easily change then all again if necessary.}
+used both Fujitsu's Digital Annealer and Gurobi to solve \quls: we shall refer to the former as \qulsda{}, and to the latter
+as \qulsgrb.
 
 
 \paragraph{Experimental Procedure}
 
-For exact methods (QP-SS, ILP-LS, QP-LS and QUBO-LS),
+For exact methods (\qcss{}, \ilpls{}, \qcls{} and \quls{}),
 we ran Gurobi with a time limit of 3600 seconds. We collected all feasible solutions
 found until that point in time. The exact methods were all solved using Gurobi's quadratic programming solver on a 
 Ubuntu PC with Inte(R) Core(TM) i7-9700 8 core CPU @3.00 GHz with 12 MB cache and 8 GB RAM.
@@ -759,7 +767,7 @@ is set to the highest value that the Digital Annealer allows.\footnote{The DA ha
 
 
 %The best solution in terms of energy is the solution that attained the highest objective
-%values (SS in QP-SS and LS in the rest of the methods).
+%values (SS in \qcssgrb and LS in the rest of the methods).
  
 
 
@@ -776,7 +784,7 @@ is set to the highest value that the Digital Annealer allows.\footnote{The DA ha
 
 We measured the total expected energy of a solution using the SS expression (see Eq.~(\ref{eq:ss})).
 %\footnote{The total mean energy is presented in kW.}.
-The only method that directly optimizes SS is QP-SS. Hence, for the other methods, we converted solutions
+The only method that directly optimizes SS is \qcssgrb{}. Hence, for the other methods, we converted solutions
 LS-based solution into the SS expression using Eq.~(\ref{eq:ss}) as proposed in Zhang et al.\ \cite{Zhang2014}. Specifically, let $x = (x_1, \ldots, x_k), k=n^2$ be a turbine placement solution obtained by an LS-based method.
 Then, the SS energy expression can be written as, 
 $$\sum_{i\in \mathcal{N}}\sum_{d \in \mathcal{D}} \frac{1}{3} x_i \Bigg(u_{id,\infty} \Bigg[1-\sqrt{\sum_{j\in \mathcal{U}_{id}}x_j\bigg( 1-\frac{u_{ijd}}{u_{id,\infty}} \bigg) } \Bigg]    \Bigg)^3.$$ 
@@ -790,9 +798,9 @@ compared the average performance of all WFLO methods on all 12 WFLO instances. S
 Recall that $\mathcal{W}$ is the set of our 12 standard WFLO instances. 
 Let $b_w$ be the best energy solution (in terms of SS) obtained for an instance $w \in \mathcal{W}$ 
 across the different methods.
-%For example, the best solution (within 3600 seconds) for the second instance $w_2$ that aims at placing $30$ turbines on a $10\times10$ grid with a single wind regime is attained by QUBO-LS and the SS energy expression is $15742$ (kW); thus, we set $b_w = 15742$.
-Then, for every point in time $t \in \{0,\ldots, 3600\}$ (measured in seconds), we can compute the relative error of a given approach per instance $w$. Let $\mathcal{A}$ be the set of solution approaches, $\mathcal{A}= \mbox{
-	\{\emph{QUBO-LS}}, \mbox{\emph{QP-LS}}, \mbox{\emph{DA-LS}}, \mbox{\emph{ILP-LS}}, \mbox{\emph{QP-SS}}\}$. Further, denote by $b_{w,t,a}$ the best solution attained before time $t$ of approach $a$ for instance $w$. Then, the relative error at time $t$ for approach $a$ on instance $w$ is given by
+%For example, the best solution (within 3600 seconds) for the second instance $w_2$ that aims at placing $30$ turbines on a $10\times10$ grid with a single wind regime is attained by \qulsgrb and the SS energy expression is $15742$ (kW); thus, we set $b_w = 15742$.
+Then, for every point in time $t \in \{0,\ldots, 3600\}$ (measured in seconds), we can compute the relative error of a given approach per instance $w$. Let $\mathcal{A}$ be the set of solution approaches, $$\mathcal{A}= \mbox{
+	\{\emph{\qulsgrb}}, \mbox{\emph{\qclsgrb}}, \mbox{\emph{\qulsda}}, \mbox{\emph{\ilplsgrb}}, \mbox{\emph{\qcssgrb}}\}.$$ Further, denote by $b_{w,t,a}$ the best solution attained before time $t$ of approach $a$ for instance $w$. Then, the relative error at time $t$ for approach $a$ on instance $w$ is given by
 \begin{equation}
   RE(w,t,a) = \frac{b_w - b_{w,t,a}}{b_w}.
 \end{equation} Note that the expression is always positive, since we are solving a maximization problem. We can now average over the different instances at time $t$. The average performance of approach $a$ at time $t$, $MRE(t,a)$ can be computed as, \begin{equation} MRE(t,a) = \frac{1}{|\mathcal{W}|}\sum_{ w\in\mathcal{W}} RE(w,t,a).\end{equation}
@@ -802,11 +810,11 @@ The last measure that we introduce is the speed-up factor $S(a_1, a_2, t, w)$. T
 approach $a_1 \in \mathcal{A}$ to
 achieve the same energy level as the energy achieved by approach $a_2 \in \mathcal{A}$
 within $t$ seconds when solving instance $w$ (energy levels are measured in terms of the sum-of-squares energy expression). 
-Formally, $$S(a_1, a_2, t, w) = \frac{\min \big[\{ t' : E_{SS}(a_1, t',w) = E_{SS}(a_2, t, w) \} \cup \{3600\} \big] }{t}, $$
+Formally, \begin{equation} S(a_1, a_2, t, w) = \frac{\min \big[\{ t' : E_{SS}(a_1, t',w) = E_{SS}(a_2, t, w) \} \cup \{3600\} \big] }{t}, \label{eq:speedup} \end{equation}
 with $E_{SS}(a, t, w)$ being the SS energy value under approach $a$ for instance $w$ at time $t$. The speed-up factor 
 is useful to measure how many times faster (or slower) approach $a_1$ solves problem $w$ compared to approach $a_2$.   
-For example, $$S(\mbox{\emph{QP-LS}}, \mbox{\emph{DA-LS}}, 10, w_1)$$ is the ratio between the time that it takes QP-LS to 
-reach the same quality of solution as DA-LS achieves after $10$ seconds on problem $w_1$. Since
+For example, $$S(\mbox{\emph{\qclsgrb}}, \mbox{\emph{\qulsda}}, 10, w_1)$$ is the ratio between the time that it takes \qclsgrb{} to 
+reach the same quality of solution as \qulsda{} achieves after $10$ seconds on problem $w_1$. Since
 we limit the runtime of the exact methods by $3600$ seconds, $S$ is a lower bound on the true speed-up factor. 
 %Therefore, if for the example above the result is $3600/10$, we shall interpret it as a speed-up factor of \emph{at least} $360$. 
 
@@ -817,14 +825,14 @@ we limit the runtime of the exact methods by $3600$ seconds, $S$ is a lower boun
 %% We shall start by showing the best attained solutions by all methods.
 Table~\ref{tab:results1} contains the best energy (in kW) attained by the methods
 for the 12 WFLO instances after $100$ seconds of runtime for the exact methods. 
-The runtime for DA-LS was always less than $10$ seconds.
+The runtime for the DA was always less than $10$ seconds.
 
 
 \begin{table}[t!]
 	\small
 	\begin{tabular}{| c | c | c | c | c | c | c | c |}
 		\toprule
-		Wind Directions  & n  & m  & DA-LS  & QUBO-LS  & QP-LS  & QP-SS  & ILP-LS  \\
+		Wind Directions  & n  & m  & \qulsda{}  & \qulsgrb  & \qcls & \qcss  & \ilpls  \\
 		\toprule
 		\multirow{6}{*}{WR1}  & \multirow{3}{*}{10}       & 20       & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} \\
 		& & 30   & 15740.69 & \textbf{15742.93}  & 15738.45  & 15735.10  & 15739.57     \\
@@ -845,7 +853,7 @@ The runtime for DA-LS was always less than $10$ seconds.
 	\end{tabular}
 	
 	\vspace{0.5em}
-	\caption{Total Expected Power (kW) after 100 seconds for the exact techniques and by 10 seconds for DA-LS.}\label{tab:results1}
+	\caption{Total Expected Power (kW) after 100 seconds for the exact techniques and by 10 seconds for \qulsda{}.}\label{tab:results1}
 \end{table}
 
 
@@ -853,7 +861,7 @@ The runtime for DA-LS was always less than $10$ seconds.
 	\small
 	\begin{tabular}{| c | c | c | c | c | c | c | c |}
 		\toprule
-		Wind Directions  & n  & m  & DA-LS  & QUBO-LS  & QP-LS  & QP-SS  & ILP-LS  \\
+		Wind Directions  & n  & m  & \qulsda  & \qulsgrb  & \qcls & \qcss  & \ilpls  \\
 		\toprule
 		\multirow{6}{*}{WR1}  & \multirow{3}{*}{10}       & 20       & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} \\
 		& & 30   & 15740.69 & \textbf{15742.93}  & 15738.45  & 15735.1  & 15739.57     \\
@@ -874,17 +882,17 @@ The runtime for DA-LS was always less than $10$ seconds.
 	\end{tabular}
 	
 	\vspace{0.5em}
-	\caption{Total Expected Power (kW) after 3600 seconds and by 10 seconds for DA-LS.}\label{tab:results2}
+	\caption{Total Expected Power (kW) after 3600 seconds and by 10 seconds for \qulsda{}.}\label{tab:results2}
 \end{table}
 
 
 We observe that the DA-based solution provides
 comparable results to state-of-the-art exact methods. For the harder instances (of $36$ wind directions),
-the three quadratic LS-based approaches (DA-LS, QUBO-LS, and QP-LS) dominate the others by finding the best (or equal) solutions in 11 out of 12 instances. For easier instances, 
-the linear approach (ILP-LS) finds better solutions.
+the three quadratic LS-based approaches (\qulsda{}, \qulsgrb{}, and \qclsgrb{}) dominate the others by finding the best (or equal) solutions in 11 out of 12 instances. For easier instances, 
+the linear approach (\ilplsgrb) finds better solutions.
 %\todo{@Chris, Jason: do we have a good explanation for this?}. NO
 Table~\ref{tab:results2} shows the same type of results as in Table~\ref{tab:results1}, but now after $3600$ seconds. For the exact technique, we can see that the improvement between 100 and 3600 seconds of run-time is marginal. We also observe that the DA at 10 seconds is, therefore, still competitive with the other approaches,
-while QP-LS finds the best solutions in 10 out of the 12 scenarios. 
+while \qclsgrb{} finds the best solutions in 10 out of the 12 scenarios. 
 Our quadratic approaches dominate all six hard scenarios (12 wind directions). %\todo{@Chris: I am not sure that the first table contributes anything beyond the second table. JCB: ``We include the second table to demonstrate that only minor improvements are achieved by the exact techniques between 100 seconds of run-time.''}
 
 We now turn to present the mean relative error over time per approach. Note that lower values indicate better performance.  Figure~\ref{fig:results1} 
@@ -893,35 +901,36 @@ to the full run (after $3600$ seconds).
 %The latter provides insights into best performance in terms of energy. The 5 different lines (and their colors) 
 %correspond to the 5 WFLO solutions. The horizontal axis represents time in seconds.
 
-Our proposed quadratic models, QP-LS and DA-LS,
+Our proposed quadratic models, \qcls{} and \quls{},
 outperform the rest of the techniques both in terms of runtime (best results in short time), and in terms of overall performance.
-Specifically, for most instances, QP-LS gives the best solution at 3600 seconds, while the DA-based approach
+Specifically, for most instances, \qclsgrb{} gives the best solution at 3600 seconds, while the DA-based approach
 yields competitive solutions after less than 10 seconds. 
 Furthermore, 
-QP-LS converges to the best solution faster than all other exact methods. In fact, it is inferior only to the approximate DA-LS method.
+\qclsgrb{} converges to the best solution faster than all other exact methods. In fact, it is inferior only to the approximate \qulsda{} method.
 
 The results also show that on average 
-the ILP-LS method starts with poor solutions, yet ends up improving over QP-SS and QUBO-LS after around 1250 seconds.
+the \ilplsgrb{} method starts with poor solutions, yet ends up improving over \qcssgrb{} and \qulsgrb{} after around 1250 seconds.
 
 
-To demonstrate the gain in runtime from using the DA, we compare the average speed-up factor between
- QP-LS and a DA-LS solutions after $1$ and $10$ seconds.
-For each $w \in \mathcal{W}$ we computed the mean $S(\mbox{\emph{QP-LS}}, \mbox{\emph{DA-LS}}, t, w)$ for $t \in \{1,10\}$. 
-%and $S(QP-LS, DA-LS, 10sec, w)$
+\begin{sloppypar}To demonstrate the gain in runtime from using the DA, we compare the average speed-up factor between
+ \qclsgrb{} and a \qulsda{} solutions after $1$ and $10$ seconds.
+For each $w \in \mathcal{W}$ we computed the mean $S(\mbox{\emph{\qclsgrb}}, \mbox{\emph{\qulsda}}, t, w)$ for $t \in \{1,10\}$. 
+%and $S(\qclsgrb, \qulsda, 10sec, w)$
 %for every $w$ 
 %and averaged the speed-up factors across the instances. 
 The average speed-up factors were found to be $666$ and $100$ for $1$ and $10$ seconds, respectively. 
-Per instance, the minimum speedup was $1$ for $1$ second and $0.1$ for $10$ seconds: for some instances QP-LS achieved the same quality as DA-LS in less time. The maximum speedup was (at least) $3600$ for $1$ second and (at least) $360$ for $10$ seconds: for those instances
-QP-LS was not able to find a comparable solution to DA-LS within the $3600$ time limit. As a consequence, 
-the DA-LS speed-up is actually even higher than computed above. \todo{Arik: I think a table of speed-ups per problem instance is still necessary in an Appendix.}
+Per instance, the minimum speedup was $1$ for $1$ second and $0.1$ for $10$ seconds: for some instances \qclsgrb{} achieved the same quality as \qulsda{} in less time. The maximum speedup was (at least) $3600$ for $1$ second and (at least) $360$ for $10$ seconds: for those instances
+\qclsgrb{} was not able to find a comparable solution to \qulsda{} within the $3600$ time limit. As a consequence, 
+the \qulsda{} speed-up is actually even higher than computed above. \end{sloppypar}
 %\footnote{The speed-up factors  were rounded to have 0 values after the floating point.}
 
 %These results show that the DA achieves competitive solutions after running for $1$ second.
-%Many of the instances running QP-LS for 3600 seconds did not result in as good a solution as DA-LS at time $t$ (1 or 10 seconds).
+%Many of the instances running \qclsgrb for 3600 seconds did not result in as good a solution as \qulsda at time $t$ (1 or 10 seconds).
 %we consider the speed-up factor to be a lower bound, meaning
 When compared
-to the other LS-based methods, the DA speed-up is even larger than when compared to QP-LS.  At $1$ ($10$) seconds, the speedup factor compared to ILP-LS 
-is $1385$ ($180$) and for the QUBO-LS it is $900$ ($152$). We compare against the LS based methods as they directly optimize on the same objective as the DA.  
+to the other LS-based methods, the DA speed-up is even larger than when compared to \qclsgrb{}.  At $1$ ($10$) seconds, the speedup factor compared to \ilplsgrb{} 
+is $1385$ ($180$) and for the \qulsgrb{} it is $900$ ($152$). We compare against the LS based methods as they directly optimize on the same objective as the DA.  
+For full speedup results see Tables~\ref{tab:results3} and~\ref{tab:results4} in the Section~\ref{app1}.
 %speed-up factor, which we did not compute due to the time limit of $3600$. 
 %This is an encouraging result, especially due to the pessimistic computational complexity of WFLO.
 
@@ -946,15 +955,15 @@ is $1385$ ($180$) and for the QUBO-LS it is $900$ ($152$). We compare against th
 \section{Discussion and Practical Implications}
 
 Our result show empirically that the quadratic programming models that we
-introduced in Section~\ref{sec:QUBO4WFLO} (WFL-QCOP and WFL-QUBO) are useful in two ways.
-First, the two problems are the basis for the QP-LS and QUBO-LS methods solved with Gurobi. The two methods are powerful approaches to solving WFLO. Specifically, QP-LS yields the best performance (after 3600 seconds) for most problem instances
+introduced in Section~\ref{sec:QUBO4WFLO} (\qcls{} and \quls{}) are useful in two ways.
+First, the two methods are powerful approaches to solving WFLO. Specifically, \qcls{} yields the best performance (after 3600 seconds) for most problem instances
 and especially,
-for the hard instances with 36 wind directions. In addition, the runtime performance of QP-LS is second
-only to the Digital Annealer.  Second, the QUBO model can be solved with recent specialized hardware, Fujitsu's DA, as demonstrated by the DA-LS approach. DA-LS yields the best results in 7 out of 12 
+for the hard instances with 36 wind directions. In addition, the runtime performance of \qcls{} is second
+only to the Digital Annealer.  Second, the QUBO model can be solved with recent specialized hardware, Fujitsu's DA, as demonstrated by the \qulsda{} approach. \qulsda{} yields the best results in 7 out of 12 
 instances, shows competitive performance on the other instances, and outperforms all methods in terms of runtime (a speed-up factor of 3 orders of magnitude when the DA runs for $1$ second).
 
 
-The ability of DA-LS to quickly obtain competitive solutions on large WFLO instances 
+The ability of \qulsda{} to quickly obtain competitive solutions on large WFLO instances 
 is crucial when solving
 multiple wind farm layout problems. Moreover, it allows the flexibility to tune the various WFLO parameters (including turbine specs, number of turbines, and farm sizes) without incurring a steep computational cost that come
 with (re-)solving the problem using exact methods. The quality loss due to the use of an approximate method 
@@ -972,12 +981,12 @@ Finally, though we have not emphasized it here, all the approaches presented, in
 In this work, we presented a novel quadratic programming framework
 for solving 
 wind farm layout optimization. 
-The framework is embodied in two models: constrained (WFL-QCOP) and unconstrained binary
- (WFL-QUBO). The former can be used to solve WFLO using advanced optimization software,
+The framework is embodied in two models: constrained (\qcls) and unconstrained binary
+ (\quls). The former can be used to solve WFLO using advanced optimization software,
 while the latter can be mounted onto quantum-inspired machines that can quickly (approximately) solve WFLO. We used the constrained quadratic formulation to prove 
 that the computational complexity of WFLO is $\mathcal{NP}$-hard. Nonetheless,
 our empirical evaluation shows that when exact solvers like Gurobi~\cite{gurobi} are
-coupled with our WFL-QCOP and WFL-QUBO models they are able to solve small WFLO instances to optimality in less than 3600 seconds.
+coupled with our \qcls{} and \quls{} models they are able to solve small WFLO instances to optimality in less than 3600 seconds.
 We also show that when an advanced hardware is used with the QUBO representation, large WFLO instances can be solved quickly with no significant degradation in the total energy compared to exact methods.
 This runtime improvement and state-of-the-art performance in terms of the total energy of the resulting solutions makes our quadratic framework useful for designing new wind farms, while varying multiple input parameters. 
 
@@ -989,9 +998,90 @@ that may be larger and more complex than the 12 standard instances
 and solve them 
 using our quadratic programming approach. 
 
+
+
+
 \bibliographystyle{elsarticle-num-names}
 %\bibliographystyle{plainnat}
 \bibliography{Biblio}
+
+\appendix
+
+\section{Speedup Results}
+\label{app1}
+
+
+
+\begin{table}[t!]
+	\small
+	\begin{tabular}{| c | c | c | c | c | c | }
+		\toprule
+		Wind Directions  & n  & m  & \qcls &  \ilpls & \qulsgrb  \\
+		\toprule
+		\multirow{6}{*}{WR1}  & \multirow{3}{*}{10}  & 20 & 1       & 1 & 1  \\
+		& & 30   & N/A & N/A & 1     \\
+		& & 40 & 1 & 1 & N/A                \\
+		\cline{2-6}
+		&\multirow{3}{*}{20}   & 20  & 1  & 1  & 259         \\
+		&&30   & 3 & 2  & 9    \\
+		&&40   & 32 & 22  & 602        \\
+		\hline
+		\multirow{6}{*}{WR36} &  \multirow{3}{*}{10}    & 20 & 1       & 1661 & 1  \\
+		&& 30  & 3600 & 3600 & 3600                     \\
+		&&40   & 1 & 3600 & 1          \\
+		\cline{2-6}
+		&  \multirow{3}{*}{20}   & 20   & 3600  & 538 & 944            \\
+		&&30   & 22 & 3600 & 3304                     \\
+		&&40   & 60 & 3600 & 1717 \\
+		\bottomrule                   
+	\end{tabular}
+	
+	\vspace{0.5em}
+	\caption{Speedup factor per LS-based method for all instances w.r.t \qulsda{} at 1 second. The value 3600 implies a lower bound on the speedup factor.}\label{tab:results3}
+\end{table}
+
+
+
+
+\begin{table}[t!]
+	\small
+	\begin{tabular}{| c | c | c | c | c | c | }
+		\toprule
+		Wind Directions  & n  & m  & \qcls &  \ilpls & \qulsgrb  \\
+		\toprule
+		\multirow{6}{*}{WR1}  & \multirow{3}{*}{10}  & 20 & 0.1       & 0.1 & 0.1  \\
+		& & 30   & N/A & N/A & 0.1     \\
+		& & 40 & 0.1 & 0.1 & N/A                \\
+		\cline{2-6}
+		&\multirow{3}{*}{20}   & 20  & 1  & 1  & 25.9         \\
+		&&30   & 0.3 & 0.2  & 0.9    \\
+		&&40   & 6.1 & 2.2  & 360        \\
+		\hline
+		\multirow{6}{*}{WR36} &  \multirow{3}{*}{10}    & 20 & 0.1       & 360 & 0.2  \\
+		&& 30  & 360 & 360 & 360                     \\
+		&&40   & 0.1 & 360 & 0.1          \\
+		\cline{2-6}
+		&  \multirow{3}{*}{20}   & 20   & 360  & 360 & 360            \\
+		&&30   &  360  & 360 & 360                    \\
+		&&40   &  8  & 360 & 360 \\
+		
+		\bottomrule                   
+	\end{tabular}
+	
+	\vspace{0.5em}
+	\caption{Speedup factor per LS-based method for all instances w.r.t \qulsda{} at 10 second. The value 360 implies a lower bound on the speedup factor.}\label{tab:results4}
+\end{table}
+Table~\ref{tab:results3} presents the speedup results across all problem instances
+for every LS-based method (computed using the SS energy term). The speedup is calculated according to Eq.~(\ref{eq:speedup}). Table~\ref{tab:results4} show similar results for the speedup factor
+compared to DA at 10 seconds. Note that N/A values
+indicate that the solver has gotten an LS solution within 3600 seconds that turned out to be worse
+than a DA solution after 1 (or 10 seconds). The average lower bound on the speedup at $1$ seconds
+is 665,	1511, and 949 for \qclsgrb, \qulsgrb, and \ilplsgrb, respectively. For the $10$ seconds
+results, the average
+speedup factor is at least 99, 196, and	166 for the respective methods.
+For instances where speedup factor in Table~\ref{tab:results4} is 10 times less than in Table~\ref{tab:results3},
+the DA has found the 10 seconds solution after 1 second.
+
 
 \end{document}
 
