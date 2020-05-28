@@ -1085,7 +1085,8 @@ speedup factor is at least 99, 196, and	166 for the respective methods.
 For instances where the speedup factor in Table~\ref{tab:results4} is 10 times less than in Table~\ref{tab:results3},
 the DA found the 10-second solution after 1 second.
 
-Note that the ``N/A'' values in the table correspond to a particular situation arising from our use of two different energy functions, $E_{SS}$ and $E_{LS}$. For some problem instances an exact solver for \qcls{} finds and proves an optimal solution for the $E_{LS}$ objective. However, when that solution is evaluated using the $E_{SS}$ energy function, it has a lower energy than the solution found by the DA. This phenomenon is correct because the mapping from $E_{LS}$ to $E_{SS}$ does not necessarily preserve the ordering of solution quality. We do not include these instances in our speedup computations.  
+Note that the ``N/A'' values in the table arise from our use of two different energy functions, $E_{SS}$ and $E_{LS}$. For some problem instances, an exact solver for \qcls{} finds and proves an optimal solution for the $E_{LS}$ objective but, when that solution is evaluated using the $E_{SS}$ energy function, it has a lower energy than the solution found by the DA. This phenomenon is correct because the mapping from $E_{LS}$ to $E_{SS}$ does not necessarily preserve the ordering of solution quality. We do not include these instances in our speedup computations.  
+
 
 \end{document}
 
