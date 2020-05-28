@@ -1078,15 +1078,14 @@ using our quadratic programming approaches.
 \end{table}
 Table~\ref{tab:results3} presents the speedup results across all problem instances
 for every LS-based method (computed using the SS energy term). The speedup is calculated according to Eq.~(\ref{eq:speedup}). Table~\ref{tab:results4} shows similar results for the speedup factor
-compared to DA at 10 seconds. Note that N/A values
-indicate that the solver has achieved an LS solution within 3600 seconds that turned out to be worse
-than a DA solution after 1 (or 10 seconds). \todo{JCB: What is the difference between ``N/A'' and 3600/360?} The average lower bound on the speedup at $1$ seconds
+compared to DA at 10 seconds. The average lower bound on the speedup at $1$ seconds
 is 665,	1511, and 949 for \qclsgrb, \qulsgrb, and \ilplsgrb, respectively. For the $10$ second
 results, the average
 speedup factor is at least 99, 196, and	166 for the respective methods.
 For instances where the speedup factor in Table~\ref{tab:results4} is 10 times less than in Table~\ref{tab:results3},
 the DA found the 10-second solution after 1 second.
 
+Note that the ``N/A'' values in the table correspond to a particular situation arising from our use of two different energy functions, $E_SS$ and $E_LS$. For some problem instances an exact solver for \qcls{} finds and proves an optimal solution for the $E_LS$ objective. However, when that solution is evaluated using the $E_SS$ energy function, it has a lower energy than the solution found by the DA. This phenomenon is correct because the mapping from $E_LS$ to $E_SS$ does not necessarily preserve the ordering of solution quality. We do not include these instances in our speedup computations.  
 
 \end{document}
 
