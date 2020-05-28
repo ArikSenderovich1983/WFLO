@@ -208,7 +208,7 @@ These inter-turbine effects are best captured by Jensen's wake model~\cite{jense
 using a sum-of-squares expression~\cite{Zhang2014}. However,
 this wake modeling yields intractable optimization problems
 that must be approximated using either quadratic or linear functions~\cite{turner2014new}.
-An alternative formulation of WFLO relies on a less accurate wake model, which uses linear superpositioning
+An alternative formulation of WFLO relies on a less accurate wake model, using linear superpositioning
 to capture multiple wakes~\cite{donovan2005wind}.
 The latter can be captured using quadratic
 constraints and objective functions. However, exact optimization
@@ -224,12 +224,12 @@ problem (QCOP).  The QCOP can be solved using state-of-the-art mathematical solv
 that have been recently extended for such problems, e.g., Gurobi~\cite{gurobi}.  Our
 second model is a quadratic unconstrained binary optimization
 (QUBO) representation of the WFLO problem.  Such a formulation enables the use of
-nascent specialized optimization hardware tailored to solve QUBOs: we use Fujitsu's Digital Annealer (DA) \cite{aramon2019physics} here.
+nascent specialized optimization hardware tailored to solve QUBOs: we use Fujitsu's Digital Annealer (DA) \cite{aramon2019physics}.
 %, a hardware-based
 %QUBO solver, to demonstrate the strength of our approach.
 
 The main
-contributions of this paper are:
+contributions of this paper are as follows:
 \begin{enumerate} 
 \item We propose a novel quadratic modeling framework for WFLO that encompasses both constrained and unconstrained quadratic optimization models.
  %that captures wake 
@@ -249,7 +249,7 @@ achieves state-of-the-art performance.
 %, often outperforming existing solutions when provided sufficient run-time.
 Furthermore, we observe that the DA often provides solutions of
 similar quality to software-based approaches but with two orders of
-magnitude lower \todo{Eldan: shorter instead of lower?} run-time.
+magnitude shorter run-time.
 %The ability to quickly obtain competitive
 %solutions on large WFLO instances can be employed to solve multiple
 %wind farm design problems.
@@ -290,8 +290,9 @@ objectives (including turbine installation and maintenance
 costs)~\cite{lackner2007analytical,sorkhabi2018constrained}.  In this work, we 
 choose to focus on a
 novel approach for solving WFLO, and hence consider the most
-abstract wind farm model. Our model can be extended, in the
-future, to include additional problem characteristics as mentioned above. 
+abstract wind farm model. Extension of our framework to include such additional problem characteristics is left as future research.
+%Our model can be extended, in the
+%future, to include additional problem characteristics as mentioned above. 
  
 We assume that the number of identical turbines to be placed is known 
 in advance and denoted by $m$. To place these $m$ turbines, 
@@ -310,12 +311,12 @@ $8\times8$ grid (see Figure~\ref{fig:field_model}).
 
 \paragraph{Proximity Constraints}
 Turbines must be placed at least \emph{five rotor diameters}
-apart. Depending on the cell size, we shall formulate the
+apart. Depending on the cell size, we formulate the
 corresponding constraint as part of the optimization model. For
 example, if a turbine is placed in the center of a
 cell, a cell size of $c = 100$ meters and a rotor diameter
 of $40$ meters, requires that two turbines are not placed in adjacent cells. In Figure~\ref{fig:field_model}, the red area
-around the turbine represents the forbidden cells.
+around the turbine represents the forbidden cells. Conversely, if $c = 200$ and turbines are placed in the center of the cell, no proximity constraints are required as the required separation is enforced by the granularity of the spatial discretization.
 	 
 \paragraph{Wakes}
 Turbines influence each other through \emph{wake} interference effects~\cite{jensen1983note,shakoor2016wake}.
@@ -354,8 +355,9 @@ function over $36$ wind regimes (Figure~\ref{fig:prob_wind}). In that example,
 a regime $d=(10^\circ, 12 \mbox{ km/h})$ corresponds to a north-easterly wind blowing at a free velocity of $12\mbox{ km/h}$. The
 probability of this regime is $0.008$.
 
-Let $u_{id}$ be the wind velocity at turbine $i = 1,\ldots, m$ for wind regime $d\in\mathcal{D}$.\footnote{Turbines can adjust their orientation according to the current wind 
-regime.}  Given the interference of the wakes, the velocity of turbine $i$ is not equivalent to the free wind speed of $d$.
+Let $u_{id}$ be the wind velocity at turbine $i = 1,\ldots, m$ for wind regime $d\in\mathcal{D}$.
+%\footnote{Turbines can adjust their orientation according to the current wind regime.}
+  Given the interference of the wakes, the velocity of turbine $i$ is not equivalent to the free wind speed of $d$.
 Rather, $u_{id}$ can be computed using the following equation~\cite{Zhang2014}:
 \begin{equation}
 u_{id} = u_{id\infty} \Bigg[1 - \sqrt{\sum_{j\in\mathcal{U}_{id}} \bigg( 1-\frac{u_{ijd}}{u_{id\infty}} \bigg)^2}  \Bigg], \label{eq:ss}
@@ -470,7 +472,7 @@ that can potentially be much lower quality than the globally optimal solution~\c
 
 To overcome this limitation, Rivas et al.\ \cite{rivas2009solving} used simulated annealing (SA), 
 a neighborhood search method that allows visits to infeasible solutions. 
-This creates a well-connected solution space that leads the algorithm to escape 
+SA creates a well-connected solution space that allows the algorithm to escape 
 local optima. The SA method was shown to be superior to the approach of Ozturk \& Norman~\cite{ozturk2004heuristic} 
 and to the genetic method proposed in Grady et al.\ \cite{grady2005placement}. A drawback of the SA approach 
 is its ad-hoc nature. The various components of the algorithm
