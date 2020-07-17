@@ -157,9 +157,9 @@
 \begin{abstract} 
 %Wind farms play an increasingly important
 %role as a source of renewable energy and 
-  A key aspect of the design of a wind farm is the wind farm layout optimization (WFLO) problem: given a wind farm site and a model of the wind patterns, decide the location of individual wind turbines to maximize energy production subject to proximity restrictions and wake-based interference among turbines. Given the pairwise wake interactions, it is natural
+  A key aspect of the design of a wind farm is the wind farm layout optimization (WFLO) problem: given a wind farm site and information about the wind patterns, decide the location of individual wind turbines to maximize energy production subject to proximity restrictions and wake-based interference between turbines. Given the pairwise wake interactions, it is natural
 %While a number of heuristic and exact techniques have been proposed to solve WFLO, it is common
-to model the energy objective as a quadratic function as, indeed, has been done in some existing optimization approaches. However, state-of-the-art solutions often trade-off between efficiency (providing quick designs) and accuracy (guaranteeing optimal energy solutions). In this work, we aim to find a balancing approach that would enable to obtain WFLO solutions quickly for interactive design \emph{and} solve the problem to optimality when accuracy is the goal. To this end, we exploit recent advances in both optimization hardware and software that target quadratic constraints: commercial mixed integer linear solvers have been extended to address some quadratic problems and nascent specialized hardware, including quantum computing systems, have focused on solving quadratic unconstrained binary optimization (QUBO) problems. 
+to model the energy objective as a quadratic function as, indeed, has been done in some existing optimization approaches. However, state-of-the-art solutions often trade-off between efficiency (providing quick designs) and accuracy (guaranteeing optimal energy solutions). In this work, we aim to find a balancing approach to obtain WFLO solutions quickly for interactive design \emph{and} solve the problem to optimality when accuracy is the goal. To this end, we exploit recent advances in both optimization hardware and software that target quadratic constraints: commercial mixed integer linear solvers have been extended to address some quadratic problems and nascent specialized hardware, including quantum computing systems, have focused on solving quadratic unconstrained binary optimization (QUBO) problems. 
 %It is a key problem 
 %when designing a new wind farm, as it has a direct influence
 %on the amount of the total produced energy. 
@@ -185,9 +185,9 @@ A thorough empirical
 evaluation using a commercial solver and specialized QUBO hardware
 %demonstrates the strengths of the two models. 
 %Our results
-show that both approaches yield fast, high-quality solutions 
+show that our quadratic framework achieves fast, high-quality solutions 
 that
-improve the state of the art and strike a balance between efficiency and optimality. In particular, the QUBO model delivers high quality solutions very quickly while the QCOP model can be used to find better solutions and provide quality guarantees over a longer run-time.
+improve the state of the art and strike a balance between efficiency and optimality. In particular, the QUBO model delivers high quality solutions in a few seconds while the QCOP model can be used to find better solutions and provide quality guarantees over a longer run-time.
 \end{abstract}
 \begin{keyword}
 	Wind Farm Layout Optimization (WFLO) \sep Quadratic Programming (QP) \sep Quadratic Unconstrained Binary Optimization (QUBO) \sep Digital Annealer
