@@ -218,10 +218,8 @@ represent the quadratic relations using approximate linear models,
 as solving quadratic programming problems
 is computationally challenging compared to linear models.
 
-In recent years, there has been a growing need to efficiently solve WFLO~
-\cite{wilson2014continuous},
-while maintaining competitive (albeit not always optimal) solutions. 
-The focus on quickly solving the problem was mainly motivated by the fact
+In recent years, there has been a growing need to quickly find high quality (albeit not always optimal) WFLO solutions~\cite{wilson2014continuous}.
+The focus on quickly solving the problem was primarily motivated by the fact
 that modern farms cover large areas and include hundreds, and
 sometimes even thousands, of turbines~\cite{wilson2013learning}. The layout design
 process is iterative, computationally expensive, and controlled
@@ -233,19 +231,20 @@ one wishes
 to solve WFLO interactively at design time, while changing 
 many of the input parameter values
 and performing a sensitivity analysis to test the impact of those changes~\cite{wilson2018evolutionary}.
-The efficient approaches proposed in~\cite{wilson2013learning,wilson2014continuous} do not
-take into account the physical model of the wind farm, and hence
-do not aim at optimizing the actual energy objective.
+
+%The efficient approaches proposed in~\cite{wilson2013learning,wilson2014continuous} do not
+%take into account the physical model of the wind farm, and hence
+%do not aim at optimizing the actual energy objective.
 
 In this work, we introduce two novel quadratic WFLO models with the goal 
 of combining efficiency, physical farm representation, and optimality. The first
 model represents WFLO as a quadratic constrained optimization
-problem (QCOP).  The QCOP can be solved using state-of-the-art mathematical solvers
-that have been recently extended for such problems, e.g., Gurobi~\cite{gurobi}.  Our
+problem (QCOP).  The QCOP can be solved using state-of-the-art mathematical software
+that has been recently extended for such problems, e.g., Gurobi~\cite{gurobi}.  Our
 second model is a quadratic unconstrained binary optimization
 (QUBO) representation of the WFLO problem.  Such a formulation enables the use of
 nascent specialized optimization hardware tailored to solve QUBOs: we use Fujitsu's Digital Annealer (DA) \cite{aramon2019physics}. By employing the two types of advances (software and hardware) for solving
-quadratic problems, we enjoy the best of both worlds: 
+quadratic problems, 
 we are able to provide fast and high performing solutions (in terms of the total energy). Moreover, our approach is based
 on a physical model of the wind farm, taking into account
 exact calculations of the total energy and the wake effects. 
@@ -272,7 +271,7 @@ and show that solving quadratic WFLO models
 using Gurobi and the DA
 achieves state-of-the-art performance.
 %, often outperforming existing solutions when provided sufficient run-time.
-Furthermore, we observe that the DA often provides solutions of
+Furthermore, we observe that the DA finds solutions of
 similar quality to software-based approaches but with two orders of
 magnitude shorter run-time.
 %The ability to quickly obtain competitive
@@ -281,7 +280,8 @@ magnitude shorter run-time.
 
 The remainder of this paper is structured as follows. Section~\ref{sec:related} presents our wind farm model and a literature review of exact and approximate
 optimization solutions to the layout problem. The main contribution, namely the two quadratic models, is introduced in Section~\ref{sec:QUBO4WFLO} and Section~\ref{sec:eval} demonstrates the value of our approach via a thorough empirical evaluation.
-%of the proposed methods. 
+%of the proposed methods.
+In Section~\ref{sec:discussion}, we discuss the results and their practical implications.
 Lastly, Section~\ref{sec:conclusion} provides concluding remarks and directions for future work.   
 
 
@@ -987,6 +987,7 @@ For full speedup results see Tables~\ref{tab:results3} and~\ref{tab:results4} in
 
 
 \section{Discussion and Practical Implications}
+\label{sec:discussion}
 
 Our results show empirically that the quadratic programming models that we
 introduced in Section~\ref{sec:QUBO4WFLO} (\qcls{} and \quls{}) are useful in two ways.
