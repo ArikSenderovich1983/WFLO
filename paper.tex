@@ -159,7 +159,7 @@
 %role as a source of renewable energy and 
   A key aspect of the design of a wind farm is the wind farm layout optimization (WFLO) problem: given a wind farm site and a model of the wind patterns, decide the location of individual wind turbines to maximize energy production subject to proximity restrictions and wake-based interference among turbines. Given the pairwise wake interactions, it is natural
 %While a number of heuristic and exact techniques have been proposed to solve WFLO, it is common
-to model the energy objective as a quadratic function as, indeed, has been done in some existing optimization approaches. However, state-of-the-art solutions often trade-off between efficiency (i.e., providing quick solutions to WFLO) and accuracy (i.e., providing an optimal energy solution). In this work, we aim to find a balancing approach that would enable to obtain WFLO solutions quickly and, solve the problem to optimality if accuracy is preferred. To this end, we exploit recent advances in both optimization hardware and software that target quadratic constraints: commercial mixed integer linear solvers have been extended to address some quadratic problems and nascent specialized hardware, including quantum computing systems, have focused on solving quadratic unconstrained binary optimization (QUBO) problems. 
+to model the energy objective as a quadratic function as, indeed, has been done in some existing optimization approaches. However, state-of-the-art solutions often trade-off between efficiency (providing quick designs) and accuracy (guaranteeing optimal energy solutions). In this work, we aim to find a balancing approach that would enable to obtain WFLO solutions quickly for interactive design \emph{and} solve the problem to optimality when accuracy is the goal. To this end, we exploit recent advances in both optimization hardware and software that target quadratic constraints: commercial mixed integer linear solvers have been extended to address some quadratic problems and nascent specialized hardware, including quantum computing systems, have focused on solving quadratic unconstrained binary optimization (QUBO) problems. 
 %It is a key problem 
 %when designing a new wind farm, as it has a direct influence
 %on the amount of the total produced energy. 
@@ -175,7 +175,7 @@ to model the energy objective as a quadratic function as, indeed, has been done 
 %a quadratic optimization model. Specifically, in order 
 %to apply a software-based optimization
 %solution (Gurobi), 
-In this paper, we 
+We 
 introduce two novel quadratic programming models for WFLO: a quadratic constrained optimization problem (QCOP) with binary decision variables and a QUBO.
 %Subsequently, we provide the unconstrained counterpart of the QCOP, 
 %namely the quadratic unconstrained binary optimization (QUBO), which  
@@ -218,11 +218,12 @@ represent the quadratic relations using approximate linear models,
 as solving quadratic programming problems
 is computationally challenging compared to linear models.
 
-In recent years, there has been a growing need to efficiently solve WFLO~\cite{wilson2013learning,wilson2014continuous},
+In recent years, there has been a growing need to efficiently solve WFLO~
+\cite{wilson2014continuous},
 while maintaining competitive (albeit not always optimal) solutions. 
 The focus on quickly solving the problem was mainly motivated by the fact
 that modern farms cover large areas and include hundreds, and
-sometimes even thousands, of turbines. The layout design
+sometimes even thousands, of turbines~\cite{wilson2013learning}. The layout design
 process is iterative, computationally expensive, and controlled
 by various stakeholders. For each iteration, designers must either
 alter an incremental layout or propose a new design
@@ -231,21 +232,29 @@ Hence,
 one wishes
 to solve WFLO interactively at design time, while changing 
 many of the input parameter values
-and performing sensitivity analysis on those values~\cite{wilson2018evolutionary}.
+and performing a sensitivity analysis to test the impact of those changes~\cite{wilson2018evolutionary}.
+The efficient approaches proposed in~\cite{wilson2013learning,wilson2014continuous} do not
+take into account the physical model of the wind farm, and hence
+do not aim at optimizing the actual energy objective.
 
-In this work, we introduce two novel quadratic WFLO models. The first
+In this work, we introduce two novel quadratic WFLO models with the goal 
+of combining efficiency, physical farm representation, and optimality. The first
 model represents WFLO as a quadratic constrained optimization
 problem (QCOP).  The QCOP can be solved using state-of-the-art mathematical solvers
 that have been recently extended for such problems, e.g., Gurobi~\cite{gurobi}.  Our
 second model is a quadratic unconstrained binary optimization
 (QUBO) representation of the WFLO problem.  Such a formulation enables the use of
 nascent specialized optimization hardware tailored to solve QUBOs: we use Fujitsu's Digital Annealer (DA) \cite{aramon2019physics}. By employing the two types of advances (software and hardware) for solving
-quadratic problems, we enjoy the best of both worlds: we are able to provide fast as well as high performing solutions (in terms of the total energy). Therefore, our approach achieves the desired balance between efficiency and effectiveness of the resulting design,
+quadratic problems, we enjoy the best of both worlds: 
+we are able to provide fast and high performing solutions (in terms of the total energy). Moreover, our approach is based
+on a physical model of the wind farm, taking into account
+exact calculations of the total energy and the wake effects. 
+Therefore, our approach achieves the desired balance between efficiency and effectiveness of the resulting design, in a model-based fashion.
 %, a hardware-based
 %QUBO solver, to demonstrate the strength of our approach.
 
 The main
-contributions of this paper are as follows:
+contributions of this paper are as follows: \todo{Chris, perhaps we can strengthen the contribution list}
 \begin{enumerate} 
 \item We propose a novel quadratic modeling framework for WFLO that encompasses both constrained and unconstrained quadratic optimization models.
  %that captures wake 
@@ -414,7 +423,6 @@ method employs a genetic
 algorithm~\cite{davis1991handbook}, an approximate technique
 with no guarantees of solution quality but with the goal of quickly finding a high-quality turbine placement.
 
-
 In subsequent work~\cite{turner2014new,Zhang2014}, 
 the WFLO problem was solved using \emph{exact}  
 optimization methodologies that guarantee that the returned solution is optimal with respect
@@ -499,6 +507,11 @@ Additional methods and experimental comparisons between various approximate algo
 In our work, we also use an annealing based approach (similar to Rivas et al.\ \cite{rivas2009solving}). However,
 our methodology is generic since it is based on a declarative problem model and
 on the ability of specialized hardware to solve (non-ad-hoc) quadratic problems.
+
+
+Recently, several efficient WFLO solutions based on developmental models were introduced in~\cite{wilson2013learning,wilson2014continuous}. These works do not represent the actual underlying physical model of the system, and while providing fast solutions to WFLO,
+they do not attempt to optimize on the actual objective function (that is, the total energy that a farm produced) nor capture the complexities of the underlying problem. For example, the approach in~\cite{wilson2013learning} models turbine interference using a parametric probabilistic model (assuming a Weibull distribution). In our quadratic models, we explicitly represent the energy term, and the physical dependencies between the turbines (i.e., wakes and proximity constraints). Furthermore, our models are
+optimizing on an empirically established energy objective, namely the linear superposition expression in Eq.~(\ref{eq:ls}).
 
 %\paragraph{Quadratic Programming as a Unified Framework for Exact and Approximate WFLO}
 %\todo{send a clear message here. Perhaps move to next section}.
