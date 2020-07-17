@@ -181,7 +181,7 @@ introduce two novel quadratic programming models for WFLO: a quadratic constrain
 %namely the quadratic unconstrained binary optimization (QUBO), which  
 %is the underlying representation for quantum-inspired 
 %optimization hardware such as the DA. 
-A thorough empirical 
+A thorough numerical 
 evaluation using a commercial solver and specialized QUBO hardware
 %demonstrates the strengths of the two models. 
 %Our results
@@ -279,7 +279,7 @@ magnitude shorter run-time.
 %wind farm design problems.
 
 The remainder of this paper is structured as follows. Section~\ref{sec:related} presents our wind farm model and a literature review of exact and approximate
-optimization solutions to the layout problem. The main contribution, namely the two quadratic models, is introduced in Section~\ref{sec:QUBO4WFLO} and Section~\ref{sec:eval} demonstrates the value of our approach via a thorough empirical evaluation.
+optimization solutions to the layout problem. The main contribution, namely the two quadratic models, is introduced in Section~\ref{sec:QUBO4WFLO} and Section~\ref{sec:eval} demonstrates the value of our approach via a thorough  numerical evaluation.
 %of the proposed methods.
 In Section~\ref{sec:discussion}, we discuss the results and their practical implications.
 Lastly, Section~\ref{sec:conclusion} provides concluding remarks and directions for future work.   
@@ -714,7 +714,7 @@ standard exact optimization solvers that run until obtaining an optimal solution
 \label{sec:eval}
 
 In this section, we 
-present an empirical evaluation of the two quadratic models based on 
+present an numerical evaluation of the two quadratic models based on 
 12 standard WFLO instances.
 Our main results are: \begin{itemize}
 	\item For given time limit, the Digital Annealer (DA) achieves a solution quality as good or as better than existing state-of-the-art exact methods on 10 of 12 instances.
@@ -988,7 +988,7 @@ For full speedup results see Tables~\ref{tab:results3} and~\ref{tab:results4} in
 \section{Discussion and Practical Implications}
 \label{sec:discussion}
 
-Our results show empirically that the quadratic programming models that we
+Our results show numerically that the quadratic programming models that we
 introduced in Section~\ref{sec:QUBO4WFLO} (\qcls{} and \quls{}) are useful in two ways.
 First, the two methods are powerful approaches to solving WFLO. Specifically, \qcls{} yields the best performance (after 3600 seconds) for most problem instances
 and especially,
@@ -1020,7 +1020,7 @@ The framework is embodied in two models: constrained (\qcls) and unconstrained b
  (\quls) quadratic programs. The former can be used to solve WFLO using advanced optimization software,
 while the latter can be mounted onto specialized hardware that can quickly (approximately) solve WFLO. We used the constrained quadratic formulation to prove 
 that the computational complexity of WFLO is $\mathcal{NP}$-hard. Nonetheless,
-our empirical evaluation shows that when exact solvers like Gurobi~\cite{gurobi} are
+our numerical evaluation shows that when exact solvers like Gurobi~\cite{gurobi} are
 coupled with our \qcls{} and \quls{} models they are able to solve small WFLO instances to optimality in less than 3600 seconds.
 We also show that when an advanced hardware is used with the QUBO representation, large WFLO instances can be solved quickly with no significant degradation in the total energy compared to exact methods.
 This runtime improvement and state-of-the-art performance in terms of the total energy of the resulting solutions makes our quadratic framework useful for designing new wind farms, while varying multiple input parameters. 
