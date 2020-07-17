@@ -253,14 +253,20 @@ Therefore, our approach achieves the desired balance between efficiency and effe
 %QUBO solver, to demonstrate the strength of our approach.
 
 The main
-contributions of this paper are as follows: \todo{Chris, perhaps we can strengthen the contribution list}
+contributions of this paper are as follows:
 \begin{enumerate} 
 \item We propose a novel quadratic modeling framework for WFLO that encompasses both constrained and unconstrained quadratic optimization models.
  %that captures wake 
 %effects directly through their linear superposition. 
 %without the need for approximations and ad-hoc solutions,
 \item We prove that the QCOP variation of WFLO is $\mathcal{NP}$-hard.
-\item Through numerical experiments on two instantiations of our quadratic framework using Fujitsu's Digital Annealer and a commercial software-based quadratic solver (Gurobi), we demonstrate state-of-the-art performance in, respectively, quickly finding high-quality solutions and finding and proving optimal solutions over a longer run-time.
+
+\item We show through numerical experiments that, when solved with optimization software (Gurobi), the QCOP model results in state-of-the-art performance in terms of finding solutions with guaranteed bounds on solution quality, including finding and proving optimal solutions for a subset of the tested problem instances.
+
+\item We show through numerical experiments that, when solved with specialized hardware (Fujitsu's Digital Annealer), the QUBO model finds solutions competitive with the state of the art in one second, representing a computational speed-up of two to three orders of magnitude compared to software based methods. Such a short runtime enables an interactive wind farm design cycle.
+  
+
+  %\item Through numerical experiments on two instantiations of our quadratic framework using Fujitsu's Digital Annealer and a commercial software-based quadratic solver (Gurobi), we demonstrate state-of-the-art performance in, respectively, quickly finding high-quality solutions and finding and proving optimal solutions over a longer run-time.
 \end{enumerate}
 
 Our experiments are focused on the performance of the two approaches
