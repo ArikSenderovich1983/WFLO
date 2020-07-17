@@ -303,7 +303,7 @@ differences with our approach.
 We consider a square wind farm that we model as an $n\times n$
 grid with $n$ being the number of cells on each axis.  The cells have
 an area of $c^2$ (in square meters), i.e., if $c=100$ meters and
-$n=20$, the farm area will be $2km\times 2km$.  We
+$n=20$, the farm area will be $2 \mbox{ km} \times 2 \mbox{ km}$.  We
 assume that the terrain is flat and that we have no constraints
 related to the terrain.  Furthermore, we do not account for the
 influence of noise on the wind farm's surroundings. The wind farm
@@ -478,8 +478,7 @@ These methods do not guarantee termination
 not guarantee optimal solutions. Hence, one must often
 introduce non-quality related stopping criteria, 
 thus compromising on the quality of the obtained solution~\cite{davis1991handbook}.
-Furthermore, there is no natural way of introducing constraints into genetic methods (see e.g., \cite{sorkhabi2018constrained}), which
-leads to a potentially costly feasibility check for every solution found. 
+Furthermore, it is awkward to introduce constraints into genetic methods (see e.g., \cite{sorkhabi2018constrained}), leading to potentially costly feasibility checks and problem-specific repair operations for every solution found. 
 
 The first attempt to address these limitations 
 was made using a local search approach~\cite{ozturk2004heuristic}. 
@@ -509,9 +508,9 @@ our methodology is generic since it is based on a declarative problem model and
 on the ability of specialized hardware to solve (non-ad-hoc) quadratic problems.
 
 
-Recently, several efficient WFLO solutions based on developmental models were introduced in~\cite{wilson2013learning,wilson2014continuous}. These works do not represent the actual underlying physical model of the system, and while providing fast solutions to WFLO,
-they do not attempt to optimize on the actual objective function (that is, the total energy that a farm produced) nor capture the complexities of the underlying problem. For example, the approach in~\cite{wilson2013learning} models turbine interference using a parametric probabilistic model (assuming a Weibull distribution). In our quadratic models, we explicitly represent the energy term, and the physical dependencies between the turbines (i.e., wakes and proximity constraints). Furthermore, our models are
-optimizing on an empirically established energy objective, namely the linear superposition expression in Eq.~(\ref{eq:ls}).
+Recently, several efficient WFLO solutions based on developmental models were introduced~\cite{wilson2013learning,wilson2014continuous}. These works do not represent the actual underlying physical model of the system, and while providing fast solutions to WFLO,
+they do not attempt to optimize on the actual objective function (that is, the total energy that a farm produced) nor capture the complexities of the underlying problem. For example, one approach~\cite{wilson2013learning} models turbine interference using a parametric probabilistic model (assuming a Weibull distribution). In our quadratic models, we explicitly represent the energy term, and the physical dependencies between the turbines (i.e., wakes and proximity constraints). Furthermore, our models
+optimize an empirically established energy objective, the linear superposition expression in Eq.~(\ref{eq:ls}).
 
 %\paragraph{Quadratic Programming as a Unified Framework for Exact and Approximate WFLO}
 %\todo{send a clear message here. Perhaps move to next section}.
@@ -743,7 +742,7 @@ Instances with $36$ wind regimes are considered computationally more challenging
 
 Additional parameters that were used to calculate 
 the velocities ($u_{id\infty}, u_{ijd}$) include: turbine height ($60$ meters),
-ground roughness ($0.3$ meters), turbine rotor radius ($20$ meters), and a wind farm of size $2km \times 2km$.\footnote{The implementation of constructing the 12 standard WFLO instances can be found in~\url{https://bit.ly/2YIjTl1}.}
+ground roughness ($0.3$ meters), turbine rotor radius ($20$ meters), and a wind farm of size $2 \mbox{km} \times 2 \mbox{km}$.\footnote{The implementation of constructing the 12 standard WFLO instances can be found in~\url{https://bit.ly/2YIjTl1}.}
 
 
 \begin{figure}[t]
