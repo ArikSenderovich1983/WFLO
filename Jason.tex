@@ -129,9 +129,7 @@
 %\ead[url]{https://ischool.utoronto.ca/profile/arik-senderovich/}
 \ead{arik.senderovich@utoronto.ca}
 
-\author[add2]{Eldan Cohen}
-\ead{ecohen@mie.utoronto.ca}
-%\ead[url]{homepageldan}
+
 
 
 
@@ -143,6 +141,10 @@
 %\address[2]{40 St. George St., Toronto, Canada}
 \author[add2]{Jiachen Zhang}
 \ead{jasonzjc@mie.utoronto.ca}
+
+\author[add2]{Eldan Cohen}
+\ead{ecohen@mie.utoronto.ca}
+%\ead[url]{homepageldan}
 
 \author[add2]{J. Christopher Beck\corref{cor1}}
 \ead{jcb@mie.utoronto.ca}
@@ -710,11 +712,10 @@ Commercial MIP solvers have seen extensive development over the past 20 years an
 
 Recent years have seen significant advancement in the use of specialized hardware platforms, such as adiabatic and gate-based quantum computers, Digital/CMOS annealers, and neuromorphic computers \cite{coffrin2019evaluating}, to solve hard combinatorial optimization problems. Interestingly, a large number of these platforms support the optimization of quadratic functions over binary variables by using Ising models \cite{johnson2011quantum}, an equivalent representation to QUBO \cite{bian2010ising}, as their mathematical abstraction.
 
-\textcolor{purple}{In this work, we use the Fujitsu Digital Annealer (DA), a recent computer architecture designed for solving QUBO problems \cite{matsubara2020digital}. The third generation DA (DA3), a hybrid system of hardware and software, is capable of representing QUBOs with up to 100000 variables. For our DA environment, the coefficients for the quadratic terms range from $-2^{62}$ to $2^{62}$ and those for the linear terms range from $-2^{73}$ to $2^{73}$ \cite{DA3}. The algorithm used by the DA is based on simulated annealing \cite{kirkpatrick1983optimization}, however it takes advantage of the massive parallelization provided by the custom CMOS hardware and uses a dynamic offset mechanism to escape local minima \cite{aramon2019physics}. In addition, DA supports a dedicated bit flip mechanism, over a subset of variables belonging to one-hot equivalent constraints when using DA3. The Fujitsu Digital Annealer has been previously applied to variety of problems in different research areas such as machine learning \cite{cohen2020ising,salehinejad2019ising} and communication \cite{naghsh2019digitally,rahman2019ising}.}
+In this work, we use the first generation of the Fujitsu Digital Annealer (DA) \cite{aramon2019physics}, a specialized CMOS hardware capable of solving QUBO problems with up to 1024 binary variables. The algorithm used by the DA is based on simulated annealing \cite{kirkpatrick1983optimization}, however it takes advantage of the massive parallelization provided by the custom CMOS hardware and uses a dynamic offset mechanism to escape local minima \cite{aramon2019physics}. The Fujitsu Digital Annealer has been previously applied to variety of problems in different research areas such as machine learning \cite{cohen2020ising,salehinejad2019ising} and communication \cite{naghsh2019digitally,rahman2019ising}.
 
 Unlike %exact techninques
 standard exact optimization solvers that run until obtaining an optimal solution, the DA runs until reaching a time limit and returns the best found solution.  In our experiments, we analyze the quality of obtained solutions for different time limits.
-
 
 
 \section{Evaluation}
@@ -724,9 +725,9 @@ In this section, we
 present an numerical evaluation of the two quadratic models based on 
 12 standard WFLO instances.
 Our main results are: \begin{itemize}
-	\item For given time limit, the Digital Annealer (DA) achieves a solution quality as good or as better than existing state-of-the-art exact methods on \textcolor{purple}{8 of 12 instances}.
-	\item To achieve such a solution quality, the runtime for solving \quls{} on the DA is at least \textcolor{purple}{one orders of magnitude} shorter than \qcls{} on state-of-the-art commercial solvers for hard WFLO instances.  
-	\item Given sufficient runtime, solving the \qcls{} model with commercial software yields strong results on most of the instances. Compared to previous exact models (such as \qcss), \qcls{} is able to find equal or better solutions on \textcolor{purple}{6 of 12 benchmark problems and for 3 of the 6 hard ones.} %  \todo{Arik: Is this correct? Table 2 shows DA@10seconds with the best solution found for 7/12 instances and \qcls{}grb@3600 for 6/12. And 4/6 vs. 3/6 for the WR36). Are you comparing \qcls{}grb with \qcssgrb and ILP-LS? We seem to be underplaying DA performance in this comment. Chris: I changed to competitive results. You're right, I'd say that the DA is not `losing' to \qcls{}grb.}  
+	\item For given time limit, the Digital Annealer (DA) achieves a solution quality as good or as better than existing state-of-the-art exact methods on 10 of 12 instances.
+		\item To achieve such a solution quality, the runtime for solving \quls{} on the DA is at least two orders of magnitude shorter than \qcls{} on state-of-the-art commercial solvers for hard WFLO instances.  
+	\item Given sufficient runtime, solving the \qcls{} model with commercial software yields strong results on most of the instances. Compared to previous exact models (such as \qcss), \qcls{} is able to find equal or better solutions on 8 of 12 benchmark problems and for 5 of the 6 hard ones. %  \todo{Arik: Is this correct? Table 2 shows DA@10seconds with the best solution found for 7/12 instances and \qcls{}grb@3600 for 6/12. And 4/6 vs. 3/6 for the WR36). Are you comparing \qcls{}grb with \qcssgrb and ILP-LS? We seem to be underplaying DA performance in this comment. Chris: I changed to competitive results. You're right, I'd say that the DA is not `losing' to \qcls{}grb.}  
 \end{itemize}
 
 We start by outlining the experimental design of our evaluation, followed by an overview of our main results,
@@ -784,7 +785,7 @@ we can expect a difference in the performance of optimization software when solv
 
 The existing constraint programming approach was
 reported to perform worse than the ILP model~\cite{Zhang2014} and so was omitted from our the experiments.
-We used state-of-the-art commercial software, \textcolor{purple}{Gurobi v9.1.1~\cite{gurobi}}, to solve \qcls{}, \ilpls{} and \qcss. 
+We used state-of-the-art commercial software, Gurobi~\cite{gurobi}, to solve \qcls{}, \ilpls{} and \qcss. 
 We shall denote the problems using their names and the solvers used as follows: \qclsgrb{} (GRB for Gurobi), \ilplsgrb{}, and \qcssgrb{}.
 In addition, we 
 used both Fujitsu's Digital Annealer and Gurobi to solve \quls: we shall refer to the former as \qulsda{} and to the latter
@@ -795,15 +796,13 @@ as \qulsgrb.
 
 For exact methods (\qcss{}, \ilpls{}, \qcls{} and \quls{}),
 we ran Gurobi with a time limit of 3600 seconds. We collected all feasible solutions
-found until that point in time. The exact methods were solved using Gurobi's integer programming and quadratic programming solvers on a \textcolor{purple}{Window PC with Intel(R) Core(TM) i7-8700K CPU @3.20GHz with 16 GB RAM.}
+found until that point in time. The exact methods were solved using Gurobi's integer programming and quadratic programming solvers on a 
+Ubuntu PC with Intel(R) Core(TM) i7-9700 8 core CPU@3.00 GHz with 12 MB cache and 8 GB RAM.
 
 For the DA, we used a single configuration that was found to work best across the different instances. 
-The DA was run for increasingly large time limits \textcolor{purple}{ranging from $1$ second to $10$ seconds} where we no longer observe an improvement in 
-performance. The penalty terms $\lambda_1$ and $\lambda_2$ (see~Eq.~\eqref{QUBO}) are selected such that $\lambda_1= \lambda_2$ \textcolor{purple}{and their magnitudes are tuned by DA3 automatically.}
-
-
-
-
+The DA was run for increasingly large time limits ranging from $0.7$ seconds to $65$ seconds where we no longer observe an improvement in 
+performance. The penalty terms $\lambda_1$ and $\lambda_2$ (see~Eq.~\eqref{QUBO}) are selected such that $\lambda_1= \lambda_2$ and sum of the two penalty terms, namely $\lambda_1+\lambda_2$, 
+is the highest value that the Digital Annealer allows.\footnote{The DA has an upper limit on the size of objective function coefficients.} 
  
 
 
@@ -873,23 +872,23 @@ The runtime for the DA was always less than $10$ seconds.
 	\small
 	\begin{tabular}{| c | c | c | c | c | c | c | c |}
 		\toprule
-		Wind Directions  & n  & m  & \qulsda{}  & \qulsgrb  & \qclsgrb & \qcssgrb  & \ilplsgrb  \\
+		Wind Directions  & n  & m  & \qulsda{}  & \qulsgrb  & \qcls & \qcss  & \ilpls  \\
 		\toprule
 		\multirow{6}{*}{WR1}  & \multirow{3}{*}{10}       & 20       & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} \\
-		& & 30   & \textbf{15742.93} & \textbf{15742.93}  & 15740.69  & 15741.81  & 15741.81     \\
-		& & 40 & \textbf{19265.21} & 18954.28 & \textbf{19265.21}  & \textbf{19265.21} & \textbf{19265.21}                \\
+		& & 30   & 15740.69 & \textbf{15742.93}  & 15738.45  & 15735.10  & 15739.57     \\
+		& & 40 & \textbf{19265.21} & 18952.97 & \textbf{19265.21}  & \textbf{19265.21} & \textbf{19265.21}                \\
 		\cline{2-8}
 		&\multirow{3}{*}{20}   & 20       & \textbf{11404.80}  & \textbf{11404.80}  & \textbf{11404.80}  & \textbf{11404.80}  & \textbf{11404.80}          \\
-		&&30   & 16399.56 & 16602.85  & 16761.18  & \textbf{16774.37} & 16760.91                  \\
-		&&40   & \textbf{21973.80} & 21854.57  & 21907.27 & 21918.85 & 21894.62       \\
+		&&30   & 16570.96 & 16715.19  & \textbf{16758.45}  & 16755.75 & 16695.05                  \\
+		&&40   & 21874.04 & 21643.56  & 21905.50 & \textbf{21977.17} & \textbf{21977.17}        \\
 		\hline
-		\multirow{6}{*}{WR36} &  \multirow{3}{*}{10}    & 20       & \textbf{19221.44} & \textbf{19221.44} & \textbf{19221.44} & 19175.88 & 19186.58 \\
-		&& 30  & 27440.08 & 27442.90 & \textbf{27443.34} & 27393.49 & 27406.48                     \\
-		&& 40   & \textbf{35409.58} & 34938.65 & 34888.37 & 34824.24  & 34867.31          \\
+		\multirow{6}{*}{WR36} &  \multirow{3}{*}{10}    & 20       & \textbf{19221.44} & \textbf{19221.44} & \textbf{19221.44} & 19193.42 & 19022.77 \\
+		&& 30  & \textbf{27450.99} & 27418.74 & 27442.90 & 27387.06 & 27247.50                     \\
+		&&40   & 34888.81 & \textbf{34938.65} & \textbf{34938.65} & 34817.27  & 34671.62          \\
 		\cline{2-8}
-		&  \multirow{3}{*}{20}   & 20   & \textbf{19437.49}  & 19310.96 & 19391.76 & 19333.97  & 19331.84            \\
-		&&30   & \textbf{27939.08} & 27689.15  & 27885.49 & 27747.88  & 27859.50                      \\
-		&&40   & 35547.27 & 35352.31 & \textbf{35623.11}   & 35229.93 & 35521.68 \\
+		&  \multirow{3}{*}{20}   & 20   & \textbf{19441.17}  & 19172.56 & 19336.33 & 19354.23  & 18448.64            \\
+		&&30   & \textbf{27975.55} & 27443.80  & 27752.00 & 27492.11  & 26367.20                      \\
+		&&40   & 35604.45 & 35127.32 & \textbf{35665.60}   & 35065.85 & 33451.94 \\
 		\bottomrule                   
 	\end{tabular}
 	
@@ -902,23 +901,23 @@ The runtime for the DA was always less than $10$ seconds.
 	\small
 	\begin{tabular}{| c | c | c | c | c | c | c | c |}
 		\toprule
-		Wind Directions  & n  & m  & \qulsda{}  & \qulsgrb  & \qclsgrb & \qcssgrb  & \ilplsgrb  \\
+		Wind Directions  & n  & m  & \qulsda  & \qulsgrb  & \qcls & \qcss  & \ilpls  \\
 		\toprule
 		\multirow{6}{*}{WR1}  & \multirow{3}{*}{10}       & 20       & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} & \textbf{11185.41} \\
-		& & 30   & \textbf{15742.93} & \textbf{15742.93}  & 15740.69  & 15741.81  & 15741.81     \\
-		& & 40 & \textbf{19265.21} & 18954.28 & \textbf{19265.21}  & \textbf{19265.21} & \textbf{19265.21}                \\
+		& & 30   & 15740.69 & \textbf{15742.93}  & 15738.45  & 15735.1  & 15739.57     \\
+		& & 40 & \textbf{19265.21} & 18952.97 & \textbf{19265.21}  & \textbf{19265.21} & \textbf{19265.21}                \\
 		\cline{2-8}
 		&\multirow{3}{*}{20}   & 20       & \textbf{11404.80}  & \textbf{11404.80}  & \textbf{11404.80}  & \textbf{11404.80}  & \textbf{11404.80}          \\
-		&&30   & 16399.56 & 16769.09  & 16761.18  & \textbf{16774.37} & 16770.17                  \\
-		&&40   & \textbf{21973.80} & 21891.25  & 21919.68 & 21918.85 & 21973.69       \\
+		&&30   & 16570.96 & 16742.66  & 16758.45  & 16755.75 & \textbf{16770.20 }                 \\
+		&&40   & 21874.04 & 21832.50  & 21963.81 & \textbf{21977.17} & \textbf{21977.17}        \\
 		\hline
-		\multirow{6}{*}{WR36} &  \multirow{3}{*}{10}    & 20       & \textbf{19221.44} & \textbf{19221.44} & \textbf{19221.44} & 19175.88 & 19186.58 \\
-		&& 30  & 27440.08 & 27442.90 & \textbf{27443.34} & 27393.49 & 27422.53                     \\
-		&& 40   & \textbf{35409.58} & 34938.65 & 34938.65 & 34824.24  & 34867.31          \\
+		\multirow{6}{*}{WR36} &  \multirow{3}{*}{10}    & 20       & \textbf{19221.44} & \textbf{19221.44} & \textbf{19221.44} & 19193.42 & 19213.96 \\
+		&& 30  & \textbf{27450.99} & 27442.90 & 27442.90 & 27387.06 & 27389.21                     \\
+		&&40   & 34888.81 & \textbf{34938.65} & \textbf{34938.65} & 34817.27  & 34856.45          \\
 		\cline{2-8}
-		&  \multirow{3}{*}{20}   & 20   & 19437.49  & \textbf{19437.52} & 19411.21 & 19388.72  & 19337.11            \\
-		&&30   & \textbf{27939.08} & 27812.30  & 27885.49 & 27866.93  & 27869.54                      \\
-		&&40   & 35547.27 & 35571.63 & \textbf{35623.11}   & 35264.47 & 35539.74 \\
+		&  \multirow{3}{*}{20}   & 20   & \textbf{19441.17}  & 19394.58 & 19336.33 & 19354.23  & 19368.86            \\
+		&&30   & \textbf{27975.55} & 27785.74  & 27752.00 & 27492.11  & 27633.20                      \\
+		&&40   & 35604.45 & 35480.90 & \textbf{35665.60}   & 35065.85 & 35210.78 \\
 		\bottomrule                   
 	\end{tabular}
 	
@@ -929,15 +928,15 @@ The runtime for the DA was always less than $10$ seconds.
 
 We observe that the DA-based solution provides
 comparable results to state-of-the-art exact methods. For the harder instances (with $36$ wind directions),
-the three quadratic LS-based approaches (\qulsda{}, \qulsgrb{}, and \qclsgrb{}) dominate the others by finding the best (or equal) solutions in \textcolor{purple}{all 6 instances. For easier instances, 
-the DA-based approach (\qulsda{}) is also dominating as it finds the best solutions in 5 out of 6 solutions.}
+the three quadratic LS-based approaches (\qulsda{}, \qulsgrb{}, and \qclsgrb{}) dominate the others by finding the best (or equal) solutions in 5 out of 6 instances. For easier instances, 
+the linear approach (\ilplsgrb) finds better solutions.
 %\todo{@Chris, Jason: do we have a good explanation for this?}. NO
 Table~\ref{tab:results2} shows the same type of results as in Table~\ref{tab:results1}, but now after $3600$ seconds for exact methods. For the exact technique, we can see that the improvement between 100 and 3600 seconds of run-time is marginal. We also observe that the DA at 10 seconds is, therefore, still competitive with the other approaches,
-while \qclsgrb{} finds the best solutions in \textcolor{purple}{6} out of the 12 scenarios. 
+while \qclsgrb{} finds the best solutions in 10 out of the 12 scenarios. 
 Our quadratic approaches dominate all six hard scenarios (36 wind directions). %\todo{@Chris: I am not sure that the first table contributes anything beyond the second table. JCB: ``We include the second table to demonstrate that only minor improvements are achieved by the exact techniques between 100 seconds of run-time.''}
 
-We now turn to present the mean relative error over time per approach. Note that lower values indicate better performance.  \textcolor{purple}{Figure~\ref{fig:results1} 
-presents the MRE over the first $100$ seconds,} while Figure~\ref{fig:results2} corresponds
+We now turn to present the mean relative error over time per approach. Note that lower values indicate better performance.  Figure~\ref{fig:results1} 
+presents the MRE over the first $50$ seconds, while Figure~\ref{fig:results2} corresponds
 to the full run (after $3600$ seconds).
 %The latter provides insights into best performance in terms of energy. The 5 different lines (and their colors) 
 %correspond to the 5 WFLO solutions. The horizontal axis represents time in seconds.
@@ -945,13 +944,13 @@ to the full run (after $3600$ seconds).
 %\todo{Eldan regarding the first sentence in what follows: I feel like this is not well defined? MRE is a single metric. Do you mean that our approaches have the best MRE both after a short time period (of say 10 seconds) but also at longer time limits (including 3600)?}
 Our proposed quadratic models, \qcls{} and \quls{},
 outperform the rest of the techniques across the entire runtime time horizon that was tested.
-\textcolor{purple}{Specifically, for most instances, \qclsgrb{} gives the best solutions at 3600 seconds, while the DA-based approach \qulsda{}
-yields competitive solutions after less than 10 seconds. However, the good performance of \quls{} only occurs when the solver is the DA. In fact, \qulsgrb{} trails all the other methods.
+Specifically, for most instances, \qclsgrb{} gives the best solution at 3600 seconds, while the DA-based approach
+yields competitive solutions after less than 10 seconds. 
 Furthermore, 
-\qclsgrb{} converges to the best solutions faster than all other exact methods. In fact, it is inferior only to the approximate \qulsda{} method when the runtime is relatively small.}
+\qclsgrb{} converges to the best solution faster than all other exact methods. In fact, it is inferior only to the approximate \qulsda{} method.
 
-\textcolor{purple}{The results also show that on average 
-the \ilplsgrb{} method starts with poor solutions, and ends up improving over \qcssgrb{} after around 3 seconds.}
+The results also show that on average 
+the \ilplsgrb{} method starts with poor solutions, yet ends up improving over \qcssgrb{} and \qulsgrb{} after around 1250 seconds.
 
 
 \begin{sloppypar}To demonstrate the gain in runtime from using the DA, we compare the average speed-up factor between
@@ -960,7 +959,7 @@ For each $w \in \mathcal{W}$ we computed the mean $S(\mbox{\emph{\qclsgrb}}, \mb
 %and $S(\qclsgrb, \qulsda, 10sec, w)$
 %for every $w$ 
 %and averaged the speed-up factors across the instances. 
-The average speed-up factors were found to be \textcolor{purple}{$666$ and $100$ for $1$ and $10$ seconds, respectively.} \textcolor{red}{(Arik, please change the speed-up ratios, the rest of the paragraph, and next paragraph.)}
+The average speed-up factors were found to be $666$ and $100$ for $1$ and $10$ seconds, respectively. 
 Per instance, the \emph{minimum} speedup was $1$ for $1$ second and $0.1$ for $10$ seconds: for some instances \qclsgrb{} achieved the same quality as \qulsda{} in less time. The \emph{maximum} speedup was (at least) $3600$ for $1$ second and (at least) $360$ for $10$ seconds: for those instances
 \qclsgrb{} was not able to find a comparable solution to \qulsda{} within the $3600$ time limit. As a consequence, 
 the mean \qulsda{} speed-up is actually even higher than computed above. \end{sloppypar}
@@ -978,15 +977,15 @@ For full speedup results see Tables~\ref{tab:results3} and~\ref{tab:results4} in
 
 \begin{figure}[t]%
 	
-	\includegraphics[width=\textwidth]{Figures/MRE_100s_DA3.png}  
-	\caption{Mean Relative Energy (wrt best feasible solution) vs. Runtime (after 100 seconds).}%
+	\includegraphics[width=\textwidth]{energy_50.png}  
+	\caption{Mean Relative Energy (wrt best feasible solution) vs. Runtime (after 50 seconds).}%
 	
 	\label{fig:results1}%
 \end{figure}
 
 \begin{figure}[t]%
 	
-	\includegraphics[width=\textwidth]{Figures/MRE_3600s_DA3.png}   \\%\\
+	\includegraphics[width=\textwidth]{energy_3600.png}   \\%\\
 	\caption{Mean Relative Energy (wrt best feasible solution) vs. Runtime (after 3600 seconds).}%
 	
 	\label{fig:results2}%
@@ -997,11 +996,13 @@ For full speedup results see Tables~\ref{tab:results3} and~\ref{tab:results4} in
 \section{Discussion and Practical Implications}
 \label{sec:discussion}
 
-\textcolor{purple}{Our results show numerically that the quadratic programming models that we
+Our results show numerically that the quadratic programming models that we
 introduced in Section~\ref{sec:QUBO4WFLO} (\qcls{} and \quls{}) are useful in two ways.
-First, the two methods are powerful approaches to solving WFLO. Specifically, \qcls{} yields the best performance (after 3600 seconds). Second, the QUBO model can be solved with recent specialized hardware, Fujitsu's DA, as demonstrated by the \qulsda{} approach. \qulsda{} yields the best results in 8 out of 12 problem instances (both easy instances with 1 wind direction and hard instances with 36 wind directions). 
-In addition, the runtime performance of \qulsda{} is second
-only to the \qclsgrb{} and outperforms all methods in terms of performance in short runtimes} (a speed-up factor of 3 orders of magnitude when the DA runs for $1$ second) \textcolor{red}{(Arik, please change the speed-up factors.)}.
+First, the two methods are powerful approaches to solving WFLO. Specifically, \qcls{} yields the best performance (after 3600 seconds) for most problem instances
+and especially,
+for the hard instances with 36 wind directions. In addition, the runtime performance of \qcls{} is second
+only to the Digital Annealer.  Second, the QUBO model can be solved with recent specialized hardware, Fujitsu's DA, as demonstrated by the \qulsda{} approach. \qulsda{} yields the best results in 7 out of 12 
+instances, shows competitive performance on the other instances, and outperforms all methods in terms of performance in short runtimes (a speed-up factor of 3 orders of magnitude when the DA runs for $1$ second).
 
 
 
