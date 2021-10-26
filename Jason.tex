@@ -161,7 +161,7 @@
 %role as a source of renewable energy and 
   A key aspect of the design of a wind farm is the wind farm layout optimization (WFLO) problem: given a wind farm site and information about the wind patterns, the problem is to decide the location of individual wind turbines to maximize energy production subject to proximity restrictions and wake-based interference between turbines. Given the pairwise wake interactions, it is natural
 %While a number of heuristic and exact techniques have been proposed to solve WFLO, it is common
-to model the energy objective as a quadratic function as, indeed, has been done in some existing optimization approaches. However, state-of-the-art solutions often trade-off between speed in producing designs and quality in terms of finding and proving optimal solutions. In this work, we aim to find a balancing approach to obtain WFLO solutions quickly for interactive design \emph{and} solve the problem to optimality when quality is more important. To this end, we exploit recent advances in optimization hardware and software that target quadratic constraints: commercial mixed integer linear solvers have been extended to address some quadratic problems and nascent specialized hardware, including quantum computing systems, have focused on solving quadratic unconstrained binary optimization (QUBO) problems. 
+to model the energy objective as a quadratic function as, indeed, has been done in some existing optimization approaches. However, state-of-the-art solutions often trade-off between speed in producing designs and quality in terms of finding and proving optimal solutions. In this work, we aim to find a balanced approach to obtain WFLO solutions quickly for interactive design \emph{and} solve the problem to optimality when quality is more important. To this end, we exploit recent advances in optimization hardware and software that target quadratic constraints: commercial mixed integer linear solvers have been extended to address some quadratic problems and nascent specialized hardware, including quantum computing systems, have focused on solving quadratic unconstrained binary optimization (QUBO) problems. 
 %It is a key problem 
 %when designing a new wind farm, as it has a direct influence
 %on the amount of the total produced energy. 
@@ -198,7 +198,7 @@ improve the state of the art and strike a balance between speed and quality. In 
 \maketitle 
 
 \section{Introduction}
-% Todo
+
 The goal in the wind farm layout optimization (WFLO)
 problem~\cite{MOSETTI1994105} is to locate wind turbines within a
 predefined area to maximize the total power harvested from the wind
@@ -247,10 +247,10 @@ second model is a quadratic unconstrained binary optimization
 (QUBO) representation of the WFLO problem.  Such a formulation enables the use of
 nascent specialized optimization hardware tailored to solve QUBOs: we use Fujitsu's Digital Annealer (DA) \cite{aramon2019physics}. By employing the two types of advances (software and hardware) for solving
 quadratic problems, 
-we are able to provide fast and high performing solutions (in terms of the total energy). Moreover, our approach is based
+we are able to quickly find high quality solutions in terms of the total energy. Moreover, our approach is based
 on a physical model of the wind farm, taking into account
 exact calculations of the total energy and the wake effects. 
-Therefore, our approach achieves the desired balance between efficiency and effectiveness of the resulting design, in a model-based fashion.
+These two models together achieve a balance between efficiency and effectiveness of the resulting design, in a model-based fashion.
 %, a hardware-based
 %QUBO solver, to demonstrate the strength of our approach.
 
@@ -279,9 +279,11 @@ and show that solving quadratic WFLO models
 using Gurobi and the DA
 achieves state-of-the-art performance.
 %, often outperforming existing solutions when provided sufficient run-time.
-Furthermore, we observe that the DA finds solutions of
-similar quality to software-based approaches but with two orders of
-magnitude shorter run-time.
+
+%Furthermore, we observe that the DA finds solutions of
+%similar quality to software-based approaches but with two orders of
+%magnitude shorter run-time.
+
 %The ability to quickly obtain competitive
 %solutions on large WFLO instances can be employed to solve multiple
 %wind farm design problems.
@@ -300,9 +302,9 @@ We start this section by presenting the physical model of a wind farm
 %used throughout the paper.
 %Our wind farm model is
 based on the common
-notation and description presented in Zhang et al.\ \cite{Zhang2014}.  Subsequently,
-we provide a literature review of existing mathematical optimization
-methods for solving WFLO, focusing on their similarities and
+notation and description of Zhang et al.\ \cite{Zhang2014}.  Subsequently,
+we review the literature on existing mathematical optimization
+methods for solving WFLO, focusing on similarities and
 differences with our approach.
  
 \subsection{The Wind Farm Model}
@@ -322,15 +324,15 @@ effects~\cite{Zhang2014,sorkhabi2016impact,yin2014multi}, and complex
 objectives (including turbine installation and maintenance
 costs)~\cite{lackner2007analytical,sorkhabi2018constrained}.  In this work, we 
 choose to focus on a
-novel approach for solving WFLO, and hence consider the most
+novel approach for solving WFLO, and hence consider a more
 abstract wind farm model. Extension of our framework to include such additional problem characteristics is left as future research.
 %Our model can be extended, in the
 %future, to include additional problem characteristics as mentioned above. 
  
 We assume that the number of identical turbines to be placed is known 
 in advance and denoted by $m$. To place these $m$ turbines, 
-we must consider two types of interference effects, namely \emph{proximity constraints} and \emph{wakes}.
-In what follows, we explain the two effects using a toy example of placing a single turbine on an 
+we must consider two types of interference effect: \emph{proximity constraints} and \emph{wakes}.
+In what follows, we explain the two effects using a toy example with an 
 $8\times8$ grid (see Figure~\ref{fig:field_model}).
 
 \begin{figure}[t]
@@ -352,11 +354,10 @@ of $40$ meters, requires that two turbines are not placed in adjacent cells. In 
 around the turbine represents the forbidden cells. Conversely, if $c = 200$ and turbines are placed in the center of the cell, no proximity constraints are required as the required separation is enforced by the granularity of the spatial discretization.
 	 
 \paragraph{Wakes}
-Turbines influence each other through \emph{wake} interference effects~\cite{jensen1983note,shakoor2016wake}.
+Turbines influence each other through \emph{wake} interference effects that reduce the effective power produced by a turbine due to upstream turbines that change the airflow dynamics~\cite{jensen1983note,shakoor2016wake}.
 %that are
 %referred to as \emph{wakes}~\cite{jensen1983note,shakoor2016wake}.
-Wakes cause reduction of the effective power produced by a turbine due
-to upstream turbines that change the airflow dynamics. In
+ In
 Figure~\ref{fig:field_model}, the wind is assumed to be
 blowing from left to right. The wake effect due to placing the turbine
 expands as shown in the diagram.
@@ -385,7 +386,7 @@ The probability of wind regime
 $d \in \mathcal{D}$ is given by $p_d$ with $\sum_{d \in \mathcal{D}}^{} p_d = 1$. In the experimental section (Section~\ref{sec:eval}),
 we provide one example of a probability distribution 
 function over $36$ wind regimes (Figure~\ref{fig:prob_wind}). In that example, 
-a regime $d=(10^\circ, 12 \mbox{ km/h})$ corresponds to a north-easterly wind blowing at a free velocity of $12\mbox{ km/h}$. The
+one regime $d=(10^\circ, 12 \mbox{ km/h})$ corresponds to a north-easterly wind blowing at a free velocity of $12\mbox{ km/h}$. The
 probability of this regime is $0.008$.
 
 Let $u_{id}$ be the wind velocity at turbine $i = 1,\ldots, m$ for wind regime $d\in\mathcal{D}$.
@@ -448,7 +449,7 @@ The WFLO problem can be solved
 to optimality, using
 techniques from operations research (e.g., mixed-integer linear programming (MILP), quadratic programming (QP), and constraint programming (CP))~\cite{Zhang2014,turner2014new,donovan2005wind}.
 These methods are \emph{exact}, in the sense that they guarantee that the returned solution is indeed
-the best solution one can obtain for the given problem. Donovan was the first to solve WFLO using a
+the best solution one can obtain for the given model of the problem. Donovan was the first to solve WFLO using a
 MILP approach based on the LS energy expression~\cite{donovan2005wind}. Turner et al.\ \cite{turner2014new} approximated the SS energy expression using a quadratic and a linear approximation. The two resulting methods performed well when
 compared to existing approximate and exact techniques.
 Another non-linear optimization approach \cite{ulku2019new} relaxed the binary placement variables to continuous values in $[0,1]$
@@ -472,27 +473,27 @@ but rather an exact representation of the LS objective. That is, while the previ
 While the main advantage of exact techniques
 is that they provide guarantees on solution quality, they may take a very long time to  find an optimal solution. 
 In fact, Section~\ref{sec:QUBO4WFLO} shows formally that WFLO is computationally hard, a result
-that we have not yet encountered in the WFLO literature. Therefore,
+that is not surprising but that has apparently not explicitly appeared in the WFLO literature. Therefore,
 when one considers solving multiple wind farm design problems, if a fast solution is of essence,
 one may turn to approximate optimization techniques.
 
 \paragraph{Approximate Methods} In contrast to exact methods, approximation algorithms often provide   
-quick and, hopefully, sufficiently accurate solutions. Several works have solved 
+quick and, hopefully, sufficiently high-quality solutions. Several works have solved 
 WFLO using evolutionary (genetic) approaches~\cite{MOSETTI1994105,gonzalez2010optimization,grady2005placement}. 
 %These methods use two principles (cross-over and mutation)
 %to change existing solutions and improve them over time.
 These methods do not guarantee termination 
-(i.e., they may run forever without achieving a quality criteria), and even when they do terminate (in practical cases) they do
+(i.e., they may run forever without achieving a quality criteria), and even when they do terminate they do
 not guarantee optimal solutions. Hence, one must often
 introduce non-quality related stopping criteria, 
-thus compromising on the quality of the obtained solution~\cite{davis1991handbook}.
+compromising the quality of the obtained solution~\cite{davis1991handbook}.
 Furthermore, it is awkward to introduce constraints into genetic methods (see e.g., \cite{sorkhabi2018constrained}), leading to potentially costly feasibility checks and problem-specific repair operations for every solution found. 
 
 The first attempt to address these limitations 
 was made using a local search approach~\cite{ozturk2004heuristic}. 
-The solution does not guarantee optimality, 
+The approach does not guarantee optimality, 
 yet it circumvents the termination and feasibility checking issues of the evolutionary
-methods. The local search approach attempts to apply either move, remove or add actions given an incumbent 
+methods. The local search attempts to apply either move, remove or add actions given an incumbent 
 feasible solution. When a turbine is moved, removed or added, the new solution is evaluated. The procedure terminates 
 when a stopping criteria is reached.
 The main limitation of this approach 
@@ -513,7 +514,8 @@ Additional methods and experimental comparisons between various approximate algo
 
 In our work, we also use an annealing based approach (similar to Rivas et al.\ \cite{rivas2009solving}). However,
 our methodology is generic since it is based on a declarative problem model and
-on the ability of specialized hardware to solve (non-ad-hoc) quadratic problems.
+on the ability of specialized hardware to solve %(non-ad-hoc)
+quadratic problems.
 
 
 Recently, several efficient WFLO solutions based on developmental models were introduced~\cite{wilson2013learning,wilson2014continuous}. These works do not represent the actual underlying physical model of the system, and while providing fast solutions to WFLO,
@@ -556,7 +558,7 @@ A benchmark study comparing state-of-the-art exact approaches \cite{Zhang2014} t
 approximate methods found that the two perform in a comparable fashion, without large differences between
 the attained energy~\cite{yang2019simulated}. Exact methods tend to perform slightly better
 in smaller WFLO benchmarks, while simulated annealing methods dominated for larger standard WFLO benchmarks. 
-These results lead to the conclusion that both types of methods (exact and approximate) should be considered. Therefore, we introduce a unified paradigm, namely quadratic programming, that enables
+These results led to the conclusion that both types of methods (exact and approximate) should be considered. Therefore, we introduce a unified paradigm, namely quadratic programming, that enables
 both exact and approximate solutions to WFLO. Further, formulating WFLO using quadratic programming enables us to employ 
 recent advanced exact software solutions (e.g., Gurobi optimizer) and approximate hardware developments 
 (e.g., Fujitsu's Digital Annealer).
@@ -578,7 +580,7 @@ The former represents WFLO characteristics (proximity and number of turbines)
 as hard constraints, while the latter considers these characteristics as soft constraints such that the objective function is penalized in case these
 constraints are violated.
 
-We start by presenting the inputs and decision variables into our optimization approaches.
+We start by presenting the inputs and decision variables of our optimization approaches.
 Subsequently, we introduce the two quadratic formulations of WFLO and 
 prove its computational complexity. Lastly, we discuss the details of existing
 software and hardware solutions that can be used to solve the two formulations. 
@@ -693,9 +695,11 @@ Since a special case of \qcls{} is  $\mathcal{NP}$-hard,  \qcls{} is at least $\
 quadratically constrained optimization problem (IQCOP), which is notorious for its computational complexity~\cite{van1981another}.
 %In fact, we proved in Section~\ref{sec:computational} that WFL-QCOP is $\mathcal{NP}$-hard.
 The common exact methods for solving
-IQCOPs are tree search \cite{land2010automatic} algorithms with a variety of sophisticated techniques to limit the search necessary to find and prove optimality.  In operations research, the generic exact approach for solving IQCOPs is the branch-and-cut based mixed integer programming (MIP) \cite{bonami2008algorithmic}. A MIP solver, such as the one we use (Gurobi), uses a linear or quadratic continuous relaxation to efficiently compute a bound on the objective function. This relaxation is used to generate cuts, implied constraints that tighten the relaxation, to identify sub-trees that can be discarded without search because they are guaranteed not to contain a solution better than the current incumbent, and to drive the heuristic branching that systematically searches for a solution. Typically, this process of cut generation, reasoning about sub-trees, and branching is performed at each node in the search tree.
+IQCOPs are tree search \cite{land2010automatic} algorithms with a variety of sophisticated techniques to limit the search necessary to find and prove optimality.  In operations research, the generic exact approach for solving IQCOPs is the branch-and-cut based mixed integer programming (MIP) \cite{bonami2008algorithmic}.
 
-Commercial MIP solvers have seen extensive development over the past 20 years and hardware-independent algorithmic improvements have delivered orders of magnitude improved performance \cite{Bixby07a}. More recently the development of such solvers has focused on representing and solving quadratic problems such as \qcls{}~\cite{Furini19a}.
+%A MIP solver, such as the one we use (Gurobi), uses a linear or quadratic continuous relaxation to efficiently compute a bound on the objective function. This relaxation is used to generate cuts, implied constraints that tighten the relaxation, to identify sub-trees that can be discarded without search because they are guaranteed not to contain a solution better than the current incumbent, and to drive the heuristic branching that systematically searches for a solution. %Typically, this process of cut generation, reasoning about sub-trees, and branching is performed at each node in the search tree.
+
+Commercial MIP solvers have seen extensive development over the past 20 years with hardware-independent algorithmic improvements have delivered orders of magnitude improved performance \cite{Bixby07a}. More recently the development of such solvers has focused on representing and solving quadratic problems such as \qcls{}~\cite{Furini19a}.
 %By solving a relaxed problem to bound the objective value at each node and strengthening the relaxed problem with cutting planes to restrict the feasible region further, MIP solvers has been proved effective for attacking IQCOPs \cite{junger200950}.
 
 %Constraint programming (CP) \cite{rossi2006handbook} is another tree search framework that can be applied to solve IQCOPs. At each node in the search tree, inference algorithms that are often encapsulated in the global constraints \cite{katriel20066}, conduct domain filtering on each constraint. Domain filtering removes possible values from variable domains by proving that a value cannot satisfy the constraint and hence cannot appear in a global solution, hence pruning sub-trees with variable assignments that are not part of any feasible solution.
