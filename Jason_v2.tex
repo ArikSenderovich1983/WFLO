@@ -264,7 +264,7 @@ contributions of this paper are as follows:
 
 \item We show through numerical experiments that, when solved with optimization software (Gurobi), the QCOP model results in state-of-the-art performance in terms of finding solutions with guaranteed bounds on solution quality, including finding and proving optimal solutions for a subset of the tested problem instances.
 
-\item We show through numerical experiments that, when solved with specialized hardware (Fujitsu's Digital Annealer), the QUBO model finds solutions competitive with the state of the art in one second, representing a computational speed-up of two to three orders of magnitude compared to software based methods. \todo{Jason: Does the previous sentence need to be updated given the new results?} Such a short runtime enables an interactive wind farm design cycle.
+\item We show through numerical experiments that, when solved with specialized hardware (Fujitsu's Digital Annealer), \textcolor{purple}{the QUBO model finds solutions competitive with the state of the art in 1 second, representing a computational speed-up of two to three orders of magnitude compared to software based methods.} Such a short runtime enables an interactive wind farm design cycle.
   
 
   %\item Through numerical experiments on two instantiations of our quadratic framework using Fujitsu's Digital Annealer and a commercial software-based quadratic solver (Gurobi), we demonstrate state-of-the-art performance in, respectively, quickly finding high-quality solutions and finding and proving optimal solutions over a longer run-time.
@@ -730,7 +730,7 @@ present an numerical evaluation of the two quadratic models based on
 12 standard WFLO instances.
 Our main results are: \begin{itemize}
 	\item For given time limit, the Digital Annealer (DA) achieves a solution quality as good or as better than all tested state-of-the-art exact methods on 8 of 12 instances.
-	\item This performance is achieved for the \quls{} model with a runtime that is at least one order of magnitude shorter than \qcls{} on state-of-the-art commercial solvers for hard WFLO instances. \todo{Jason: This claim (``one order of magnitude'') need to be made consistent with the claims and results later in the papaer.}
+	\item \textcolor{purple}{This performance is achieved for the \quls{} model with a runtime that is two to three orders of magnitude shorter than \qcls{} on state-of-the-art commercial solvers for hard WFLO instances.}
 	\item Given sufficient runtime, solving the \qcls{} model with commercial software yields strong results on most of the instances. Compared to all tested previous exact models (such as \qcss), \qcls{} is able to find equal or better solutions on 6 of 12 benchmark problems and for 3 of the 6 hard ones. %  \todo{Arik: Is this correct? Table 2 shows DA@10seconds with the best solution found for 7/12 instances and \qcls{}grb@3600 for 6/12. And 4/6 vs. 3/6 for the WR36). Are you comparing \qcls{}grb with \qcssgrb and ILP-LS? We seem to be underplaying DA performance in this comment. Chris: I changed to competitive results. You're right, I'd say that the DA is not `losing' to \qcls{}grb.}  
 \end{itemize}
 
@@ -873,10 +873,12 @@ Table~\ref{tab:results1} contains the best energy (in kW) attained by the method
 for the 12 WFLO instances after $100$ seconds of runtime for the exact methods. 
 The runtime for the DA was always less than $10$ seconds.
 
-\todo{Jason: Fix tables to fit on width of page.}
+% \todo{Jason: Fix tables to fit on width of page.}
 
 \begin{table}[t!]
 	\small
+	\centering
+	\scalebox{0.76}{
 	\begin{tabular}{| c | c | c | c | c | c | c | c |}
 		\toprule
 		Wind Directions  & n  & m  & \qulsda{}  & \qulsgrb  & \qclsgrb & \qcssgrb  & \ilplsgrb  \\
@@ -898,7 +900,7 @@ The runtime for the DA was always less than $10$ seconds.
 		&&40   & 35547.27 & 35352.31 & \textbf{35623.11}   & 35229.93 & 35521.68 \\
 		\bottomrule                   
 	\end{tabular}
-	
+	}
 	\vspace{0.5em}
 	\caption{Total Expected Power (kW) after 100 seconds for the exact techniques and by 10 seconds for \qulsda{}.}\label{tab:results1}
 \end{table}
@@ -906,6 +908,8 @@ The runtime for the DA was always less than $10$ seconds.
 
 \begin{table}[t!]
 	\small
+	\centering
+	\scalebox{0.76}{
 	\begin{tabular}{| c | c | c | c | c | c | c | c |}
 		\toprule
 		Wind Directions  & n  & m  & \qulsda{}  & \qulsgrb  & \qclsgrb & \qcssgrb  & \ilplsgrb  \\
@@ -927,7 +931,7 @@ The runtime for the DA was always less than $10$ seconds.
 		&&40   & 35547.27 & 35571.63 & \textbf{35623.11}   & 35264.47 & 35539.74 \\
 		\bottomrule                   
 	\end{tabular}
-	
+	}
 	\vspace{0.5em}
 	\caption{Total Expected Power (kW) after 3600 seconds and by 10 seconds for \qulsda{}.}\label{tab:results2}
 \end{table}
@@ -951,13 +955,13 @@ to the full run (after $3600$ seconds).
 %\todo{Eldan regarding the first sentence in what follows: I feel like this is not well defined? MRE is a single metric. Do you mean that our approaches have the best MRE both after a short time period (of say 10 seconds) but also at longer time limits (including 3600)?}
 Our proposed quadratic models, \qcls{} and \quls{},
 outperform the rest of the techniques across the entire runtime time horizon that was tested.
-Specifically, for most instances, \qclsgrb{} gives the best solutions at 3600 seconds, while the DA-based approach \qulsda{}
-yields the best solutions after 10 seconds. However, the good performance of \quls{} only occurs when the solver is the DA. In fact, \qulsgrb{} trails all the other methods.
+Specifically, for most instances, \qclsgrb{} gives the best solutions at 3600 seconds, \textcolor{purple}{while the DA-based approach \qulsda{}
+yields the best solutions after 6 seconds.} However, the good performance of \quls{} only occurs when the solver is the DA. In fact, \qulsgrb{} trails all the other methods.
 Furthermore, 
 \qclsgrb{} converges to the best solutions faster than all other exact methods. In fact, it is inferior only to the approximate \qulsda{} method when the runtime is relatively small.
 
-The results also show that on average 
-the \ilplsgrb{} method starts with poor solutions, and ends up improving over \qcssgrb{} after around 3 seconds.
+\textcolor{purple}{The results also show that on average 
+the \ilplsgrb{} method starts with poor solutions, and ends up improving over \qcssgrb{} after around 2 seconds.}
 
 
 \begin{sloppypar}To demonstrate the gain in runtime from using the DA, we compare the average speed-up factor between
@@ -966,8 +970,7 @@ For each $w \in \mathcal{W}$ we computed the mean $S(\mbox{\emph{\qclsgrb}}, \mb
 %and $S(\qclsgrb, \qulsda, 10sec, w)$
 %for every $w$ 
 %and averaged the speed-up factors across the instances. 
-The average speed-up factors were found to be $666$ and $100$ for $1$ and $10$ seconds, respectively. \todo{(Arik, please change the speed-up ratios, the rest of the paragraph, and next paragraph.)}
-Per instance, the \emph{minimum} speedup was $1$ for $1$ second and $0.1$ for $10$ seconds: for some instances \qclsgrb{} achieved the same quality as \qulsda{} in less time. The \emph{maximum} speedup was (at least) $3600$ for $1$ second and (at least) $360$ for $10$ seconds: for those instances
+\textcolor{purple}{The average speed-up factors were found to be $988$ and $131$ for $1$ and $10$ seconds, respectively.} Per instance, the \emph{minimum} speedup was $1$ for $1$ second and $0.1$ for $10$ seconds: for some instances \qclsgrb{} achieved the same quality as \qulsda{} in less time. The \emph{maximum} speedup was (at least) $3600$ for $1$ second and (at least) $360$ for $10$ seconds: for those instances
 \qclsgrb{} was not able to find a comparable solution to \qulsda{} within the $3600$ time limit. As a consequence, 
 the mean \qulsda{} speed-up is actually even higher than computed above. \end{sloppypar}
 %\footnote{The speed-up factors  were rounded to have 0 values after the floating point.}
@@ -976,16 +979,16 @@ the mean \qulsda{} speed-up is actually even higher than computed above. \end{sl
 %Many of the instances running \qclsgrb for 3600 seconds did not result in as good a solution as \qulsda at time $t$ (1 or 10 seconds).
 %we consider the speed-up factor to be a lower bound, meaning
 When compared
-to the other LS-based methods, the DA speed-up is even larger than when compared to \qclsgrb{}.  At $1$ ($10$) seconds, the mean speedup factor compared to \ilplsgrb{} 
-is $1385$ ($180$) and for the \qulsgrb{} it is $900$ ($152$). We compare against the LS based methods as they directly optimize on the same objective as the DA.  
+to the other LS-based methods, the DA speed-up is even larger than when compared to \qclsgrb{}.  \textcolor{purple}{At $1$ ($10$) seconds, the mean speedup factor compared to \ilplsgrb{} 
+is $1430$ ($197$) and for the \qulsgrb{} it is $1013$ ($134$).} We compare against the LS based methods as they directly optimize on the same objective as the DA.  
 For full speedup results see Tables~\ref{tab:results3} and~\ref{tab:results4} in~\ref{app1}.
 %speed-up factor, which we did not compute due to the time limit of $3600$. 
 %This is an encouraging result, especially due to the pessimistic computational complexity of WFLO.
 
 \begin{figure}[t]%
 	
-	\includegraphics[width=\textwidth]{Figures/MRE_100s_DA3.png}  
-	\caption{Mean Relative Energy (wrt best feasible solution) vs. Runtime (after 100 seconds).}%
+	\includegraphics[width=\textwidth]{Figures/MRE_100s_DA3_NEW.png}  
+	\caption{\textcolor{purple}{Mean Relative Energy (wrt best feasible solution) vs. Runtime (after 100 seconds).}}%
 	
 	\label{fig:results1}%
 \end{figure}
@@ -1007,7 +1010,7 @@ Our results show numerically that the quadratic programming models that we
 introduced in Section~\ref{sec:QUBO4WFLO} (\qcls{} and \quls{}) are useful in two ways.
 First, the two methods are powerful approaches to solving WFLO. Specifically, \qcls{} yields the best performance (after 3600 seconds). Second, the QUBO model can be solved with recent specialized hardware, Fujitsu's DA, as demonstrated by the \qulsda{} approach. \qulsda{} yields the best results in 8 out of 12 problem instances (both easy instances with 1 wind direction and hard instances with 36 wind directions). 
 In addition, the runtime performance of \qulsda{} is second
-only to the \qclsgrb{} and outperforms all methods in terms of performance in short runtimes (a speed-up factor of 3 orders of magnitude when the DA runs for $1$ second) \todo{(Arik, please change the speed-up factors.)}.
+only to the \qclsgrb{} and outperforms all methods in terms of performance in short runtimes (a speed-up factor of 3 orders of magnitude when the DA runs for $10$ seconds).
 
 
 
@@ -1054,10 +1057,9 @@ This runtime improvement and state-of-the-art performance in terms of the total 
 \label{app1}
 
 
-\todo{Arik \& Jason: do these need to be updated?}
-
 \begin{table}[t!]
 	\small
+	\centering
 	\begin{tabular}{| c | c | c | c | c | c | }
 		\toprule
 		Wind Directions  & n  & m  & \qcls &  \ilpls & \qulsgrb  \\
@@ -1066,22 +1068,22 @@ This runtime improvement and state-of-the-art performance in terms of the total 
 		& & 30   & N/A & N/A & 1     \\
 		& & 40 & 1 & 1 & N/A                \\
 		\cline{2-6}
-		&\multirow{3}{*}{20}   & 20  & 1  & 1  & 259         \\
-		&&30   & 3 & 2  & 9    \\
-		&&40   & 32 & 22  & 602        \\
+		&\multirow{3}{*}{20}   & 20  & 1  & 1  & 30         \\
+		&&30   & 1 & 1  & 2    \\
+		&&40   & 3600 & 143 & 3600        \\
 		\hline
-		\multirow{6}{*}{WR36} &  \multirow{3}{*}{10}    & 20 & 1       & 1661 & 1  \\
-		&& 30  & 3600 & 3600 & 3600                     \\
-		&&40   & 1 & 3600 & 1          \\
+		\multirow{6}{*}{WR36} &  \multirow{3}{*}{10}    & 20 & 1       & 3600 & 1  \\
+		&& 30  & 1 & 1184 & 1                     \\
+		&&40   & 1 & 1 & 1          \\
 		\cline{2-6}
-		&  \multirow{3}{*}{20}   & 20   & 3600  & 538 & 944            \\
-		&&30   & 22 & 3600 & 3304                     \\
-		&&40   & 60 & 3600 & 1717 \\
+		&  \multirow{3}{*}{20}   & 20   & 3600  & 3600 & 2224            \\
+		&&30   & 3600 & 3600 & 3600                     \\
+		&&40   & 66 & 3600 & 1683 \\
 		\bottomrule                   
 	\end{tabular}
 	
 	\vspace{0.5em}
-	\caption{Speedup factor per LS-based method for all instances w.r.t \qulsda{} at 1 second. The value 3600 implies a lower bound on the speedup factor.}\label{tab:results3}
+	\caption{\textcolor{purple}{Speedup factor per LS-based method for all instances w.r.t \qulsda{} at 1 second. The value 3600 implies a lower bound on the speedup factor.}}\label{tab:results3}
 \end{table}
 
 
@@ -1089,6 +1091,7 @@ This runtime improvement and state-of-the-art performance in terms of the total 
 
 \begin{table}[t!]
 	\small
+	\centering
 	\begin{tabular}{| c | c | c | c | c | c | }
 		\toprule
 		Wind Directions  & n  & m  & \qcls &  \ilpls & \qulsgrb  \\
@@ -1097,30 +1100,30 @@ This runtime improvement and state-of-the-art performance in terms of the total 
 		& & 30   & N/A & N/A & 0.1     \\
 		& & 40 & 0.1 & 0.1 & N/A                \\
 		\cline{2-6}
-		&\multirow{3}{*}{20}   & 20  & 1  & 1  & 25.9         \\
-		&&30   & 0.3 & 0.2  & 0.9    \\
-		&&40   & 6.1 & 2.2  & 360        \\
+		&\multirow{3}{*}{20}   & 20  & 1  & 1  & 3         \\
+		&&30   & 0.1 & 0.1  & 0.2    \\
+		&&40   & 360 & 14.3  & 360        \\
 		\hline
-		\multirow{6}{*}{WR36} &  \multirow{3}{*}{10}    & 20 & 0.1       & 360 & 0.2  \\
-		&& 30  & 360 & 360 & 360                     \\
-		&&40   & 0.1 & 360 & 0.1          \\
+		\multirow{6}{*}{WR36} &  \multirow{3}{*}{10}    & 20 & 0.1       & 360 & 0.1  \\
+		&& 30  & 0.1 & 360 & 0.2                     \\
+		&& 40   & 360 & 360 & 360          \\
 		\cline{2-6}
-		&  \multirow{3}{*}{20}   & 20   & 360  & 360 & 360            \\
-		&&30   &  360  & 360 & 360                    \\
-		&&40   &  8  & 360 & 360 \\
+		&  \multirow{3}{*}{20}   & 20   & 360  & 360 & 222.4            \\
+		&& 30   &  360  & 360 & 360                   \\
+		&& 40   &  6.6  & 360 & 168.3 \\
 		
 		\bottomrule                   
 	\end{tabular}
 	
 	\vspace{0.5em}
-	\caption{Speedup factor per LS-based method for all instances w.r.t \qulsda{} at 10 second. The value 360 implies a lower bound on the speedup factor.}\label{tab:results4}
+	\caption{\textcolor{purple}{Speedup factor per LS-based method for all instances w.r.t \qulsda{} at 10 second. The value 360 implies a lower bound on the speedup factor.}}\label{tab:results4}
 \end{table}
 Table~\ref{tab:results3} presents the speedup results across all problem instances
 for every LS-based method (computed using the SS energy formulation). The speedup is calculated according to Eq.~(\ref{eq:speedup}). Table~\ref{tab:results4} shows similar results for the speedup factor
-compared to DA at 10 seconds. The average lower bound on the speedup at $1$ seconds
-is 665,	1511, and 949 for \qclsgrb, \qulsgrb, and \ilplsgrb, respectively. For the $10$ second
+compared to DA at 10 seconds. \textcolor{purple}{The average lower bound on the speedup at $1$ seconds
+is 988, 1430, and 1013 for \qclsgrb, \ilplsgrb, and \qulsgrb,  respectively. For the $10$ second
 results, the average
-speedup factor is at least 99, 196, and	166 for the respective methods.
+speedup factor is at least 131, 197, and 134 for the respective methods.}
 For instances where the speedup factor in Table~\ref{tab:results4} is 10 times less than in Table~\ref{tab:results3},
 the DA found the 10-second solution after 1 second.
 
