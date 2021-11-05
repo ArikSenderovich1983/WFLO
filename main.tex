@@ -264,7 +264,7 @@ contributions of this paper are as follows:
 
 \item We show through numerical experiments that, when solved with optimization software (Gurobi), the QCOP model results in state-of-the-art performance in terms of finding solutions with guaranteed bounds on solution quality, including finding and proving optimal solutions for a subset of the tested problem instances.
 
-\item We show through numerical experiments that, when solved with specialized hardware (Fujitsu's Digital Annealer), the QUBO model finds solutions competitive with the state of the art in one second, representing a computational speed-up of two to three orders of magnitude compared to software based methods. Such a short runtime enables an interactive wind farm design cycle.
+\item We show through numerical experiments that, when solved with specialized hardware, the QUBO model finds solutions competitive with the state of the art in one second, representing a computational speed-up of two to three orders of magnitude compared to software based methods. Such a short runtime enables an interactive wind farm design cycle.
   
 
   %\item Through numerical experiments on two instantiations of our quadratic framework using Fujitsu's Digital Annealer and a commercial software-based quadratic solver (Gurobi), we demonstrate state-of-the-art performance in, respectively, quickly finding high-quality solutions and finding and proving optimal solutions over a longer run-time.
@@ -714,7 +714,7 @@ Commercial MIP solvers have seen extensive development over the past 20 years wi
 
 Recent years have seen significant advancement in the use of specialized hardware platforms, such as adiabatic and gate-based quantum computers, digital/CMOS annealers, and neuromorphic computers \cite{coffrin2019evaluating}, to solve hard combinatorial optimization problems. A large number of these platforms support the optimization of quadratic functions over binary variables by using Ising models \cite{johnson2011quantum}, an equivalent representation to QUBO \cite{bian2010ising}, as their mathematical abstraction.
 
-In this work, we use the Fujitsu Digital Annealer (DA), a recent computer architecture designed for solving QUBO problems \cite{matsubara2020digital}. The third generation DA (DA3), a hybrid system of hardware and software, is capable of representing QUBOs with up to 100000 variables. For our DA environment, the coefficients for the quadratic terms range from $-2^{62}$ to $2^{62}$ and those for the linear terms range from $-2^{73}$ to $2^{73}$ \cite{DA3}. The algorithm used by the DA is based on simulated annealing \cite{kirkpatrick1983optimization}, however it takes advantage of the massive parallelization provided by the custom CMOS hardware and uses a dynamic offset mechanism to escape local minima \cite{aramon2019physics}. In addition, DA3 supports a dedicated bit flip mechanism, over a subset of variables belonging to one-hot equivalent constraints. The Fujitsu Digital Annealer has been previously applied to variety of problems in different research areas such as machine learning \cite{cohen2020ising,salehinejad2019ising} and communication \cite{naghsh2019digitally,rahman2019ising}.
+In this work, we use the Fujitsu Digital Annealer (DA), a recent computer architecture designed for solving QUBO problems \cite{matsubara2020digital}. The third generation DA (DA3), a hybrid system of hardware and software, is capable of representing QUBOs with up to 100000 variables. For our DA environment\footnote{All experiments were conducted on the Digital Annealer environment prepared exclusively for the University of Toronto’s research.}, the coefficients for the quadratic terms range from $-2^{62}$ to $2^{62}$ and those for the linear terms range from $-2^{73}$ to $2^{73}$ \cite{DA3}. The algorithm used by the DA is based on simulated annealing \cite{kirkpatrick1983optimization}, however it takes advantage of the massive parallelization provided by the custom CMOS hardware and uses a dynamic offset mechanism to escape local minima \cite{aramon2019physics}. In addition, DA3 supports a dedicated bit flip mechanism, over a subset of variables belonging to one-hot equivalent constraints. The Fujitsu Digital Annealer has been previously applied to variety of problems in different research areas such as machine learning \cite{cohen2020ising,salehinejad2019ising} and communication \cite{naghsh2019digitally,rahman2019ising}.
 
 Unlike %exact techniques
 standard exact optimization solvers that run until obtaining an optimal solution, the DA runs until reaching a time limit and returns the best found solution.  In our experiments, we analyze the quality of solutions for different time limits.
@@ -1007,7 +1007,7 @@ For full speedup results see Tables~\ref{tab:results3} and~\ref{tab:results4} in
 
 Our results show numerically that the quadratic programming models that we
 introduced in Section~\ref{sec:QUBO4WFLO} (\qcls{} and \quls{}) are useful in two ways.
-First, the two methods are powerful approaches to solving WFLO. Specifically, \qcls{} yields the best performance (after 3600 seconds). Second, the QUBO model can be solved with recent specialized hardware, Fujitsu's DA, as demonstrated by the \qulsda{} approach. \qulsda{} yields the best results in 8 out of 12 problem instances (both easy instances with 1 wind direction and hard instances with 36 wind directions). 
+First, the two methods are powerful approaches to solving WFLO. Specifically, \qcls{} yields the best performance (after 3600 seconds). Second, the QUBO model can be solved with recent computer architecture, Fujitsu's DA, as demonstrated by the \qulsda{} approach. \qulsda{} yields the best results in 8 out of 12 problem instances (both easy instances with 1 wind direction and hard instances with 36 wind directions). 
 In addition, the runtime performance of \qulsda{} is second
 only to the \qclsgrb{} and outperforms all methods in terms of performance in short runtimes (a speed-up factor of three orders of magnitude when the DA runs for $10$ seconds).
 
@@ -1037,7 +1037,7 @@ while the latter can be mounted onto specialized hardware that can quickly (appr
 that the computational complexity of WFLO is $\mathcal{NP}$-hard. Nonetheless,
 our numerical evaluation shows that when exact solvers like Gurobi~\cite{gurobi} are
 coupled with our \qcls{} and \quls{} models they are able to solve small WFLO instances to optimality in less than 3600 seconds.
-We also show that when an advanced hardware is used with the QUBO representation, large WFLO instances can be solved quickly with no significant degradation in the total energy compared to exact methods.
+We also show that when an advanced computer architecture is used with the QUBO representation, large WFLO instances can be solved quickly with no significant degradation in the total energy compared to exact methods.
 This runtime improvement and state-of-the-art performance in terms of the total energy of the resulting solutions makes our quadratic framework useful for designing new wind farms, while varying multiple input parameters. 
 
 
@@ -1048,7 +1048,8 @@ This runtime improvement and state-of-the-art performance in terms of the total 
 %and solve them 
 %using our quadratic programming approaches. 
 
-
+\section*{Acknowledgement}
+The authors would like to thank Fujitsu Ltd. and Fujitsu Consulting (Canada) Inc. for providing financial support and access to Digital Annealer at the University of Toronto.
 
 \appendix
 
