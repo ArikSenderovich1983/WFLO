@@ -697,7 +697,7 @@ IQCOPs are tree search \cite{land2010automatic} algorithms with a variety of sop
 
 %A MIP solver, such as the one we use (Gurobi), uses a linear or quadratic continuous relaxation to efficiently compute a bound on the objective function. This relaxation is used to generate cuts, implied constraints that tighten the relaxation, to identify sub-trees that can be discarded without search because they are guaranteed not to contain a solution better than the current incumbent, and to drive the heuristic branching that systematically searches for a solution. %Typically, this process of cut generation, reasoning about sub-trees, and branching is performed at each node in the search tree.
 
-Commercial MIP solvers have seen extensive development over the past 20 years with hardware-independent algorithmic improvements have delivered orders of magnitude improved performance \cite{Bixby07a}. More recently the development of such solvers has focused on representing and solving quadratic problems such as \qcls{}~\cite{Furini19a}.
+Commercial MIP solvers have seen extensive development over the past 20 years with hardware-independent algorithmic improvements delivering orders of magnitude improved performance \cite{Bixby07a}. More recently the development of such solvers has focused on representing and solving quadratic problems such as \qcls{}~\cite{Furini19a}.
 %By solving a relaxed problem to bound the objective value at each node and strengthening the relaxed problem with cutting planes to restrict the feasible region further, MIP solvers has been proved effective for attacking IQCOPs \cite{junger200950}.
 
 %Constraint programming (CP) \cite{rossi2006handbook} is another tree search framework that can be applied to solve IQCOPs. At each node in the search tree, inference algorithms that are often encapsulated in the global constraints \cite{katriel20066}, conduct domain filtering on each constraint. Domain filtering removes possible values from variable domains by proving that a value cannot satisfy the constraint and hence cannot appear in a global solution, hence pruning sub-trees with variable assignments that are not part of any feasible solution.
@@ -716,7 +716,7 @@ Recent years have seen significant advancement in the use of specialized hardwar
 
 In this work, we use the Fujitsu Digital Annealer (DA), a recent computer architecture designed for solving QUBO problems \cite{matsubara2020digital}. The third generation DA (DA3), a hybrid system of hardware and software, is capable of representing QUBOs with up to 100000 variables. For our DA environment, the coefficients for the quadratic terms range from $-2^{62}$ to $2^{62}$ and those for the linear terms range from $-2^{73}$ to $2^{73}$ \cite{DA3}. The algorithm used by the DA is based on simulated annealing \cite{kirkpatrick1983optimization}, however it takes advantage of the massive parallelization provided by the custom CMOS hardware and uses a dynamic offset mechanism to escape local minima \cite{aramon2019physics}. In addition, DA3 supports a dedicated bit flip mechanism, over a subset of variables belonging to one-hot equivalent constraints. The Fujitsu Digital Annealer has been previously applied to variety of problems in different research areas such as machine learning \cite{cohen2020ising,salehinejad2019ising} and communication \cite{naghsh2019digitally,rahman2019ising}.
 
-Unlike %exact techninques
+Unlike %exact techniques
 standard exact optimization solvers that run until obtaining an optimal solution, the DA runs until reaching a time limit and returns the best found solution.  In our experiments, we analyze the quality of solutions for different time limits.
 
 
@@ -729,7 +729,7 @@ present an numerical evaluation of the two quadratic models based on
 12 standard WFLO instances.
 Our main results are: \begin{itemize}
 	\item For given time limit, the Digital Annealer (DA) achieves a solution quality as good or as better than all tested state-of-the-art exact methods on 8 of 12 instances.
-	\item \textcolor{purple}{This performance is achieved for the \quls{} model with a runtime that is two to three orders of magnitude shorter than \qcls{} on state-of-the-art commercial solvers for hard WFLO instances.}
+	\item This performance is achieved for the \quls{} model with a runtime that is two to three orders of magnitude shorter than \qcls{} on state-of-the-art commercial solvers for hard WFLO instances.
 	\item Given sufficient runtime, solving the \qcls{} model with commercial software yields strong results on most of the instances. Compared to all tested previous exact models (such as \qcss), \qcls{} is able to find equal or better solutions on 6 of 12 benchmark problems and for 3 of the 6 hard ones. %  \todo{Arik: Is this correct? Table 2 shows DA@10seconds with the best solution found for 7/12 instances and \qcls{}grb@3600 for 6/12. And 4/6 vs. 3/6 for the WR36). Are you comparing \qcls{}grb with \qcssgrb and ILP-LS? We seem to be underplaying DA performance in this comment. Chris: I changed to competitive results. You're right, I'd say that the DA is not `losing' to \qcls{}grb.}  
 \end{itemize}
 
@@ -954,13 +954,13 @@ to the full run (after $3600$ seconds).
 %\todo{Eldan regarding the first sentence in what follows: I feel like this is not well defined? MRE is a single metric. Do you mean that our approaches have the best MRE both after a short time period (of say 10 seconds) but also at longer time limits (including 3600)?}
 Our proposed quadratic models, \qcls{} and \quls{},
 outperform the rest of the techniques across the entire runtime time horizon that was tested.
-Specifically, for most instances, \qclsgrb{} gives the best solutions at 3600 seconds, \textcolor{purple}{while the DA-based approach \qulsda{}
-yields the best solutions after 6 seconds.} However, the good performance of \quls{} only occurs when the solver is the DA. In fact, \qulsgrb{} trails all the other methods.
+Specifically, for most instances, \qclsgrb{} gives the best solutions at 3600 seconds, while the DA-based approach \qulsda{}
+yields the best solutions after 6 seconds. However, the good performance of \quls{} only occurs when the solver is the DA. In fact, \qulsgrb{} trails all the other methods.
 Furthermore, 
 \qclsgrb{} converges to the best solutions faster than all other exact methods. In fact, it is inferior only to the approximate \qulsda{} method when the runtime is relatively small.
 
-\textcolor{purple}{The results also show that on average 
-the \ilplsgrb{} method starts with poor solutions, and ends up improving over \qcssgrb{} after around 2 seconds.}
+The results also show that on average 
+the \ilplsgrb{} method starts with poor solutions but improves over \qcssgrb{} after around 2 seconds.
 
 
 \begin{sloppypar}To demonstrate the gain in runtime from using the DA, we compare the average speed-up factor between
@@ -969,17 +969,17 @@ For each $w \in \mathcal{W}$ we computed the mean $S(\mbox{\emph{\qclsgrb}}, \mb
 %and $S(\qclsgrb, \qulsda, 10sec, w)$
 %for every $w$ 
 %and averaged the speed-up factors across the instances. 
-\textcolor{purple}{The average speed-up factors were found to be $988$ and $131$ for $1$ and $10$ seconds, respectively.} Per instance, the \emph{minimum} speedup was $1$ for $1$ second and $0.1$ for $10$ seconds: for some instances \qclsgrb{} achieved the same quality as \qulsda{} in less time. The \emph{maximum} speedup was (at least) $3600$ for $1$ second and (at least) $360$ for $10$ seconds: for those instances
+The average speed-up factors were found to be $988$ and $131$ for $1$ and $10$ seconds, respectively. Per instance, the \emph{minimum} speedup was $1$ for $1$ second and $0.1$ for $10$ seconds: for some instances \qclsgrb{} achieved the same quality as \qulsda{} in less time. The \emph{maximum} speedup was (at least) $3600$ for $1$ second and (at least) $360$ for $10$ seconds: for those instances
 \qclsgrb{} was not able to find a comparable solution to \qulsda{} within the $3600$ time limit. As a consequence, 
-the mean \qulsda{} speed-up is actually even higher than computed above. \end{sloppypar}
+the mean \qulsda{} speed-up is actually higher than computed above. \end{sloppypar}
 %\footnote{The speed-up factors  were rounded to have 0 values after the floating point.}
 
 %These results show that the DA achieves competitive solutions after running for $1$ second.
 %Many of the instances running \qclsgrb for 3600 seconds did not result in as good a solution as \qulsda at time $t$ (1 or 10 seconds).
 %we consider the speed-up factor to be a lower bound, meaning
 When compared
-to the other LS-based methods, the DA speed-up is even larger than when compared to \qclsgrb{}.  \textcolor{purple}{At $1$ ($10$) seconds, the mean speedup factor compared to \ilplsgrb{} 
-is $1430$ ($197$) and for the \qulsgrb{} it is $1013$ ($134$).} We compare against the LS based methods as they directly optimize on the same objective as the DA.  
+to the other LS-based methods, the DA speed-up is even larger than when compared to \qclsgrb{}.  At $1$ ($10$) seconds, the mean speedup factor compared to \ilplsgrb{} 
+is $1430$ ($197$) and for the \qulsgrb{} it is $1013$ ($134$). We compare against the LS based methods as they directly optimize on the same objective as the DA.  
 For full speedup results see Tables~\ref{tab:results3} and~\ref{tab:results4} in~\ref{app1}.
 %speed-up factor, which we did not compute due to the time limit of $3600$. 
 %This is an encouraging result, especially due to the pessimistic computational complexity of WFLO.
@@ -987,7 +987,7 @@ For full speedup results see Tables~\ref{tab:results3} and~\ref{tab:results4} in
 \begin{figure}[t]%
 	
 	\includegraphics[width=\textwidth]{Figures/MRE_100s_DA3_NEW.png}  
-	\caption{\textcolor{purple}{Mean Relative Energy (wrt best feasible solution) vs. Runtime (after 100 seconds).}}%
+	\caption{Mean Relative Error (wrt best known feasible solution) vs. Runtime (after 100 seconds).}
 	
 	\label{fig:results1}%
 \end{figure}
@@ -1009,7 +1009,7 @@ Our results show numerically that the quadratic programming models that we
 introduced in Section~\ref{sec:QUBO4WFLO} (\qcls{} and \quls{}) are useful in two ways.
 First, the two methods are powerful approaches to solving WFLO. Specifically, \qcls{} yields the best performance (after 3600 seconds). Second, the QUBO model can be solved with recent specialized hardware, Fujitsu's DA, as demonstrated by the \qulsda{} approach. \qulsda{} yields the best results in 8 out of 12 problem instances (both easy instances with 1 wind direction and hard instances with 36 wind directions). 
 In addition, the runtime performance of \qulsda{} is second
-only to the \qclsgrb{} and outperforms all methods in terms of performance in short runtimes (a speed-up factor of 3 orders of magnitude when the DA runs for $10$ seconds).
+only to the \qclsgrb{} and outperforms all methods in terms of performance in short runtimes (a speed-up factor of three orders of magnitude when the DA runs for $10$ seconds).
 
 
 
@@ -1082,7 +1082,7 @@ This runtime improvement and state-of-the-art performance in terms of the total 
 	\end{tabular}
 	
 	\vspace{0.5em}
-	\caption{\textcolor{purple}{Speedup factor per LS-based method for all instances w.r.t \qulsda{} at 1 second. The value 3600 implies a lower bound on the speedup factor.}}\label{tab:results3}
+	\caption{Speedup factor per LS-based method for all instances w.r.t \qulsda{} at 1 second. The value 3600 implies a lower bound on the speedup factor.}\label{tab:results3}
 \end{table}
 
 
@@ -1115,14 +1115,14 @@ This runtime improvement and state-of-the-art performance in terms of the total 
 	\end{tabular}
 	
 	\vspace{0.5em}
-	\caption{\textcolor{purple}{Speedup factor per LS-based method for all instances w.r.t \qulsda{} at 10 second. The value 360 implies a lower bound on the speedup factor.}}\label{tab:results4}
+	\caption{Speedup factor per LS-based method for all instances w.r.t \qulsda{} at 10 second. The value 360 implies a lower bound on the speedup factor.}\label{tab:results4}
 \end{table}
 Table~\ref{tab:results3} presents the speedup results across all problem instances
 for every LS-based method (computed using the SS energy formulation). The speedup is calculated according to Eq.~(\ref{eq:speedup}). Table~\ref{tab:results4} shows similar results for the speedup factor
-compared to DA at 10 seconds. \textcolor{purple}{The average lower bound on the speedup at $1$ seconds
+compared to DA at 10 seconds. The average lower bound on the speedup at $1$ seconds
 is 988, 1430, and 1013 for \qclsgrb, \ilplsgrb, and \qulsgrb,  respectively. For the $10$ second
 results, the average
-speedup factor is at least 131, 197, and 134 for the respective methods.}
+speedup factor is at least 131, 197, and 134 for the respective methods.
 For instances where the speedup factor in Table~\ref{tab:results4} is 10 times less than in Table~\ref{tab:results3},
 the DA found the 10-second solution after 1 second.
 
